@@ -5,5 +5,10 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
         <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi"></k:KinectSensorChooserUI>
+        <k:KinectUserViewer VerticalAlignment="Top" HorizontalAlignment="Center" Name="kinectUserViewer" k:KinectRegion.KinectRegion="{Binding ElementName=kinectRegion}" Height="100" UserColoringMode="Manual" />
+        <k:KinectRegion Name="kinectRegion">
+            <Grid>
+            </Grid>
+        </k:KinectRegion>
     </Grid>
 </Window>
