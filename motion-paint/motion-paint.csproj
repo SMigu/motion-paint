@@ -110,10 +110,40 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <Folder Include="Dependencies\" />
+=======
+    <COMReference Include="KinectManagement">
+      <Guid>{B167C0CB-E5E7-40FC-BA4E-6711286A2FDE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Brush-2-outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Brush-2-outline.png" />
+    <Resource Include="Icons\Brush-3-outline.png" />
+    <Resource Include="Icons\Brush-outline.png" />
+    <Resource Include="Icons\Eraser-outline.png" />
+    <Resource Include="Icons\Paint-outline.png" />
+    <Resource Include="Icons\Pencil-outline.png" />
+    <Resource Include="Icons\Splatter-outline.png" />
+    <Resource Include="Icons\Spray-outline.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Add-File-256.png" />
+    <Resource Include="Icons\arrow-icon.png" />
+    <Resource Include="Icons\Save-As-256.png" />
+>>>>>>> Userland
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
   </Target>
