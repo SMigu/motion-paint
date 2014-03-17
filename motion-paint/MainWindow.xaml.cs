@@ -32,6 +32,7 @@ namespace motion_paint
         private Skeleton[] _skeletons; //the skeletons 
         private UserInfo[] _userInfos; //the information about the interactive users
         private KinectSensor _sensor;
+        public Color color = Colors.Black;
        
         public MainWindow()
         {
@@ -120,7 +121,7 @@ namespace motion_paint
             }
             else 
             {
-                tb.Text = "ERROR";
+                //tb.Text = "ERROR";
             }
         }
 
@@ -172,6 +173,11 @@ namespace motion_paint
         private Dictionary<int, bool> _lastActiveRightHands = new Dictionary<int, bool>();
         private Dictionary<int, Point> _lastLeftHandPositions = new Dictionary<int, Point>();
         private Dictionary<int, Point> _lastRightHandPositions = new Dictionary<int, Point>();
+        public Point oldPoint;
+        public Point newPoint;
+        public double screenX;
+        public double screenY;
+        bool stopDraw;
         
         // Id of the primary user. 
         // TODO Make better chooser 
@@ -203,7 +209,7 @@ namespace motion_paint
                 }
                 else
                 {
-                    tb.Text = "";
+                    //tb.Text = "";
                     foreach (var hand in hands)
                     {
                         var lastHandEvents = hand.HandType == InteractionHandType.Left ? _lastLeftHandEvents : _lastRightHandEvents;
@@ -217,15 +223,10 @@ namespace motion_paint
                         lastActiveHands[userID] = hand.IsActive;
                         lastHandPositions[userID] = new Point(hand.X, hand.Y);
                         
-                        var screenX = hand.X * kinectRegion.ActualWidth;
-                        var screenY = hand.Y * kinectRegion.ActualHeight;
+                        screenX = hand.X * kinectRegion.ActualWidth;
+                        screenY = hand.Y * kinectRegion.ActualHeight;
                         _primaryPointerPosition = new Vector(screenX, screenY);
 
-                        if (hand.HandType == InteractionHandType.Left)
-                            tb.Text += "LEFT: "+ Math.Round(hand.X, 2).ToString() + " " + Math.Round(hand.Y, 2).ToString() + "\n";
-                        
-                        if (hand.HandType == InteractionHandType.Right)
-                            tb.Text += "RIGHT " + Math.Round(hand.X, 2).ToString() + " " + Math.Round(hand.Y, 2).ToString() + "\n";
                     }
                     primaryUserId = userID;
                 }
@@ -236,21 +237,47 @@ namespace motion_paint
             // for activating and disabling draw (two hand draw mode)
             if (_lastLeftHandPositions.ContainsKey(primaryUserId) && _lastLeftHandPositions[primaryUserId].Y < 1.2 && _lastActiveRightHands.ContainsKey(primaryUserId) && _lastActiveRightHands[primaryUserId])
             {
-                // if left hand is up and right hand is active start draw
-                tb.Text = "DRAW";
+                newPoint = new Point (screenX, screenY);
+
+                if (oldPoint == null || stopDraw == true )
+                {
+                    oldPoint = newPoint;
+                    stopDraw = false;
+                }
+                DrawCanvas.Paint(oldPoint,newPoint,inkCanvas, color);
+                oldPoint = newPoint;
             }
             else
             {
-                // if not disableDraw()
-                tb.Text = "DON'T DRAW";
+                stopDraw = true;
             }
-
-            if (_lastActiveLeftHands.ContainsKey(primaryUserId))
-                //tb.Text = _lastActiveLeftHands[primaryUserId].ToString() + " " + _lastActiveRightHands[primaryUserId];
 
             if (!hasUser)
             {
             }
+        }
+
+        private void clearOnClick(object sender, RoutedEventArgs e)
+        {
+            inkCanvas.Children.Clear();
+        }
+
+        private void blueOnClick(object sender, RoutedEventArgs e)
+        {
+            color = Colors.Blue;
+        }
+
+        private void blackOnClick(object sender, RoutedEventArgs e)
+        {
+            color = Colors.Black;
+        }
+        private void redOnClick(object sender, RoutedEventArgs e)
+        {
+            color = Colors.Red;
+        }
+        private void greenOnClick(object sender, RoutedEventArgs e)
+        {
+            color = Colors.Green;
         }
     }
 }
