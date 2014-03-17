@@ -33,6 +33,7 @@ namespace motion_paint
         private UserInfo[] _userInfos; //the information about the interactive users
         private KinectSensor _sensor;
         public Color color = Colors.Black;
+        private int thickness = 40;
        
         public MainWindow()
         {
@@ -209,7 +210,6 @@ namespace motion_paint
                 }
                 else
                 {
-                    //tb.Text = "";
                     foreach (var hand in hands)
                     {
                         var lastHandEvents = hand.HandType == InteractionHandType.Left ? _lastLeftHandEvents : _lastRightHandEvents;
@@ -244,7 +244,7 @@ namespace motion_paint
                     oldPoint = newPoint;
                     stopDraw = false;
                 }
-                DrawCanvas.Paint(oldPoint,newPoint,inkCanvas, color);
+                DrawCanvas.Paint(oldPoint,newPoint,inkCanvas, color, thickness);
                 oldPoint = newPoint;
             }
             else
@@ -278,6 +278,17 @@ namespace motion_paint
         private void greenOnClick(object sender, RoutedEventArgs e)
         {
             color = Colors.Green;
+        }
+        private void increaseSizeOnClick(object sender, RoutedEventArgs e) 
+        {
+            thickness += 10;
+        }
+        private void decreaseSizeOnClick(object sender, RoutedEventArgs e)
+        {
+            if (thickness != 10)
+            {
+                thickness -= 10;
+            }
         }
     }
 }

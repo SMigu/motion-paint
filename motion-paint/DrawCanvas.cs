@@ -13,7 +13,7 @@ namespace motion_paint
     public static class DrawCanvas
     {
 
-        public static void Paint(Point startPoint, Point nextPoint, InkCanvas Surface, Color color)
+        public static void Paint(Point startPoint, Point nextPoint, InkCanvas Surface, Color color, int thickness)
         {
             Point currentPoint = new Point();
             Line line = new Line();
@@ -25,7 +25,7 @@ namespace motion_paint
             
             line.Stroke = new SolidColorBrush(color);
 
-            line.StrokeThickness = 10;
+            line.StrokeThickness = thickness;
             line.StrokeDashCap = PenLineCap.Round;
             line.StrokeStartLineCap = PenLineCap.Round;
             line.StrokeEndLineCap = PenLineCap.Round;
