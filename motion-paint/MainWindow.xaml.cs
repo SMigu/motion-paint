@@ -91,9 +91,9 @@ namespace motion_paint
 
                     try 
 	                {	        
-		                _sensor.DepthStream.Range = DepthRange.Near;
-                        _sensor.SkeletonStream.EnableTrackingInNearRange = true;
-                        _sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
+		                _sensor.DepthStream.Range = DepthRange.Default;
+                        _sensor.SkeletonStream.EnableTrackingInNearRange = false;
+                        _sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Default;
 	                }
 	                catch (InvalidOperationException)
 	                {
@@ -116,8 +116,11 @@ namespace motion_paint
 
             if (!error)
             {
-                _sensor.Start();
                 kinectRegion.KinectSensor = _sensor;
+            }
+            else 
+            {
+                tb.Text = "ERROR";
             }
         }
 
@@ -167,6 +170,8 @@ namespace motion_paint
         private Dictionary<int, InteractionHandEventType> _lastRightHandEvents = new Dictionary<int, InteractionHandEventType>();
         private Dictionary<int, bool> _lastActiveLeftHands = new Dictionary<int, bool>();
         private Dictionary<int, bool> _lastActiveRightHands = new Dictionary<int, bool>();
+        private Dictionary<int, Point> _lastLeftHandPositions = new Dictionary<int, Point>();
+        private Dictionary<int, Point> _lastRightHandPositions = new Dictionary<int, Point>();
         
         // Id of the primary user. 
         // TODO Make better chooser 
@@ -198,33 +203,50 @@ namespace motion_paint
                 }
                 else
                 {
+                    tb.Text = "";
                     foreach (var hand in hands)
                     {
                         var lastHandEvents = hand.HandType == InteractionHandType.Left ? _lastLeftHandEvents : _lastRightHandEvents;
                         var lastActiveHands = hand.HandType == InteractionHandType.Left ? _lastActiveLeftHands : _lastActiveRightHands;
-                        
+                        var lastHandPositions = hand.HandType == InteractionHandType.Left ? _lastLeftHandPositions : _lastRightHandPositions;
+
                         if (hand.HandEventType != InteractionHandEventType.None)
                         {
                             lastHandEvents[userID] = hand.HandEventType;
                         }
                         lastActiveHands[userID] = hand.IsActive;
+                        lastHandPositions[userID] = new Point(hand.X, hand.Y);
                         
-                        var screenX = hp.X * kinectRegion.ActualWidth;
-                        var screenY = hp.Y * kinectRegion.ActualHeight;
+                        var screenX = hand.X * kinectRegion.ActualWidth;
+                        var screenY = hand.Y * kinectRegion.ActualHeight;
                         _primaryPointerPosition = new Vector(screenX, screenY);
+
+                        if (hand.HandType == InteractionHandType.Left)
+                            tb.Text += "LEFT: "+ Math.Round(hand.X, 2).ToString() + " " + Math.Round(hand.Y, 2).ToString() + "\n";
+                        
+                        if (hand.HandType == InteractionHandType.Right)
+                            tb.Text += "RIGHT " + Math.Round(hand.X, 2).ToString() + " " + Math.Round(hand.Y, 2).ToString() + "\n";
                     }
+                    primaryUserId = userID;
                 }
+                
+                //tb.Text = _lastActiveLeftHands[userID].ToString() + " " + _lastActiveRightHands[userID];
             }
 
             // for activating and disabling draw (two hand draw mode)
-            if (_lastActiveLeftHands[primaryUserId] && _lastActiveRightHands[primaryUserId])
+            if (_lastLeftHandPositions.ContainsKey(primaryUserId) && _lastLeftHandPositions[primaryUserId].Y < 1.2 && _lastActiveRightHands.ContainsKey(primaryUserId) && _lastActiveRightHands[primaryUserId])
             {
-                // if both hands are active call startDraw()
+                // if left hand is up and right hand is active start draw
+                tb.Text = "DRAW";
             }
             else
             {
-                // if one or both hands are inactive call disableDraw()
+                // if not disableDraw()
+                tb.Text = "DON'T DRAW";
             }
+
+            if (_lastActiveLeftHands.ContainsKey(primaryUserId))
+                //tb.Text = _lastActiveLeftHands[primaryUserId].ToString() + " " + _lastActiveRightHands[primaryUserId];
 
             if (!hasUser)
             {

@@ -8,6 +8,9 @@
         <k:KinectUserViewer VerticalAlignment="Top" HorizontalAlignment="Center" Name="kinectUserViewer" k:KinectRegion.KinectRegion="{Binding ElementName=kinectRegion}" Height="100" UserColoringMode="Manual" />
         <k:KinectRegion Name="kinectRegion">
             <Grid>
+                <Viewbox>
+                    <TextBlock Name="tb"></TextBlock>
+                </Viewbox>
             </Grid>
         </k:KinectRegion>
     </Grid>
