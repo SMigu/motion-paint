@@ -8,16 +8,18 @@
         <k:KinectRegion Name="kinectRegion">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="91*" />
-                    <ColumnDefinition Width="445*"/>
+                    <ColumnDefinition Width="325*" />
+                    <ColumnDefinition Width="609*"/>
+                    <ColumnDefinition Width="792*"/>
+                    <ColumnDefinition Width="186*"/>
                 </Grid.ColumnDefinitions>
-                <InkCanvas Name="inkCanvas" Grid.ColumnSpan="2" Margin="10,10,188,190.5"></InkCanvas>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="19,862,0,0" VerticalAlignment="Top" Width="230" Height="178">
+                <InkCanvas Name="inkCanvas" Grid.ColumnSpan="3" Margin="10,10,2,190"></InkCanvas>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="245,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.ColumnSpan="2" Panel.ZIndex="10">
                     <k:KinectTileButton.Background>
-                        <ImageBrush ImageSource="Icons/Brush-3-outline.png" Stretch="Uniform"/>
+                        <ImageBrush ImageSource="Icons/BrushPaintproto.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectCircleButton Content="" HorizontalAlignment="Center" Margin="1387,430,10,427" Width="190" Height="190" Grid.Column="1" Foreground="White">
+                <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Center" Margin="778,360,10,500" Width="190" Height="190" Grid.Column="2" Foreground="White" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="MenuOpenBtn_Click">
                     <k:KinectCircleButton.ContentForeground>
                         <ImageBrush/>
                     </k:KinectCircleButton.ContentForeground>
@@ -34,42 +36,80 @@
                         </ImageBrush>
                     </k:KinectCircleButton.Background>
                 </k:KinectCircleButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="254,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.ColumnSpan="2">
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="10,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Panel.ZIndex="10">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Brush-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="164,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
-                    <k:KinectTileButton.Background>
-                        <ImageBrush ImageSource="Icons/Pencil-outline.png" Stretch="Uniform"/>
-                    </k:KinectTileButton.Background>
-                </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="399,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
-                    <k:KinectTileButton.Background>
-                        <ImageBrush ImageSource="Icons/Spray-outline.png" Stretch="Uniform"/>
-                    </k:KinectTileButton.Background>
-                </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="634,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
-                    <k:KinectTileButton.Background>
-                        <ImageBrush ImageSource="Icons/Paint-outline.png" Stretch="Uniform"/>
-                    </k:KinectTileButton.Background>
-                </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="864,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="155,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" Panel.ZIndex="10">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Eraser-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="1094,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="390,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="10" Grid.ColumnSpan="2">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Save-As-256.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="1329,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="16,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="2" Panel.ZIndex="10">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Add-File-256.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
+                <Ellipse Fill="#FF3030DA" HorizontalAlignment="Left" Height="178" Margin="778,860,0,0" Stroke="Black" VerticalAlignment="Top" Width="172" Grid.Column="2" Panel.ZIndex="9" Grid.ColumnSpan="2"/>
+                <Rectangle HorizontalAlignment="Left" Height="260" Margin="0,790,0,0" Stroke="White" VerticalAlignment="Top" Width="1912" Grid.ColumnSpan="4" Panel.ZIndex="2" Opacity="0.9">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF4F4F4F" Offset="1"/>
+                            <GradientStop Color="#19FFFFFF"/>
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="708,790,0,0" VerticalAlignment="Top" Width="260" Height="260" Grid.Column="2" Panel.ZIndex="10" Grid.ColumnSpan="2">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/color_wheel.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+
             </Grid>
+            
         </k:KinectRegion>
+        
+        <!--GRID FOR Slide out Menu -->
+        <Grid x:Name="OuterMenuGrid" Width="1400" Margin="512,10,0,10" Panel.ZIndex="20" IsHitTestVisible="True" Visibility="Collapsed">
+            <Grid.Background>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF515151" Offset="1"/>
+                    <GradientStop Color="White"/>
+                </LinearGradientBrush>
+            </Grid.Background>
+
+            <k:KinectRegion Name="Menu" Visibility="Collapsed" Margin="0,0,0,-254">
+
+
+                <Grid x:Name="MenuGrid" Margin="0,0,0,244" Visibility="Collapsed">
+                    <Label Content="Valikko" HorizontalAlignment="Left" Margin="578,10,0,0" VerticalAlignment="Top" Height="104" Width="332" FontSize="72"/>
+                    <k:KinectCircleButton x:Name="MenuCloseBtn" Width="190" Height="190" Foreground="#00000000" HorizontalAlignment="Left" VerticalAlignment="Center" Click="MenuCloseBtn_Click" ContentPressedForeground="Transparent">
+                        <k:KinectCircleButton.Background>
+                            <ImageBrush ImageSource="Icons/arrow-icon.png" Stretch="UniformToFill">
+                                <ImageBrush.RelativeTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                        <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </ImageBrush.RelativeTransform>
+                            </ImageBrush>
+                        </k:KinectCircleButton.Background>
+                        <k:KinectCircleButton.ContentForeground>
+                            <ImageBrush/>
+                        </k:KinectCircleButton.ContentForeground>
+
+                    </k:KinectCircleButton>
+
+                </Grid>
+            </k:KinectRegion>
+        </Grid>
     </Grid>
 </Window>

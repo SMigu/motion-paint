@@ -290,5 +290,23 @@ namespace motion_paint
                 thickness -= 10;
             }
         }
+
+        private void MenuOpenBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OuterMenuGrid.Visibility = System.Windows.Visibility.Visible;
+            Menu.Visibility = System.Windows.Visibility.Visible;
+            MenuGrid.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void MenuCloseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OuterMenuGrid.Visibility = System.Windows.Visibility.Collapsed;
+            Menu.Visibility = System.Windows.Visibility.Collapsed;
+            MenuGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+
+        
+
     }
 }
