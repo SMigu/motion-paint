@@ -4,68 +4,72 @@
         xmlns:k="http://schemas.microsoft.com/kinect/2013"
         Title="MainWindow" Height="1080" Width="1920">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="91*"/>
-            <ColumnDefinition Width="445*"/>
-        </Grid.ColumnDefinitions>
-        <k:KinectSensorChooserUI HorizontalAlignment="Center" VerticalAlignment="Top" Name="sensorChooserUi" Grid.Column="1" Margin="334,0,516,0"></k:KinectSensorChooserUI>
-        <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="19,862,0,0" VerticalAlignment="Top" Width="230" Height="178">
-            <k:KinectTileButton.Background>
-                <ImageBrush ImageSource="Icons/Brush-3-outline.png" Stretch="Uniform"/>
-            </k:KinectTileButton.Background>
-        </k:KinectTileButton>
-        <k:KinectCircleButton Content="" HorizontalAlignment="Center" Margin="1387,430,10,427" Width="190" Height="190" Grid.Column="1" Foreground="White">
-            <k:KinectCircleButton.ContentForeground>
-                <ImageBrush/>
-            </k:KinectCircleButton.ContentForeground>
-            <k:KinectCircleButton.Background>
-                <ImageBrush ImageSource="Icons/arrow-icon.png" Stretch="Uniform">
-                    <ImageBrush.RelativeTransform>
-                        <TransformGroup>
-                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                            <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </ImageBrush.RelativeTransform>
-                </ImageBrush>
-            </k:KinectCircleButton.Background>
-        </k:KinectCircleButton>
-        <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="254,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.ColumnSpan="2">
-            <k:KinectTileButton.Background>
-                <ImageBrush ImageSource="Icons/Brush-outline.png" Stretch="Uniform"/>
-            </k:KinectTileButton.Background>
-        </k:KinectTileButton>
-        <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="164,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
-            <k:KinectTileButton.Background>
-                <ImageBrush ImageSource="Icons/Pencil-outline.png" Stretch="Uniform"/>
-            </k:KinectTileButton.Background>
-        </k:KinectTileButton>
-        <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="399,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
-            <k:KinectTileButton.Background>
-                <ImageBrush ImageSource="Icons/Spray-outline.png" Stretch="Uniform"/>
-            </k:KinectTileButton.Background>
-        </k:KinectTileButton>
-        <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="634,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
-            <k:KinectTileButton.Background>
-                <ImageBrush ImageSource="Icons/Paint-outline.png" Stretch="Uniform"/>
-            </k:KinectTileButton.Background>
-        </k:KinectTileButton>
-        <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="864,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
-            <k:KinectTileButton.Background>
-                <ImageBrush ImageSource="Icons/Eraser-outline.png" Stretch="Uniform"/>
-            </k:KinectTileButton.Background>
-        </k:KinectTileButton>
-        <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="1094,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
-            <k:KinectTileButton.Background>
-                <ImageBrush ImageSource="Icons/Save-As-256.png" Stretch="Uniform"/>
-            </k:KinectTileButton.Background>
-        </k:KinectTileButton>
-        <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="1329,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
-            <k:KinectTileButton.Background>
-                <ImageBrush ImageSource="Icons/Add-File-256.png" Stretch="Uniform"/>
-            </k:KinectTileButton.Background>
-        </k:KinectTileButton>
-        <Label Content="Motion Paint" HorizontalAlignment="Left" Margin="1333,10,0,0" VerticalAlignment="Top" Height="52" Width="226" FontSize="36" Grid.Column="1"/>
+        <k:KinectSensorChooserUI Name="sensorChooserUi" HorizontalAlignment="Center" VerticalAlignment="Top"></k:KinectSensorChooserUI>
+        <k:KinectRegion Name="kinectRegion">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="91*" />
+                    <ColumnDefinition Width="445*"/>
+                </Grid.ColumnDefinitions>
+                <InkCanvas Name="inkCanvas" Grid.ColumnSpan="2" Margin="10,10,188,190.5"></InkCanvas>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="19,862,0,0" VerticalAlignment="Top" Width="230" Height="178">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/Brush-3-outline.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+                <k:KinectCircleButton Content="" HorizontalAlignment="Center" Margin="1387,430,10,427" Width="190" Height="190" Grid.Column="1" Foreground="White">
+                    <k:KinectCircleButton.ContentForeground>
+                        <ImageBrush/>
+                    </k:KinectCircleButton.ContentForeground>
+                    <k:KinectCircleButton.Background>
+                        <ImageBrush ImageSource="Icons/arrow-icon.png" Stretch="Uniform">
+                            <ImageBrush.RelativeTransform>
+                                <TransformGroup>
+                                    <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                    <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                    <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </ImageBrush.RelativeTransform>
+                        </ImageBrush>
+                    </k:KinectCircleButton.Background>
+                </k:KinectCircleButton>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="254,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.ColumnSpan="2">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/Brush-outline.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="164,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/Pencil-outline.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="399,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/Spray-outline.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="634,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/Paint-outline.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="864,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/Eraser-outline.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="1094,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/Save-As-256.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="1329,862,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1">
+                    <k:KinectTileButton.Background>
+                        <ImageBrush ImageSource="Icons/Add-File-256.png" Stretch="Uniform"/>
+                    </k:KinectTileButton.Background>
+                </k:KinectTileButton>
+            </Grid>
+        </k:KinectRegion>
     </Grid>
 </Window>
