@@ -46,6 +46,9 @@ namespace motion_paint
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
+            var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
+            this.Left = desktopWorkingArea.Left;
+            this.Top = desktopWorkingArea.Top;
             if (DesignerProperties.GetIsInDesignMode(this))
                 return;
 
@@ -298,9 +301,5 @@ namespace motion_paint
             inkCanvas.Children.Clear();
             paintingId++;
         }
-
-
-        
-
     }
 }
