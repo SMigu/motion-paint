@@ -36,22 +36,22 @@
                         </ImageBrush>
                     </k:KinectCircleButton.Background>
                 </k:KinectCircleButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="10,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Panel.ZIndex="10">
+                <k:KinectTileButton Name="throwPaintButton" Content="" HorizontalAlignment="Left" Margin="10,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Panel.ZIndex="10" Click="throwPaintButton_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Brush-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="155,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" Panel.ZIndex="10">
+                <k:KinectTileButton Name="eraserToolButton" Content="" HorizontalAlignment="Left" Margin="155,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" Panel.ZIndex="10" Click="eraserToolButton_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Eraser-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="390,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="10" Grid.ColumnSpan="2">
+                <k:KinectTileButton Name="saveFileButton" Content="" HorizontalAlignment="Left" Margin="390,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="saveFileButton_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Save-As-256.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="16,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="2" Panel.ZIndex="10">
+                <k:KinectTileButton Name="newFileButton" Content="" HorizontalAlignment="Left" Margin="16,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="2" Panel.ZIndex="10" Click="newFileButton_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Add-File-256.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>

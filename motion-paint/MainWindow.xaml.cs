@@ -274,6 +274,26 @@ namespace motion_paint
             MenuGrid.Visibility = System.Windows.Visibility.Collapsed;
         }
 
+        private void throwPaintButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void eraserToolButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void saveFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void newFileButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
         
 
