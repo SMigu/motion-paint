@@ -85,7 +85,6 @@ namespace motion_paint
                     };
 
                     _sensor = args.NewSensor;
-
                     _sensor.DepthStream.Enable(DepthImageFormat.Resolution640x480Fps30);
                     _sensor.SkeletonStream.Enable(parameters);
                     _skeletons = new Skeleton[_sensor.SkeletonStream.FrameSkeletonArrayLength];
@@ -119,10 +118,6 @@ namespace motion_paint
             if (!error)
             {
                 kinectRegion.KinectSensor = _sensor;
-            }
-            else 
-            {
-                //tb.Text = "ERROR";
             }
         }
 
@@ -181,8 +176,7 @@ namespace motion_paint
         bool stopDraw;
         
         // Id of the primary user. 
-        // TODO Make better chooser 
-        int primaryUserId = 1;
+        int primaryUserId = 0;
         public Vector _primaryPointerPosition;
 
         private void InteractionStreamOnInteractionFrameReady(object sender, InteractionFrameReadyEventArgs e)
@@ -195,7 +189,6 @@ namespace motion_paint
                 iaf.CopyInteractionDataTo(_userInfos);
             }
 
-            var hasUser = false;
             foreach (var userInfo in _userInfos)
             {
                 var userID = userInfo.SkeletonTrackingId;
@@ -203,7 +196,6 @@ namespace motion_paint
                 {
                     continue;
                 }
-                hasUser = true;
                 var hands = userInfo.HandPointers;
                 if (hands.Count == 0)
                 {
@@ -230,8 +222,6 @@ namespace motion_paint
                     }
                     primaryUserId = userID;
                 }
-                
-                //tb.Text = _lastActiveLeftHands[userID].ToString() + " " + _lastActiveRightHands[userID];
             }
 
             // for activating and disabling draw (two hand draw mode)
@@ -251,10 +241,6 @@ namespace motion_paint
             {
                 stopDraw = true;
             }
-
-            if (!hasUser)
-            {
-            }
         }
 
         private void clearOnClick(object sender, RoutedEventArgs e)
@@ -262,23 +248,6 @@ namespace motion_paint
             inkCanvas.Children.Clear();
         }
 
-        private void blueOnClick(object sender, RoutedEventArgs e)
-        {
-            color = Colors.Blue;
-        }
-
-        private void blackOnClick(object sender, RoutedEventArgs e)
-        {
-            color = Colors.Black;
-        }
-        private void redOnClick(object sender, RoutedEventArgs e)
-        {
-            color = Colors.Red;
-        }
-        private void greenOnClick(object sender, RoutedEventArgs e)
-        {
-            color = Colors.Green;
-        }
         private void increaseSizeOnClick(object sender, RoutedEventArgs e) 
         {
             thickness += 10;
