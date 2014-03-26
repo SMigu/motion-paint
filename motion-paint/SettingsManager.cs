@@ -1,17 +1,19 @@
 ﻿using System;
+using System.IO;
 
 public class SettingsManager
 {
     private int controlModeId {get; set;}
     private int screenWidth {get; set;}
     private int screenHeight {get; set;}
-    private bool fullscreen { get; set; }
+    private bool fullscreen {get; set;}
 
 
     public SettingsManager()
 	{
         string path = "conf.txt";
-        string[] configLine;
+        string line;
+        char[] delimiterChars = {' '};
         
         controlModeId = 0;
         screenWidth = 800;
@@ -25,17 +27,17 @@ public class SettingsManager
                 StreamReader file = new StreamReader(path);
                 while((line = file.ReadLine()) != null)
                 {   
-                    configLine = line.split(" ");
+                    string[] configLine = line.Split(delimiterChars);
                     switch (configLine[0])
 	                {
                         case "controlModeId":
-                            controlModeId = configLine[1];
+                            controlModeId = int.Parse(configLine[1]);
                             break;
                         case "screenWidth":
-                            screenWidth = (int) configLine[1];
+                            screenWidth = int.Parse(configLine[1]);
                             break;
                         case "screenHeight":
-                            screenHeight =(int) configLine[1];
+                            screenHeight = int.Parse(configLine[1]);
                             break;
                         case "fullscreen":
                             if(configLine[1] == "true")
@@ -57,10 +59,10 @@ public class SettingsManager
             {
                 string[] lines = 
                     { 
-                        "controlModeId " + controlModeId.toString(),
-                        "screenWidth " + screeWidth.toString(),
-                        "screenHeight " + screenHeight.toString,
-                        "fullscreen " + fullscreen.toString() 
+                        "controlModeId " + controlModeId.ToString(),
+                        "screenWidth " + screenWidth.ToString(),
+                        "screenHeight " + screenHeight.ToString(),
+                        "fullscreen " + fullscreen.ToString() 
                     };
                 System.IO.File.WriteAllLines(path, lines);
             }
