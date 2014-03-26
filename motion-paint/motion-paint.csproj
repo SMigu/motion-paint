@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="SettingsManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -74,6 +75,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ControlManager.cs" />
+    <Compile Include="ControlMode.cs" />
     <Compile Include="DummyInteractionClient.cs" />
     <Compile Include="DrawCanvas.cs" />
     <Compile Include="MainWindow.xaml.cs">

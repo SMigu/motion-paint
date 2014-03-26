@@ -32,7 +32,8 @@ namespace motion_paint
         private Skeleton[] _skeletons; //the skeletons 
         private UserInfo[] _userInfos; //the information about the interactive users
         private KinectSensor _sensor;
-
+        private ControlManager controlManager = new ControlManager();
+        private SettingsManager settingsManager = new SettingsManager();
         private int paintingId = 0;
 
         public Color color = Colors.Black;
