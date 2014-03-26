@@ -35,7 +35,6 @@ namespace motion_paint
         private ControlManager controlManager = new ControlManager();
         private SettingsManager settingsManager = new SettingsManager();
         private int paintingId = 0;
-
         public Color color = Colors.Black;
         private int thickness = 40;
        
@@ -206,6 +205,7 @@ namespace motion_paint
                 var hands = userInfo.HandPointers;
                 if (hands.Count == 0)
                 {
+                    // No hands detected skip
                 }
                 else
                 {
@@ -247,23 +247,6 @@ namespace motion_paint
             else
             {
                 stopDraw = true;
-            }
-        }
-
-        private void clearOnClick(object sender, RoutedEventArgs e)
-        {
-            inkCanvas.Children.Clear();
-        }
-
-        private void increaseSizeOnClick(object sender, RoutedEventArgs e) 
-        {
-            thickness += 10;
-        }
-        private void decreaseSizeOnClick(object sender, RoutedEventArgs e)
-        {
-            if (thickness != 10)
-            {
-                thickness -= 10;
             }
         }
 
