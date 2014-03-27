@@ -7,14 +7,15 @@ using Microsoft.Kinect;
 using Microsoft.Kinect.Toolkit;
 using Microsoft.Kinect.Toolkit.Interaction;
 using Microsoft.Kinect.Toolkit.Controls;
+using System.Collections.ObjectModel;
 
 namespace motion_paint
 {
     class ControlMode
     {
-        private int id { get; set; }
-        private string name { get; set; }
-        private bool isActive { get; set; }
+        protected int id { get; set; }
+        protected string name { get; set; }
+        protected bool isActive { get; set; }
 
         public ControlMode(ControlManager controlManager)
         {
@@ -23,7 +24,14 @@ namespace motion_paint
             isActive = false;
         }
 
-        public bool isInteractionActive(HandPointer hands)
+        public ControlMode(ControlManager controlManager, string modeName) 
+        {
+            id = controlManager.getNextAvailableId();
+            name = modeName;
+            isActive = false;
+        }
+
+        public bool isInteractionActive(ReadOnlyCollection<InteractionHandPointer> hands)
         {
             return false;
         }

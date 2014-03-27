@@ -25,11 +25,56 @@ namespace motion_paint
             modesList.Add(mode);
         }
 
-        public bool isActionActive(HandPointer hands) 
+        public void changeCurrentControlMode(int id) 
         {
+            if(id <= modesList.Count())
+                currentModeId = id;
+        }
+
+        public bool isActionActive(UserInfo[] userInfos, Skeleton[] skeletons) 
+        {
+            Dictionary<int, double> userDistanceList = new Dictionary<int, double>();
             try
             {
-               return modesList.ElementAt(currentModeId).isInteractionActive(hands);
+                foreach (var userInfo in userInfos)
+                {
+                    int userID = userInfo.SkeletonTrackingId;
+                    if (userID == 0)
+                    {
+                        continue;
+                    }
+                    double skeletonPosition = skeletons[userID].Position.Z;
+
+                    userDistanceList[userID] = skeletonPosition;
+                }
+
+                // get id of the closest user
+                double largest = 0.0;
+                int UserIdOfLargest = 0;
+                foreach (KeyValuePair<int, double> entry in userDistanceList)
+                {
+                    if (entry.Value > largest) {
+                        largest = entry.Value;
+                        UserIdOfLargest = entry.Key;
+                    }
+                }
+                if (UserIdOfLargest == 0) 
+                {
+                    return false;
+                }
+
+                // check if the closest users action is triggered 
+                foreach (var userInfo in userInfos){
+                    if (userInfo.SkeletonTrackingId == UserIdOfLargest)
+                    {
+                        return modesList.ElementAt(currentModeId).isInteractionActive(userInfo.HandPointers);   
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+                return false;
             }
             catch (Exception)
             {

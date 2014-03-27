@@ -42,6 +42,9 @@ namespace motion_paint
         {
             InitializeComponent();
             Loaded += OnLoaded;
+
+            // initialize control modes
+            controlManager.addControlMode(new TwoHandMode(controlManager));
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -195,44 +198,8 @@ namespace motion_paint
                 iaf.CopyInteractionDataTo(_userInfos);
             }
 
-            foreach (var userInfo in _userInfos)
-            {
-                var userID = userInfo.SkeletonTrackingId;
-                if (userID == 0)
-                {
-                    continue;
-                }
-                var hands = userInfo.HandPointers;
-                if (hands.Count == 0)
-                {
-                    // No hands detected skip
-                }
-                else
-                {
-                    foreach (var hand in hands)
-                    {
-                        var lastHandEvents = hand.HandType == InteractionHandType.Left ? _lastLeftHandEvents : _lastRightHandEvents;
-                        var lastActiveHands = hand.HandType == InteractionHandType.Left ? _lastActiveLeftHands : _lastActiveRightHands;
-                        var lastHandPositions = hand.HandType == InteractionHandType.Left ? _lastLeftHandPositions : _lastRightHandPositions;
-
-                        if (hand.HandEventType != InteractionHandEventType.None)
-                        {
-                            lastHandEvents[userID] = hand.HandEventType;
-                        }
-                        lastActiveHands[userID] = hand.IsActive;
-                        lastHandPositions[userID] = new Point(hand.X, hand.Y);
-                        
-                        screenX = hand.X * kinectRegion.ActualWidth;
-                        screenY = hand.Y * kinectRegion.ActualHeight;
-                        _primaryPointerPosition = new Vector(screenX, screenY);
-
-                    }
-                    primaryUserId = userID;
-                }
-            }
-
             // for activating and disabling draw (two hand draw mode)
-            if (_lastLeftHandPositions.ContainsKey(primaryUserId) && _lastLeftHandPositions[primaryUserId].Y < 1.2 && _lastActiveRightHands.ContainsKey(primaryUserId) && _lastActiveRightHands[primaryUserId])
+            if (controlManager.isActionActive(_userInfos, _skeletons))
             {
                 newPoint = new Point (screenX, screenY);
 
