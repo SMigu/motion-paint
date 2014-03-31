@@ -39,6 +39,17 @@ namespace motion_paint
         {
             InitializeComponent();
             Loaded += OnLoaded;
+
+
+            Button1.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
+            Button2.Margin = new Thickness(230, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
+            Button3.Margin = new Thickness(460, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
+
+            FileButton.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 520, 0);
+            SaveButton.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 260, 0);
+            ColorWheel.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 290, 0, 0);
+
+            BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -303,6 +314,13 @@ namespace motion_paint
             OuterMenuGrid.Visibility = System.Windows.Visibility.Collapsed;
             Menu.Visibility = System.Windows.Visibility.Collapsed;
             MenuGrid.Visibility = System.Windows.Visibility.Collapsed;
+
+            
+        }
+
+        private void Button1_Click(object sender, RoutedEventArgs e)
+        {
+            Button1.Width = System.Windows.SystemParameters.PrimaryScreenWidth / 10;
         }
 
 
