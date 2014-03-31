@@ -9,6 +9,7 @@ using Microsoft.Kinect.Toolkit.Interaction;
 using Microsoft.Kinect.Toolkit.Controls;
 using System.Windows;
 using System.Collections.ObjectModel;
+using System.Windows.Media.Media3D;
 
 namespace motion_paint
 {
@@ -22,7 +23,7 @@ namespace motion_paint
             base.name = "Two Hand Control";
         }
 
-        public bool isInteractionActive(ReadOnlyCollection<InteractionHandPointer> hands)
+        public override bool isInteractionActive(ReadOnlyCollection<InteractionHandPointer> hands)
         {
             // if primary hand is active and secondary hand is active, secondary hand is above certain height -> return true
             
@@ -48,6 +49,23 @@ namespace motion_paint
                 return true;
             else
                 return false;
+        }
+
+        public override Point getCursorLocation(KinectRegion region) 
+        {
+            var x = region.ActualWidth * primaryHand.X;
+            var y = region.ActualHeight * primaryHand.Y;
+
+            return new Point(x, y);
+        }
+
+        public override Point3D getHandLocation()
+        {
+            var x = primaryHand.RawX;
+            var y = primaryHand.RawY;
+            var z = primaryHand.RawZ;
+            
+            return new Point3D(x,y,z);
         }
     }
 }

@@ -172,21 +172,9 @@ namespace motion_paint
             }
         }
 
-        private Dictionary<int, InteractionHandEventType> _lastLeftHandEvents = new Dictionary<int, InteractionHandEventType>();
-        private Dictionary<int, InteractionHandEventType> _lastRightHandEvents = new Dictionary<int, InteractionHandEventType>();
-        private Dictionary<int, bool> _lastActiveLeftHands = new Dictionary<int, bool>();
-        private Dictionary<int, bool> _lastActiveRightHands = new Dictionary<int, bool>();
-        private Dictionary<int, Point> _lastLeftHandPositions = new Dictionary<int, Point>();
-        private Dictionary<int, Point> _lastRightHandPositions = new Dictionary<int, Point>();
         public Point oldPoint;
         public Point newPoint;
-        public double screenX;
-        public double screenY;
         bool stopDraw;
-        
-        // Id of the primary user. 
-        int primaryUserId = 0;
-        public Vector _primaryPointerPosition;
 
         private void InteractionStreamOnInteractionFrameReady(object sender, InteractionFrameReadyEventArgs e)
         {
@@ -198,10 +186,10 @@ namespace motion_paint
                 iaf.CopyInteractionDataTo(_userInfos);
             }
 
-            // for activating and disabling draw (two hand draw mode)
+            // for activating and disabling draw
             if (controlManager.isActionActive(_userInfos, _skeletons))
             {
-                newPoint = new Point (screenX, screenY);
+                newPoint = controlManager.getCursorLocation(kinectRegion);
 
                 if (oldPoint == null || stopDraw == true )
                 {

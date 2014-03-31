@@ -8,6 +8,8 @@ using Microsoft.Kinect.Toolkit;
 using Microsoft.Kinect.Toolkit.Interaction;
 using Microsoft.Kinect.Toolkit.Controls;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Media.Media3D;
 
 namespace motion_paint
 {
@@ -31,9 +33,19 @@ namespace motion_paint
             isActive = false;
         }
 
-        public bool isInteractionActive(ReadOnlyCollection<InteractionHandPointer> hands)
+        public virtual bool isInteractionActive(ReadOnlyCollection<InteractionHandPointer> hands)
         {
             return false;
+        }
+
+        public virtual Point getCursorLocation(KinectRegion region)
+        {
+            return new Point();
+        }
+
+        public virtual Point3D getHandLocation()
+        {
+            return new Point3D();
         }
 
     }
