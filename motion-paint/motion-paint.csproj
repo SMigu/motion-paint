@@ -69,6 +69,7 @@
     <Compile Include="OneHandMode.cs" />
     <Compile Include="SettingsManager.cs" />
     <Compile Include="TwoHandMode.cs" />
+    <Compile Include="save.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
