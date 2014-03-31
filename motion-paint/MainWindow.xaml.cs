@@ -244,7 +244,7 @@ namespace motion_paint
                     oldPoint = newPoint;
                     stopDraw = false;
                 }
-                DrawCanvas.Paint(oldPoint,newPoint,inkCanvas, color, thickness);
+                DrawCanvas.Paint(oldPoint,newPoint,inkCanvas, color, thickness, "paintsplatter");
                 oldPoint = newPoint;
             }
             else
