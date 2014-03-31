@@ -29,7 +29,7 @@ namespace motion_paint
             Surface.LayoutTransform = null;
 
             // Get the size of canvas
-            Size size = new Size(Surface.Width, Surface.Height);
+            Size size = new Size(Surface.ActualWidth, Surface.ActualHeight);
             // Measure and arrange the surface
             // VERY IMPORTANT
             Surface.Measure(size);

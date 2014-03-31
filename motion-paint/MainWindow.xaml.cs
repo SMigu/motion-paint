@@ -232,7 +232,8 @@ namespace motion_paint
 
         private void saveFileButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var path = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/pic" + paintingId + ".png");
+            Saveimage.ExportToPng(path, inkCanvas);
         }
 
         // Clear canvas and increase painting id.
