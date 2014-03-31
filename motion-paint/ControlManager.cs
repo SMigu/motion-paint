@@ -24,7 +24,7 @@ namespace motion_paint
 
         public int getNextAvailableId()
         {
-            return modesList.Count() + 1;
+            return modesList.Count();
         }
 
         public void addControlMode(ControlMode mode) 
@@ -35,7 +35,7 @@ namespace motion_paint
         public void changeCurrentControlMode(int id) 
         {
             if(id <= modesList.Count())
-            currentModeId = id;
+                currentModeId = id;
         }
 
         public bool isActionActive(UserInfo[] userInfos, Skeleton[] skeletons) 
@@ -68,13 +68,13 @@ namespace motion_paint
                 return false;
             	        
 		    // get id of the closest user
-            double largest = 0.0;
+            double smallest = 0.0;
             int UserIdOfLargest = 0;
 
             foreach (KeyValuePair<int, double> entry in userDistanceList)
             {
-                if (entry.Value > largest) {
-                    largest = entry.Value;
+                if (entry.Value > smallest) {
+                    smallest = entry.Value;
                     UserIdOfLargest = entry.Key;
                 }
             }

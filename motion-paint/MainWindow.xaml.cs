@@ -44,6 +44,7 @@ namespace motion_paint
             Loaded += OnLoaded;
 
             // initialize control modes
+            controlManager.addControlMode(new OneHandMode(controlManager));
             controlManager.addControlMode(new TwoHandMode(controlManager));
         }
 

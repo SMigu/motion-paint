@@ -31,6 +31,7 @@ namespace motion_paint
                     if (hand.IsPrimaryForUser)
                     {
                         primaryHand = hand;
+                        break;
                     }
                     else
                     {
