@@ -39,6 +39,10 @@ namespace motion_paint
                     }
                 }
             }
+
+            if (primaryHand == null)
+                return false;
+
             if(primaryHand.HandEventType != InteractionHandEventType.None)
                 lastHandEvent = primaryHand.HandEventType;
 
