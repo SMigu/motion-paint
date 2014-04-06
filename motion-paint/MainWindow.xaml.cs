@@ -40,7 +40,7 @@ namespace motion_paint
             InitializeComponent();
             Loaded += OnLoaded;
 
-
+            /*
             Button1.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
             Button2.Margin = new Thickness(230, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
             Button3.Margin = new Thickness(460, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
@@ -48,6 +48,10 @@ namespace motion_paint
             FileButton.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 520, 0);
             SaveButton.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 260, 0);
             ColorWheel.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 290, 0, 0);
+            */ 
+
+            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 200;
+            inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 250;
 
             BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
         }
@@ -318,10 +322,41 @@ namespace motion_paint
             
         }
 
-        private void Button1_Click(object sender, RoutedEventArgs e)
+        private void ColorWheel_Click(object sender, RoutedEventArgs e)
         {
-            Button1.Width = System.Windows.SystemParameters.PrimaryScreenWidth / 10;
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
         }
+
+        private void ColorButton1_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton2_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton3_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton4_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton5_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton6_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
 
 
         
