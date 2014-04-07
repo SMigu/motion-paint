@@ -38,7 +38,7 @@ namespace motion_paint
                 currentModeId = id;
         }
 
-        public bool isActionActive(UserInfo[] userInfos, Skeleton[] skeletons) 
+        public bool isDrawActive(UserInfo[] userInfos, Skeleton[] skeletons) 
         {
             Dictionary<int, double> userDistanceList = new Dictionary<int, double>();
 

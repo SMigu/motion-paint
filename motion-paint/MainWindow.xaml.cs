@@ -188,7 +188,7 @@ namespace motion_paint
             }
 
             // for activating and disabling draw
-            if (controlManager.isActionActive(_userInfos, _skeletons))
+            if (controlManager.isDrawActive(_userInfos, _skeletons))
             {
                 newPoint = controlManager.getCursorLocation(kinectRegion);
 
