@@ -47,6 +47,5 @@ namespace motion_paint
         {
             return new Point3D();
         }
-
     }
 }

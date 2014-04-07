@@ -102,9 +102,28 @@ namespace motion_paint
             return modesList.ElementAt(currentModeId).getCursorLocation(region);
         }
 
-        public Point3D getHandLocation()
+        public Dictionary<Point3D, DateTime> getHandLocation()
         {
-            return modesList.ElementAt(currentModeId).getHandLocation();
+            var dict = new Dictionary<Point3D, DateTime>();
+            var location =  modesList.ElementAt(currentModeId).getHandLocation();
+            var time = DateTime.Now;
+            dict.Add(location,time);
+
+            return dict;
+        }
+
+        public double calculateSpeed(Dictionary<Point3D, DateTime> lastLocationData, Dictionary<Point3D, DateTime> currentLocationData)
+        {
+            var currentPoint = currentLocationData.ElementAt(0).Key;
+            var currentTime = currentLocationData.ElementAt(0).Value;
+            var lastPoint = lastLocationData.ElementAt(0).Key;
+            var lastTime = lastLocationData.ElementAt(0).Value;
+
+            double distance = (double)Math.Sqrt(Math.Pow(lastPoint.X - currentPoint.X, 2) + Math.Pow(lastPoint.Y - currentPoint.Y, 2) + Math.Pow(lastPoint.Z - currentPoint.Z, 2));
+            TimeSpan timeDiff = currentTime - lastTime;
+            double deltaTime = (double) timeDiff.TotalMilliseconds;
+
+            return distance / deltaTime;
         }
     }
 }
