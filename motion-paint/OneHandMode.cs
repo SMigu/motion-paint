@@ -23,7 +23,7 @@ namespace motion_paint
 
         public override bool isInteractionActive(ReadOnlyCollection<InteractionHandPointer> hands)
         {
-            // if primary -> return true     
+            // if primary hand is event is grip -> return true     
             foreach (var hand in hands)
             {
                 if (hand.HandType != InteractionHandType.None)

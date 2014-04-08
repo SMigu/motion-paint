@@ -26,14 +26,13 @@ namespace motion_paint
     /// </summary>
     public partial class MainWindow : Window
     {
+        SettingsManager settings;
         private KinectSensorChooser sensorChooser;
-
         private InteractionStream _interactionStream;
         private Skeleton[] _skeletons; //the skeletons 
         private UserInfo[] _userInfos; //the information about the interactive users
         private KinectSensor _sensor;
         private ControlManager controlManager = new ControlManager();
-        private SettingsManager settingsManager = new SettingsManager();
         private int paintingId = 0;
         public Color color = Colors.Black;
         private int thickness = 40;
@@ -44,8 +43,8 @@ namespace motion_paint
             Loaded += OnLoaded;
 
             // initialize control modes
-            controlManager.addControlMode(new OneHandMode(controlManager));
-            controlManager.addControlMode(new TwoHandMode(controlManager));
+            controlManager.addControlMode(new OneHandMode(controlManager)); // id 0
+            controlManager.addControlMode(new TwoHandMode(controlManager)); // id 1
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

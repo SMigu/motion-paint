@@ -1,75 +1,91 @@
 ﻿using System;
+using System.Configuration;
 using System.IO;
 
-public class SettingsManager
+public class SettingsManager : ApplicationSettingsBase
 {
-    private int controlModeId {get; set;}
-    private int screenWidth {get; set;}
-    private int screenHeight {get; set;}
-    private bool fullscreen {get; set;}
-
-
-    public SettingsManager()
-	{
-        string path = "conf.txt";
-        string line;
-        char[] delimiterChars = {' '};
-        
-        controlModeId = 0;
-        screenWidth = 800;
-        screenHeight = 600;
-        fullscreen = false;
-
-        try
+    [UserScopedSetting()]
+    [DefaultSettingValue("0")]
+    public int controlModeId
+    {
+        get
         {
-            if (File.Exists(path)) 
+            return (this.controlModeId);
+        }
+        set
+        {
+            this.controlModeId = (int)value;
+        }
+    }
+
+    [UserScopedSetting()]
+    [DefaultSettingValue("push")]
+    public string selectionMode 
+    {
+        get 
+        {
+            return this.selectionMode;
+        }
+        set 
+        {
+            switch (value)
             {
-                StreamReader file = new StreamReader(path);
-                while((line = file.ReadLine()) != null)
-                {   
-                    string[] configLine = line.Split(delimiterChars);
-                    switch (configLine[0])
-	                {
-                        case "controlModeId":
-                            controlModeId = int.Parse(configLine[1]);
-                            break;
-                        case "screenWidth":
-                            screenWidth = int.Parse(configLine[1]);
-                            break;
-                        case "screenHeight":
-                            screenHeight = int.Parse(configLine[1]);
-                            break;
-                        case "fullscreen":
-                            if(configLine[1] == "true")
-                            {
-                                fullscreen = true;
-                            }
-                            else
-                            {
-                                fullscreen = false;
-                            }
-                            break;
-		                default:
-                            Console.WriteLine("");
-                            break;
-	                }
-                }
+                case "hover":
+                   break;
+                case "push":
+                   break;
+                default:
+                   throw new ArgumentException();
             }
+        }
+    }
+
+    [UserScopedSetting()]
+    [DefaultSettingValue("1280")]
+    public int screenWidth 
+    {
+        get 
+        {
+            return this.screenWidth;       
+        }
+        set 
+        {
+            if ((int)value > 1280)
+                this.screenWidth = (int)value;
             else
-            {
-                string[] lines = 
-                    { 
-                        "controlModeId " + controlModeId.ToString(),
-                        "screenWidth " + screenWidth.ToString(),
-                        "screenHeight " + screenHeight.ToString(),
-                        "fullscreen " + fullscreen.ToString() 
-                    };
-                System.IO.File.WriteAllLines(path, lines);
-            }
+                throw new ArgumentOutOfRangeException();
         }
-        catch (Exception e)
+    }
+
+    [UserScopedSetting()]
+    [DefaultSettingValue("720")]
+    public int screenHeight 
+    {
+        get 
         {
-            Console.WriteLine("The process failed: {0}", e.ToString());
+            return this.screenHeight;
         }
-	}
+        set 
+        {
+            if ((int)value > 720)
+                this.screenHeight = (int)value;
+            else
+                throw new ArgumentOutOfRangeException();
+        }
+    }
+
+    [UserScopedSetting()]
+    [DefaultSettingValue("true")]
+    public bool fullscreen 
+    {
+        get 
+        {
+            return this.fullscreen;
+        }
+        set 
+        {
+            fullscreen = (bool)value;
+        }
+    }
+
 }
