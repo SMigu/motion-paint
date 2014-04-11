@@ -54,6 +54,7 @@ namespace motion_paint
             inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 250;
 
             BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -357,8 +358,17 @@ namespace motion_paint
             ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
         }
 
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            popupMessages.Visibility = System.Windows.Visibility.Visible;
+            MessageLabel.Content = "Tiedosto tallennettu";
+        }
 
-
+        private void MessageAcknowledged_Click(object sender, RoutedEventArgs e)
+        {
+            popupMessages.Visibility = System.Windows.Visibility.Collapsed;
+            MessageLabel.Content = "";
+        }
         
 
     }
