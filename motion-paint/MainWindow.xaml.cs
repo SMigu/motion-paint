@@ -80,6 +80,13 @@ namespace motion_paint
              
             }
 
+            OuterMenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
+            OuterMenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
+            MenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
+            MenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
+
+            
+
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
