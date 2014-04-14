@@ -29,14 +29,14 @@ namespace motion_paint
         SettingsManager settings = new SettingsManager();
         private KinectSensorChooser sensorChooser;
         private InteractionStream _interactionStream;
-        private Skeleton[] _skeletons; //the skeletons 
+        private Skeleton[] _skeletons; //the skeletons
         private UserInfo[] _userInfos; //the information about the interactive users
         private KinectSensor _sensor;
         private ControlManager controlManager = new ControlManager();
         private int paintingId = 0;
         public Color color = Colors.Black;
         private int thickness = 40;
-       
+
         public MainWindow()
         {
             InitializeComponent();
@@ -46,6 +46,52 @@ namespace motion_paint
             controlManager.addControlMode(new OneHandMode(controlManager)); // id 0
             controlManager.addControlMode(new TwoHandMode(controlManager)); // id 1
             controlManager.changeCurrentControlMode(settings.controlModeId);
+
+            //set the size of the canvas on load
+            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 200;
+            inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 250;
+            //set the widths of the bars on load
+            BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+
+            //Scaling if screen width is small (smaller than 1500), such as laptops
+            if (System.Windows.SystemParameters.PrimaryScreenWidth < 1500)
+            {
+                //set the new width and height of the buttons
+                Button1.Width = 180; Button1.Height = 140;
+                Button2.Width = 180; Button2.Height = 140;
+                Button3.Width = 180; Button3.Height = 140;
+                FileButton.Width = 180; FileButton.Height = 140;
+                SaveButton.Width = 180; SaveButton.Height = 140;
+                ColorWheel.Width = 200; ColorWheel.Height = 200;
+                SelectedColorShower.Width = 140; SelectedColorShower.Height = 140;
+                //set the new margins of the buttons
+                Button2.Margin = new Thickness(190, 0, 0, 10);
+                Button3.Margin = new Thickness(370, 0, 0, 10);
+                FileButton.Margin = new Thickness(0, 0, 240, 10);
+                SaveButton.Margin = new Thickness(0, 0, 460, 10);
+
+                //Scale the color buttons as well
+                ColorButton1.Width = 180;
+                ColorButton2.Width = 180;
+                ColorButton3.Width = 180;
+                ColorButton4.Width = 180;
+                ColorButton5.Width = 180;
+                ColorButton6.Width = 180;
+                //set the margins
+                ColorButton1.Margin = new Thickness(10, 0, 0, 209);
+                ColorButton2.Margin = new Thickness(190, 0, 0, 209);
+                ColorButton3.Margin = new Thickness(370, 0, 0, 209);
+                ColorButton4.Margin = new Thickness(560, 0, 0, 209);
+                ColorButton5.Margin = new Thickness(740, 0, 0, 209);
+                ColorButton6.Margin = new Thickness(920, 0, 0, 209);
+
+            }
+
+            OuterMenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
+            OuterMenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
+            MenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
+            MenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -61,14 +107,14 @@ namespace motion_paint
             this.sensorChooserUi.KinectSensorChooser = this.sensorChooser;
             this.sensorChooser.Start();
         }
-        
+
         // Event handler Kinect controller change. Handles Sensor configs on start and stop.
         private void SensorChooserOnKinectChanged(object sender, KinectChangedEventArgs args)
         {
             bool error = false;
             if (args.OldSensor != null)
             {
-                try 
+                try
                 {
                     args.OldSensor.DepthStream.Range = DepthRange.Default;
                     args.OldSensor.SkeletonStream.EnableTrackingInNearRange = false;
@@ -100,8 +146,8 @@ namespace motion_paint
                     _skeletons = new Skeleton[_sensor.SkeletonStream.FrameSkeletonArrayLength];
                     _userInfos = new UserInfo[InteractionFrame.UserInfoArrayLength];
 
-                    try 
-	                {	        
+                    try
+	                {
 		                _sensor.DepthStream.Range = DepthRange.Default;
                         _sensor.SkeletonStream.EnableTrackingInNearRange = false;
                         _sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Default;
@@ -209,31 +255,62 @@ namespace motion_paint
         private void MenuOpenBtn_Click(object sender, RoutedEventArgs e)
         {
             OuterMenuGrid.Visibility = System.Windows.Visibility.Visible;
-            Menu.Visibility = System.Windows.Visibility.Visible;
             MenuGrid.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void MenuCloseBtn_Click(object sender, RoutedEventArgs e)
         {
             OuterMenuGrid.Visibility = System.Windows.Visibility.Collapsed;
-            Menu.Visibility = System.Windows.Visibility.Collapsed;
             MenuGrid.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        private void throwPaintButton_Click(object sender, RoutedEventArgs e)
+        private void ColorWheel_Click(object sender, RoutedEventArgs e)
         {
-
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void eraserToolButton_Click(object sender, RoutedEventArgs e)
+        private void ColorButton1_Click(object sender, RoutedEventArgs e)
         {
-
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        private void saveFileButton_Click(object sender, RoutedEventArgs e)
+        private void ColorButton2_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton3_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton4_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton5_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void ColorButton6_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var path = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "/pic" + paintingId + ".png");
             Saveimage.ExportToPng(path, inkCanvas);
+            popupMessages.Visibility = System.Windows.Visibility.Visible;
+            MessageLabel.Content = "Tiedosto tallennettu";
+        }
+
+        private void MessageAcknowledged_Click(object sender, RoutedEventArgs e)
+        {
+            popupMessages.Visibility = System.Windows.Visibility.Collapsed;
+            MessageLabel.Content = "";
         }
 
         // Clear canvas and increase painting id.

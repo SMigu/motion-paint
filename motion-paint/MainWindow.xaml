@@ -2,24 +2,18 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:k="http://schemas.microsoft.com/kinect/2013"
-        Title="MainWindow" Height="1080" Width="1920">
+        Title="Kinect MotionPaint"  MinWidth="1280" MinHeight="720" MaxWidth="1920" MaxHeight="1080" WindowState="Maximized" Height="1159.35" Width="2021">
     <Grid>
         <k:KinectSensorChooserUI Name="sensorChooserUi" HorizontalAlignment="Center" VerticalAlignment="Top"></k:KinectSensorChooserUI>
         <k:KinectRegion Name="kinectRegion">
             <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="325*" />
-                    <ColumnDefinition Width="609*"/>
-                    <ColumnDefinition Width="792*"/>
-                    <ColumnDefinition Width="186*"/>
-                </Grid.ColumnDefinitions>
-                <InkCanvas Name="inkCanvas" Grid.ColumnSpan="3" Margin="10,10,2,190"></InkCanvas>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="245,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.ColumnSpan="2" Panel.ZIndex="10">
+                <InkCanvas Name="inkCanvas" Grid.ColumnSpan="3" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></InkCanvas>
+                <k:KinectTileButton x:Name="Button2" Content="" HorizontalAlignment="Left" Margin="245,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/BrushPaintproto.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Center" Margin="778,360,10,500" Width="190" Height="190" Grid.Column="2" Foreground="White" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="MenuOpenBtn_Click">
+                <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Right" Margin="0,0,10,0" Width="190" Height="190" Grid.Column="2" Foreground="White" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="MenuOpenBtn_Click" VerticalAlignment="Center">
                     <k:KinectCircleButton.ContentForeground>
                         <ImageBrush/>
                     </k:KinectCircleButton.ContentForeground>
@@ -36,28 +30,28 @@
                         </ImageBrush>
                     </k:KinectCircleButton.Background>
                 </k:KinectCircleButton>
-                <k:KinectTileButton Name="throwPaintButton" Content="" HorizontalAlignment="Left" Margin="10,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Panel.ZIndex="10" Click="throwPaintButton_Click">
+                <k:KinectTileButton x:Name="Button1" Content="" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Brush-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Name="eraserToolButton" Content="" HorizontalAlignment="Left" Margin="155,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" Panel.ZIndex="10" Click="eraserToolButton_Click">
+                <k:KinectTileButton x:Name="Button3" Content="" HorizontalAlignment="Left" Margin="480,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Eraser-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Name="saveFileButton" Content="" HorizontalAlignment="Left" Margin="390,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="1" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="saveFileButton_Click">
+                <k:KinectTileButton x:Name="SaveButton" Content="" HorizontalAlignment="Right" Margin="0,0,520,10" VerticalAlignment="Bottom" Width="230" Height="180" RenderTransformOrigin="0.5,0.5" Panel.ZIndex="10" Click="SaveButton_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Save-As-256.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton Name="newFileButton" Content="" HorizontalAlignment="Left" Margin="16,860,0,0" VerticalAlignment="Top" Width="230" Height="178" Grid.Column="2" Panel.ZIndex="10" Click="newFileButton_Click">
+                <k:KinectTileButton x:Name="FileButton" Content="" HorizontalAlignment="Right" Margin="0,0,260,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Add-File-256.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <Ellipse Fill="#FF3030DA" HorizontalAlignment="Left" Height="178" Margin="778,860,0,0" Stroke="Black" VerticalAlignment="Top" Width="172" Grid.Column="2" Panel.ZIndex="9" Grid.ColumnSpan="2"/>
-                <Rectangle HorizontalAlignment="Left" Height="260" Margin="0,790,0,0" Stroke="White" VerticalAlignment="Top" Width="1912" Grid.ColumnSpan="4" Panel.ZIndex="2" Opacity="0.9">
+
+                <Rectangle x:Name="BottomBar" HorizontalAlignment="Left" Height="198" MinWidth="1280"  Stroke="White" VerticalAlignment="Bottom" Panel.ZIndex="2" Opacity="0.9" Width="1902">
                     <Rectangle.Fill>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#FF4F4F4F" Offset="1"/>
@@ -65,51 +59,72 @@
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-                <k:KinectTileButton Content="" HorizontalAlignment="Left" Margin="708,790,0,0" VerticalAlignment="Top" Width="260" Height="260" Grid.Column="2" Panel.ZIndex="10" Grid.ColumnSpan="2">
+                <k:KinectTileButton x:Name="ColorWheel" Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Width="260" Height="260" Panel.ZIndex="10" Click="ColorWheel_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/color_wheel.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
+                <Ellipse x:Name="SelectedColorShower" Fill="#FF3030DA" HorizontalAlignment="Right" Height="180" Margin="0,0,20,20" Stroke="Black" VerticalAlignment="Bottom" Width="183" Panel.ZIndex="9"/>
 
-            </Grid>
-            
-        </k:KinectRegion>
-        
-        <!--GRID FOR Slide out Menu -->
-        <Grid x:Name="OuterMenuGrid" Width="1400" Margin="512,10,0,10" Panel.ZIndex="20" IsHitTestVisible="True" Visibility="Collapsed">
-            <Grid.Background>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#FF515151" Offset="1"/>
-                    <GradientStop Color="White"/>
-                </LinearGradientBrush>
-            </Grid.Background>
+                <!--GRID FOR Slide out Menu -->
+                <Grid x:Name="OuterMenuGrid" MinHeight="700" MinWidth="1270" Margin="10,10,0,10" Panel.ZIndex="20" IsHitTestVisible="True" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF515151" Offset="1"/>
+                            <GradientStop Color="White"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
 
-            <k:KinectRegion Name="Menu" Visibility="Collapsed" Margin="0,0,0,-254">
+                    <Grid x:Name="MenuGrid" Margin="10,10,0,10" Visibility="Collapsed" MinHeight="700" MinWidth="1270" HorizontalAlignment="Right" VerticalAlignment="Top">
+                        <Label Content="Asetukset" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" Height="104" Width="332" FontSize="72"/>
 
+                        <k:KinectCircleButton x:Name="MenuCloseBtn" Width="150" Height="150" Foreground="#00000000" HorizontalAlignment="Left" VerticalAlignment="Center" Click="MenuCloseBtn_Click" ContentPressedForeground="Transparent">
+                            <k:KinectCircleButton.Background>
+                                <ImageBrush ImageSource="Icons/arrow-icon.png" Stretch="UniformToFill">
+                                    <ImageBrush.RelativeTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                            <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </ImageBrush.RelativeTransform>
+                                </ImageBrush>
+                            </k:KinectCircleButton.Background>
+                            <k:KinectCircleButton.ContentForeground>
+                                <ImageBrush/>
+                            </k:KinectCircleButton.ContentForeground>
+                        </k:KinectCircleButton>
 
-                <Grid x:Name="MenuGrid" Margin="0,0,0,244" Visibility="Collapsed">
-                    <Label Content="Valikko" HorizontalAlignment="Left" Margin="578,10,0,0" VerticalAlignment="Top" Height="104" Width="332" FontSize="72"/>
-                    <k:KinectCircleButton x:Name="MenuCloseBtn" Width="190" Height="190" Foreground="#00000000" HorizontalAlignment="Left" VerticalAlignment="Center" Click="MenuCloseBtn_Click" ContentPressedForeground="Transparent">
-                        <k:KinectCircleButton.Background>
-                            <ImageBrush ImageSource="Icons/arrow-icon.png" Stretch="UniformToFill">
-                                <ImageBrush.RelativeTransform>
-                                    <TransformGroup>
-                                        <ScaleTransform CenterY="0.5" CenterX="0.5"/>
-                                        <SkewTransform CenterY="0.5" CenterX="0.5"/>
-                                        <RotateTransform Angle="90" CenterY="0.5" CenterX="0.5"/>
-                                        <TranslateTransform/>
-                                    </TransformGroup>
-                                </ImageBrush.RelativeTransform>
-                            </ImageBrush>
-                        </k:KinectCircleButton.Background>
-                        <k:KinectCircleButton.ContentForeground>
-                            <ImageBrush/>
-                        </k:KinectCircleButton.ContentForeground>
-
-                    </k:KinectCircleButton>
-
+                        <Label Content="Ohjaustapa" HorizontalAlignment="Right" Margin="0,128,318,0" VerticalAlignment="Top" Height="53" Width="194" FontSize="36"/>
+                        <k:KinectTileButton x:Name="ControlSelect1" Content="" HorizontalAlignment="Right" Margin="0,186,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
+                        <k:KinectTileButton x:Name="ControlSelect2" Content="" HorizontalAlignment="Right" Margin="0,186,47,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
+                        <Label Content="Syöttötapa" HorizontalAlignment="Right" Margin="0,386,318,0" VerticalAlignment="Top" Height="53" Width="194" FontSize="36"/>
+                        <k:KinectTileButton x:Name="InputSelect1" Content="" HorizontalAlignment="Right" Margin="0,444,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
+                        <k:KinectTileButton x:Name="InputSelect2" Content="" HorizontalAlignment="Right" Margin="0,444,47,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
+                    </Grid>
                 </Grid>
-            </k:KinectRegion>
-        </Grid>
+
+                <!--GRID FOR Color selector Menu -->
+                <Grid x:Name="ColorSelectorGrid" Visibility="Collapsed">
+                    <Rectangle Height="195" Margin="0,0,0,200" Stroke="White" VerticalAlignment="Bottom" Width="1902" Panel.ZIndex="30" Fill="#FF4D4D4D"/>
+
+                    <k:KinectTileButton x:Name="ColorButton1" Content="" HorizontalAlignment="Left" Margin="13,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton2" Content="" HorizontalAlignment="Left" Margin="248,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FF009507" Click="ColorButton2_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton3" Content="" HorizontalAlignment="Left" Margin="483,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FF00198B" Click="ColorButton3_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton4" Content="" HorizontalAlignment="Left" Margin="711,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FFE65E00" Click="ColorButton4_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton5" Content="" HorizontalAlignment="Left" Margin="941,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FF6300C7" Click="ColorButton5_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton6" Content="" HorizontalAlignment="Left" Margin="1171,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FFFFCE29" Click="ColorButton6_Click"/>
+                </Grid>
+
+                <!--GRID FOR Popup messages Menu -->
+                <Grid x:Name="popupMessages" Visibility="Collapsed" MinHeight="110" MaxHeight="720" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="32">
+                    <Rectangle x:Name="popupMessageBar" MinHeight="100" MaxHeight="720" MinWidth="1280" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" Fill="#FFCFCFCF" HorizontalAlignment="Left" />
+                    <Label x:Name="MessageLabel" Content="Ilmoituskeskus" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Panel.ZIndex="33" FontSize="48"/>
+                    <k:KinectTileButton x:Name="MessageAcknowledged" Content="OK" HorizontalAlignment="Right" Margin="13,0,0,295" VerticalAlignment="Top" Width="120" Height="85" Panel.ZIndex="32" Background="{x:Null}" Click="MessageAcknowledged_Click"/>
+                </Grid>
+            </Grid>
+        </k:KinectRegion>
     </Grid>
+
 </Window>
