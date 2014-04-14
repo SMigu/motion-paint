@@ -59,19 +59,19 @@
                         </LinearGradientBrush>
                     </Rectangle.Fill>
                 </Rectangle>
-                <k:KinectTileButton x:Name="ColorWheel" Content="" HorizontalAlignment="Right" Margin="1642,0,0,0" VerticalAlignment="Bottom" Width="260" Height="260" Panel.ZIndex="10" Click="ColorWheel_Click">
+                <k:KinectTileButton x:Name="ColorWheel" Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Width="260" Height="260" Panel.ZIndex="10" Click="ColorWheel_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/color_wheel.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
                 <Ellipse x:Name="SelectedColorShower" Fill="#FF3030DA" HorizontalAlignment="Right" Height="180" Margin="0,0,20,20" Stroke="Black" VerticalAlignment="Bottom" Width="183" Panel.ZIndex="9"/>
 
-            </Grid>
+            
 
-        </k:KinectRegion>
+
 
         <!--GRID FOR Slide out Menu -->
-        <Grid x:Name="OuterMenuGrid" Width="1400" Margin="512,10,0,10" Panel.ZIndex="20" IsHitTestVisible="True" Visibility="Collapsed">
+        <Grid x:Name="OuterMenuGrid" Width="1270" Margin="10,10,0,10" Panel.ZIndex="20" IsHitTestVisible="True" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Top">
             <Grid.Background>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF515151" Offset="1"/>
@@ -79,7 +79,7 @@
                 </LinearGradientBrush>
             </Grid.Background>
 
-            <k:KinectRegion Name="Menu" Visibility="Collapsed" Margin="0,0,0,-254">
+
 
 
                 <Grid x:Name="MenuGrid" Margin="0,0,0,244" Visibility="Collapsed">
@@ -104,7 +104,7 @@
                     </k:KinectCircleButton>
 
                 </Grid>
-            </k:KinectRegion>
+            
         </Grid>
 
         <!--GRID FOR Color selector Menu -->
@@ -125,6 +125,8 @@
             <Label x:Name="MessageLabel" Content="Ilmoituskeskus" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Panel.ZIndex="33" FontSize="48"/>
             <k:KinectTileButton x:Name="MessageAcknowledged" Content="OK" HorizontalAlignment="Right" Margin="13,0,0,295" VerticalAlignment="Top" Width="120" Height="85" Panel.ZIndex="32" Background="{x:Null}" Click="MessageAcknowledged_Click"/>
         </Grid>
-
+  </Grid>
+  </k:KinectRegion>        
     </Grid>
+    
 </Window>

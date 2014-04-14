@@ -39,22 +39,47 @@ namespace motion_paint
         {
             InitializeComponent();
             Loaded += OnLoaded;
-
-            /*
-            Button1.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
-            Button2.Margin = new Thickness(230, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
-            Button3.Margin = new Thickness(460, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 0, 0);
-
-            FileButton.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 520, 0);
-            SaveButton.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 260, 260, 0);
-            ColorWheel.Margin = new Thickness(0, System.Windows.SystemParameters.PrimaryScreenHeight - 290, 0, 0);
-            */ 
-
+            //set the size of the canvas on load
             inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 200;
             inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 250;
-
+            //set the widths of the bars on load
             BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
             popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+
+            //Scaling if screen width is small (smaller than 1500), such as laptops
+            if (System.Windows.SystemParameters.PrimaryScreenWidth < 1500)
+            {
+                //set the new width and height of the buttons
+                Button1.Width = 180; Button1.Height = 140;
+                Button2.Width = 180; Button2.Height = 140;
+                Button3.Width = 180; Button3.Height = 140;
+                FileButton.Width = 180; FileButton.Height = 140;
+                SaveButton.Width = 180; SaveButton.Height = 140;
+                ColorWheel.Width = 200; ColorWheel.Height = 200;
+                SelectedColorShower.Width = 140; SelectedColorShower.Height = 140;
+                //set the new margins of the buttons
+                Button2.Margin = new Thickness(190, 0, 0, 10);
+                Button3.Margin = new Thickness(370, 0, 0, 10);
+                FileButton.Margin = new Thickness(0, 0, 240, 10);
+                SaveButton.Margin = new Thickness(0, 0, 460, 10);
+
+                //Scale the color buttons as well
+                ColorButton1.Width = 180;
+                ColorButton2.Width = 180;
+                ColorButton3.Width = 180;
+                ColorButton4.Width = 180;
+                ColorButton5.Width = 180;
+                ColorButton6.Width = 180;
+                //set the margins
+                ColorButton1.Margin = new Thickness(10, 0, 0, 209);
+                ColorButton2.Margin = new Thickness(190, 0, 0, 209);
+                ColorButton3.Margin = new Thickness(370, 0, 0, 209);
+                ColorButton4.Margin = new Thickness(560, 0, 0, 209);
+                ColorButton5.Margin = new Thickness(740, 0, 0, 209);
+                ColorButton6.Margin = new Thickness(920, 0, 0, 209);
+             
+            }
+
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
@@ -310,14 +335,14 @@ namespace motion_paint
         private void MenuOpenBtn_Click(object sender, RoutedEventArgs e)
         {
             OuterMenuGrid.Visibility = System.Windows.Visibility.Visible;
-            Menu.Visibility = System.Windows.Visibility.Visible;
+            //Menu.Visibility = System.Windows.Visibility.Visible;
             MenuGrid.Visibility = System.Windows.Visibility.Visible;
         }
 
         private void MenuCloseBtn_Click(object sender, RoutedEventArgs e)
         {
             OuterMenuGrid.Visibility = System.Windows.Visibility.Collapsed;
-            Menu.Visibility = System.Windows.Visibility.Collapsed;
+            //Menu.Visibility = System.Windows.Visibility.Collapsed;
             MenuGrid.Visibility = System.Windows.Visibility.Collapsed;
 
             
