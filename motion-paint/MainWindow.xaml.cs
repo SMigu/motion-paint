@@ -26,7 +26,7 @@ namespace motion_paint
     /// </summary>
     public partial class MainWindow : Window
     {
-        SettingsManager settings;
+        SettingsManager settings = new SettingsManager();
         private KinectSensorChooser sensorChooser;
         private InteractionStream _interactionStream;
         private Skeleton[] _skeletons; //the skeletons 
@@ -45,6 +45,7 @@ namespace motion_paint
             // initialize control modes
             controlManager.addControlMode(new OneHandMode(controlManager)); // id 0
             controlManager.addControlMode(new TwoHandMode(controlManager)); // id 1
+            controlManager.changeCurrentControlMode(settings.controlModeId);
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

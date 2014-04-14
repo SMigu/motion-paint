@@ -10,11 +10,11 @@ public class SettingsManager : ApplicationSettingsBase
     {
         get
         {
-            return (this.controlModeId);
+            return ((int)this["controlModeId"]);
         }
         set
         {
-            this.controlModeId = (int)value;
+            this["controlModeId"] = (int)value;
         }
     }
 
@@ -24,7 +24,7 @@ public class SettingsManager : ApplicationSettingsBase
     {
         get 
         {
-            return this.selectionMode;
+            return ((string)this["selectionMode"]);
         }
         set 
         {
@@ -46,12 +46,12 @@ public class SettingsManager : ApplicationSettingsBase
     {
         get 
         {
-            return this.screenWidth;       
+            return ((int)this["screenWidth"]);       
         }
         set 
         {
             if ((int)value > 1280)
-                this.screenWidth = (int)value;
+                this["screenWidth"] = (int)value;
             else
                 throw new ArgumentOutOfRangeException();
         }
@@ -63,12 +63,12 @@ public class SettingsManager : ApplicationSettingsBase
     {
         get 
         {
-            return this.screenHeight;
+            return ((int)this["screenHeight"]);
         }
         set 
         {
             if ((int)value > 720)
-                this.screenHeight = (int)value;
+                this["screenHeight"] = (int)value;
             else
                 throw new ArgumentOutOfRangeException();
         }
@@ -80,11 +80,11 @@ public class SettingsManager : ApplicationSettingsBase
     {
         get 
         {
-            return this.fullscreen;
+            return ((bool)this["fullscreen"]);
         }
         set 
         {
-            fullscreen = (bool)value;
+            this["fullscreen"] = (bool)value;
         }
     }
 
