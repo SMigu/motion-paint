@@ -232,7 +232,7 @@ namespace motion_paint
 
         private void saveFileButton_Click(object sender, RoutedEventArgs e)
         {
-            var path = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + "/pic" + paintingId + ".png");
+            var path = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "/pic" + paintingId + ".png");
             Saveimage.ExportToPng(path, inkCanvas);
         }
 
