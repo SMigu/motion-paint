@@ -52,7 +52,19 @@ namespace motion_paint
             inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 250;
             //set the widths of the bars on load
             BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            
+            //Set size and margin of message popup
             popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+                //set the bacground color of the pop up bar according to the type of the message
+                // success: #FF70C763
+                SolidColorBrush successBrush = new SolidColorBrush();
+                successBrush.Color = Color.FromArgb(112, 199, 99, 255);
+                // neutral: #FFF2FF71
+                SolidColorBrush neutralBrush = new SolidColorBrush();
+                neutralBrush.Color = Color.FromArgb(242, 255, 113, 255);
+                // error: #FFCF513D
+                SolidColorBrush errorBrush = new SolidColorBrush();
+                errorBrush.Color = Color.FromArgb(207, 81, 61, 255);
 
             //Scaling if screen width is small (smaller than 1500), such as laptops
             if (System.Windows.SystemParameters.PrimaryScreenWidth < 1500)
@@ -68,16 +80,15 @@ namespace motion_paint
                 //set the new margins of the buttons
                 Button2.Margin = new Thickness(190, 0, 0, 10);
                 Button3.Margin = new Thickness(370, 0, 0, 10);
-                FileButton.Margin = new Thickness(0, 0, 240, 10);
-                SaveButton.Margin = new Thickness(0, 0, 460, 10);
+                FileButton.Margin = new Thickness(0, 0, 220, 10);
+                SaveButton.Margin = new Thickness(0, 0, 420, 10);
 
                 //Scale the color buttons as well
-                ColorButton1.Width = 180;
-                ColorButton2.Width = 180;
-                ColorButton3.Width = 180;
-                ColorButton4.Width = 180;
-                ColorButton5.Width = 180;
-                ColorButton6.Width = 180;
+                ColorButton1.Width = 180; ColorButton2.Width = 180; ColorButton3.Width = 180;
+                ColorButton4.Width = 180; ColorButton5.Width = 180; ColorButton6.Width = 180;
+                ColorButton7.Width = 180; ColorButton8.Width = 180; ColorButton9.Width = 180;
+                ColorButton10.Width = 180; ColorButton11.Width = 180; ColorButton12.Width = 180;
+
                 //set the margins
                 ColorButton1.Margin = new Thickness(10, 0, 0, 209);
                 ColorButton2.Margin = new Thickness(190, 0, 0, 209);
@@ -85,6 +96,12 @@ namespace motion_paint
                 ColorButton4.Margin = new Thickness(560, 0, 0, 209);
                 ColorButton5.Margin = new Thickness(740, 0, 0, 209);
                 ColorButton6.Margin = new Thickness(920, 0, 0, 209);
+                ColorButton7.Margin = new Thickness(10, 0, 0, 209);
+                ColorButton8.Margin = new Thickness(190, 0, 0, 209);
+                ColorButton9.Margin = new Thickness(370, 0, 0, 209);
+                ColorButton10.Margin = new Thickness(560, 0, 0, 209);
+                ColorButton11.Margin = new Thickness(740, 0, 0, 209);
+                ColorButton12.Margin = new Thickness(920, 0, 0, 209);
 
             }
 
@@ -275,6 +292,8 @@ namespace motion_paint
             SolidColorBrush brush = b.Background as SolidColorBrush;
             color = brush.Color;
             ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+            ColorSelectorGrid2.Visibility = System.Windows.Visibility.Collapsed;
+            SelectedColorShower.Fill = new SolidColorBrush(color);
         }
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
@@ -306,6 +325,18 @@ namespace motion_paint
         private void InputSelectButton_Click(object sender, RoutedEventArgs e) 
         {
         
+        }
+
+        private void ColorPage2_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+            ColorSelectorGrid2.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void ColorPage1_Click(object sender, RoutedEventArgs e)
+        {
+            ColorSelectorGrid2.Visibility = System.Windows.Visibility.Collapsed;
+            ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

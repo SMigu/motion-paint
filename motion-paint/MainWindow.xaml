@@ -13,7 +13,7 @@
                         <ImageBrush ImageSource="Icons/BrushPaintproto.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Right" Margin="0,0,10,0" Width="150" Height="150" Grid.Column="2" Foreground="White" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="MenuOpenBtn_Click" VerticalAlignment="Center">
+                <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Right" Margin="0,170,0,0" Width="150" Height="150" Grid.Column="2" Foreground="White" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="MenuOpenBtn_Click" VerticalAlignment="Top">
                     <k:KinectCircleButton.ContentForeground>
                         <ImageBrush/>
                     </k:KinectCircleButton.ContentForeground>
@@ -105,24 +105,40 @@
                     </Grid>
                 </Grid>
 
-                <!--GRID FOR Color selector Menu -->
+                <!--GRID FOR Color selector Menu page 1 -->
                 <Grid x:Name="ColorSelectorGrid" Visibility="Collapsed">
                     <Rectangle Height="195" Margin="0,0,0,200" Stroke="White" VerticalAlignment="Bottom" Width="1902" Panel.ZIndex="30" Fill="#FF4D4D4D"/>
 
-                    <k:KinectTileButton x:Name="ColorButton1" Content="" HorizontalAlignment="Left" Margin="13,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton_Click"/>
-                    <k:KinectTileButton x:Name="ColorButton2" Content="" HorizontalAlignment="Left" Margin="248,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FF009507" Click="ColorButton_Click"/>
-                    <k:KinectTileButton x:Name="ColorButton3" Content="" HorizontalAlignment="Left" Margin="483,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FF00198B" Click="ColorButton_Click"/>
-                    <k:KinectTileButton x:Name="ColorButton4" Content="" HorizontalAlignment="Left" Margin="711,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FFE65E00" Click="ColorButton_Click"/>
-                    <k:KinectTileButton x:Name="ColorButton5" Content="" HorizontalAlignment="Left" Margin="941,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FF6300C7" Click="ColorButton_Click"/>
-                    <k:KinectTileButton x:Name="ColorButton6" Content="" HorizontalAlignment="Left" Margin="1171,0,0,209" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="32" Background="#FFFFCE29" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton1" Content="" HorizontalAlignment="Left" Margin="13,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FFE31F29" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton2" Content="" HorizontalAlignment="Left" Margin="218,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FFF15427" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton3" Content="" HorizontalAlignment="Left" Margin="423,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FFFBDA2B" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton4" Content="" HorizontalAlignment="Left" Margin="628,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FF088450" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton5" Content="" HorizontalAlignment="Left" Margin="833,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FF204490" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton6" Content="" HorizontalAlignment="Left" Margin="1038,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FF08090B" Click="ColorButton_Click"/>
+
+                    <k:KinectTileButton x:Name="ColorPage2" Content="2" HorizontalAlignment="Right" Margin="0,0,10,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="White" FontSize="72" FontWeight="Bold" Click="ColorPage2_Click"/>
+                </Grid>
+
+                <!--GRID FOR Color selector Menu page 2 -->
+                <Grid x:Name="ColorSelectorGrid2" Visibility="Collapsed">
+                    <Rectangle Height="195" Margin="0,0,0,200" Stroke="White" VerticalAlignment="Bottom" Width="1902" Panel.ZIndex="30" Fill="#FF4D4D4D"/>
+                    <k:KinectTileButton x:Name="ColorPage1" Content="1" HorizontalAlignment="Right" Margin="0,0,10,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="White" FontSize="72" FontWeight="Bold" Click="ColorPage1_Click"/>
+
+                    <k:KinectTileButton x:Name="ColorButton7" Content="" HorizontalAlignment="Left" Margin="10,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FFF493BE" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton8" Content="" HorizontalAlignment="Left" Margin="212,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FF70401A" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton9" Content="" HorizontalAlignment="Left" Margin="417,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FF8D6C39" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton10" Content="" HorizontalAlignment="Left" Margin="622,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FF8D95A2" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton11" Content="" HorizontalAlignment="Left" Margin="827,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FFFFFFFF" Click="ColorButton_Click"/>
+                    <k:KinectTileButton x:Name="ColorButton12" Content="" HorizontalAlignment="Left" Margin="1032,0,0,209" VerticalAlignment="Bottom" Width="200" Height="180" Panel.ZIndex="32" Background="#FF743C93" Click="ColorButton_Click"/>
                 </Grid>
 
                 <!--GRID FOR Popup messages Menu -->
-                <Grid x:Name="popupMessages" Visibility="Collapsed" MinHeight="110" MaxHeight="720" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="32">
-                    <Rectangle x:Name="popupMessageBar" MinHeight="100" MaxHeight="720" MinWidth="1280" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" Fill="#FFCFCFCF" HorizontalAlignment="Left" />
+                <Grid x:Name="popupMessages" Visibility="Collapsed" MinHeight="150" MaxHeight="720" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="32">
+                    <Rectangle x:Name="popupMessageBar" MinHeight="150" MaxHeight="720" MinWidth="1280" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" HorizontalAlignment="Left" Fill="#FF70C763" Margin="3,0,-3,0" />
                     <Label x:Name="MessageLabel" Content="Ilmoituskeskus" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Panel.ZIndex="33" FontSize="48"/>
-                    <k:KinectTileButton x:Name="MessageAcknowledged" Content="OK" HorizontalAlignment="Right" Margin="13,0,0,295" VerticalAlignment="Top" Width="120" Height="85" Panel.ZIndex="32" Background="{x:Null}" Click="MessageAcknowledged_Click"/>
+                    <k:KinectTileButton x:Name="MessageAcknowledged" Content="OK" HorizontalAlignment="Right" Margin="0,10,10,1" VerticalAlignment="Top" Width="143" Height="120" Panel.ZIndex="32" Background="{x:Null}" Click="MessageAcknowledged_Click" FontWeight="Bold" FontSize="48"/>
                 </Grid>
+
             </Grid>
         </k:KinectRegion>
     </Grid>
