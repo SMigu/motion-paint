@@ -334,16 +334,31 @@ namespace motion_paint
             if (b.Name == "ControlSelect1")
             {
                 controlManager.changeCurrentControlMode(0);
+                settings.controlModeId = 0;
+                settings.Save();
             }
             else 
             {
-                controlManager.changeCurrentControlMode(1);                
+                controlManager.changeCurrentControlMode(1);
+                settings.controlModeId = 1;
+                settings.Save();
             }
         }
 
         private void InputSelectButton_Click(object sender, RoutedEventArgs e) 
         {
-        
+            KinectTileButton b = sender as KinectTileButton;
+
+            if (b.Name == "InputSelect1")
+            {
+                settings.selectionMode = "push";
+                settings.Save();
+            }
+            else
+            {
+                settings.selectionMode = "hover";
+                settings.Save();
+            }
         }
         
         private void brushButton_Click(object sender, RoutedEventArgs e)

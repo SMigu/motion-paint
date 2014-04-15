@@ -31,8 +31,10 @@ public class SettingsManager : ApplicationSettingsBase
             switch (value)
             {
                 case "hover":
+                   this["selectionMode"] = (string)value;
                    break;
                 case "push":
+                   this["selectionMode"] = (string)value;
                    break;
                 default:
                    throw new ArgumentException();
