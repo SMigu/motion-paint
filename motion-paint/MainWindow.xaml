@@ -13,12 +13,12 @@
                         <ImageBrush ImageSource="Icons/BrushPaintproto.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Right" Margin="0,170,0,0" Width="150" Height="150" Grid.Column="2" Foreground="White" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="MenuOpenBtn_Click" VerticalAlignment="Top">
+                <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Right" Margin="0,10,10,0" Width="176" Height="180" Grid.Column="2" Foreground="Transparent" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="MenuOpenBtn_Click" VerticalAlignment="Top" ContentPressedForeground="Transparent">
                     <k:KinectCircleButton.ContentForeground>
                         <ImageBrush/>
                     </k:KinectCircleButton.ContentForeground>
                     <k:KinectCircleButton.Background>
-                        <ImageBrush ImageSource="Icons/arrow-icon.png" Stretch="Uniform">
+                        <ImageBrush ImageSource="Icons/mutteri.png" Stretch="Uniform">
                             <ImageBrush.RelativeTransform>
                                 <TransformGroup>
                                     <ScaleTransform CenterY="0.5" CenterX="0.5"/>
@@ -52,7 +52,7 @@
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
 
-                <Rectangle x:Name="BottomBar" HorizontalAlignment="Left" Height="198" MinWidth="1280"  Stroke="White" VerticalAlignment="Bottom" Panel.ZIndex="2" Opacity="0.9" Width="1902" Fill="#FFEAEAEA"/>
+                <Rectangle x:Name="BottomBar" HorizontalAlignment="Left" Height="190" MinWidth="1280"  Stroke="White" VerticalAlignment="Bottom" Panel.ZIndex="2" Opacity="0.9" Width="1902" Fill="#FFEAEAEA"/>
                 <k:KinectTileButton x:Name="ColorWheel" Content="" HorizontalAlignment="Right" Margin="0" VerticalAlignment="Bottom" Width="260" Height="260" Panel.ZIndex="41" Click="ColorWheel_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/color_wheel.png" Stretch="Uniform"/>
@@ -61,7 +61,7 @@
                 <Ellipse x:Name="SelectedColorShower" Fill="#FF3030DA" HorizontalAlignment="Right" Height="190" Margin="0,0,12,12" Stroke="Black" VerticalAlignment="Bottom" Width="190" Panel.ZIndex="40"/>
 
                 <!--GRID FOR Slide out Menu -->
-                <Grid x:Name="OuterMenuGrid" Visibility="Collapsed" MinHeight="700" MinWidth="1270" Margin="10,10,0,10" Panel.ZIndex="20" IsHitTestVisible="True" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FFB8D4B8">
+                <Grid x:Name="OuterMenuGrid" Visibility="Collapsed" MinHeight="700" MinWidth="1270" Margin="10,10,0,10" Panel.ZIndex="51" IsHitTestVisible="True" HorizontalAlignment="Right" VerticalAlignment="Top" Background="#FFDEDEDE">
 
                     <Grid x:Name="MenuGrid" Margin="10,10,0,10" Visibility="Collapsed" MinHeight="700" MinWidth="1270" HorizontalAlignment="Right" VerticalAlignment="Top">
                         <Label Content="Asetukset" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" Height="104" Width="332" FontSize="72"/>
@@ -85,11 +85,11 @@
                         </k:KinectCircleButton>
 
                         <Label Content="Ohjaustapa" HorizontalAlignment="Center" Margin="0,128,318,0" VerticalAlignment="Top" Height="53" Width="194" FontSize="36"/>
-                        <k:KinectTileButton x:Name="ControlSelect1" Content="1 Käsi" HorizontalAlignment="Center" Margin="0,186,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Click="ControlSelectButton_Click" Background="#FF7CB490"/>
-                        <k:KinectTileButton x:Name="ControlSelect2" Content="2 Käsi" HorizontalAlignment="Center" Margin="614,186,426,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF7CB490" Click="ControlSelectButton_Click"/>
+                        <k:KinectTileButton x:Name="ControlSelect1" Content="1 Käsi" HorizontalAlignment="Center" Margin="0,186,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Click="ControlSelectButton_Click" Background="White"/>
+                        <k:KinectTileButton x:Name="ControlSelect2" Content="2 Käsi" HorizontalAlignment="Center" Margin="614,186,426,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="White" Click="ControlSelectButton_Click"/>
                         <Label Content="Syöttötapa" HorizontalAlignment="Center" Margin="0,386,318,0" VerticalAlignment="Top" Height="53" Width="194" FontSize="36"/>
-                        <k:KinectTileButton x:Name="InputSelect1" Content="Painallus" HorizontalAlignment="Center" Margin="0,444,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF7CB490" Click="InputSelectButton_Click"/>
-                        <k:KinectTileButton x:Name="InputSelect2" Content="Leijutus" HorizontalAlignment="Center" Margin="614,444,426,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF7CB490" Click="InputSelectButton_Click"/>
+                        <k:KinectTileButton x:Name="InputSelect1" Content="Painallus" HorizontalAlignment="Center" Margin="0,444,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="White" Click="InputSelectButton_Click"/>
+                        <k:KinectTileButton x:Name="InputSelect2" Content="Leijutus" HorizontalAlignment="Center" Margin="614,444,426,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="White" Click="InputSelectButton_Click"/>
                     </Grid>
                 </Grid>
 
