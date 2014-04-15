@@ -25,7 +25,7 @@ namespace motion_paint
             switch(brush)
             {
 
-                case "pencil":            
+                case "brush":            
                     //Point currentPoint = new Point();
                     //Line line = new Line();
                     //if (currentPoint.X == 0 && currentPoint.Y == 0)
