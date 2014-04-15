@@ -269,33 +269,11 @@ namespace motion_paint
             ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void ColorButton1_Click(object sender, RoutedEventArgs e)
+        private void ColorButton_Click(object sender, RoutedEventArgs e)
         {
-            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ColorButton2_Click(object sender, RoutedEventArgs e)
-        {
-            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ColorButton3_Click(object sender, RoutedEventArgs e)
-        {
-            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ColorButton4_Click(object sender, RoutedEventArgs e)
-        {
-            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ColorButton5_Click(object sender, RoutedEventArgs e)
-        {
-            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ColorButton6_Click(object sender, RoutedEventArgs e)
-        {
+            KinectTileButton b = sender as KinectTileButton;
+            SolidColorBrush brush = b.Background as SolidColorBrush;
+            color = brush.Color;
             ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
         }
 
