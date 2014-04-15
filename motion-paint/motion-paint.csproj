@@ -156,9 +156,6 @@
     <Resource Include="Icons\color_wheel.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icons\mutteri1.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Icons\mutteri.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
