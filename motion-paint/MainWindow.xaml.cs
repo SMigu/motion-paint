@@ -34,8 +34,10 @@ namespace motion_paint
         private KinectSensor _sensor;
         private ControlManager controlManager = new ControlManager();
         private int paintingId = 0;
+        public Color lastColor;
         public Color color = Colors.Black;
         private int thickness = 40;
+        private string tool = "paintsplatter";
 
         public MainWindow()
         {
@@ -70,18 +72,18 @@ namespace motion_paint
             if (System.Windows.SystemParameters.PrimaryScreenWidth < 1500)
             {
                 //set the new width and height of the buttons
-                Button1.Width = 180; Button1.Height = 140;
-                Button2.Width = 180; Button2.Height = 140;
-                Button3.Width = 180; Button3.Height = 140;
-                FileButton.Width = 180; FileButton.Height = 140;
+                brushButton.Width = 180; brushButton.Height = 140;
+                paintsplatterButton.Width = 180; paintsplatterButton.Height = 140;
+                eraserButton.Width = 180; eraserButton.Height = 140;
+                newFileButton.Width = 180; newFileButton.Height = 140;
                 SaveButton.Width = 180; SaveButton.Height = 140;
                 ColorWheel.Width = 200; ColorWheel.Height = 200;
                 SelectedColorShower.Width = 140; SelectedColorShower.Height = 140;
                 //set the new margins of the buttons
-                Button2.Margin = new Thickness(190, 0, 0, 10);
-                Button3.Margin = new Thickness(370, 0, 0, 10);
-                FileButton.Margin = new Thickness(0, 0, 220, 10);
-                SaveButton.Margin = new Thickness(0, 0, 420, 10);
+                paintsplatterButton.Margin = new Thickness(190, 0, 0, 10);
+                eraserButton.Margin = new Thickness(370, 0, 0, 10);
+                newFileButton.Margin = new Thickness(0, 0, 240, 10);
+                SaveButton.Margin = new Thickness(0, 0, 460, 10);
 
                 //Scale the color buttons as well
                 ColorButton1.Width = 180; ColorButton2.Width = 180; ColorButton3.Width = 180;
@@ -260,7 +262,7 @@ namespace motion_paint
                     oldPoint = newPoint;
                     stopDraw = false;
                 }
-                DrawCanvas.Paint(oldPoint,newPoint,inkCanvas, color, thickness, "paintsplatter");
+                DrawCanvas.Paint(oldPoint, newPoint, inkCanvas, color, thickness, tool);
                 oldPoint = newPoint;
             }
             else
@@ -290,6 +292,7 @@ namespace motion_paint
         {
             KinectTileButton b = sender as KinectTileButton;
             SolidColorBrush brush = b.Background as SolidColorBrush;
+            lastColor = color;
             color = brush.Color;
             ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
             ColorSelectorGrid2.Visibility = System.Windows.Visibility.Collapsed;
@@ -337,6 +340,27 @@ namespace motion_paint
         {
             ColorSelectorGrid2.Visibility = System.Windows.Visibility.Collapsed;
             ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
+        }
+        
+        private void brushButton_Click(object sender, RoutedEventArgs e)
+        {
+            tool = "brush";
+            if (color == Colors.White)
+                color = lastColor;
+        }
+
+        private void paintsplatterButton_Click(object sender, RoutedEventArgs e)
+        {
+            tool = "paintsplatter";
+            if (color == Colors.White)
+                color = lastColor;
+        }
+
+        private void eraserButton_Click(object sender, RoutedEventArgs e)
+        {
+            lastColor = color;
+            color = Colors.White;
+            tool = "brush";
         }
     }
 }
