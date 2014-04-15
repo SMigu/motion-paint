@@ -97,11 +97,11 @@
                         </k:KinectCircleButton>
 
                         <Label Content="Ohjaustapa" HorizontalAlignment="Right" Margin="0,128,318,0" VerticalAlignment="Top" Height="53" Width="194" FontSize="36"/>
-                        <k:KinectTileButton x:Name="ControlSelect1" Content="" HorizontalAlignment="Right" Margin="0,186,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
-                        <k:KinectTileButton x:Name="ControlSelect2" Content="" HorizontalAlignment="Right" Margin="0,186,47,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
+                        <k:KinectTileButton x:Name="ControlSelect1" Content="" HorizontalAlignment="Right" Margin="0,186,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ControlSelectButton_Click"/>
+                        <k:KinectTileButton x:Name="ControlSelect2" Content="" HorizontalAlignment="Right" Margin="0,186,47,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ControlSelectButton_Click"/>
                         <Label Content="Syöttötapa" HorizontalAlignment="Right" Margin="0,386,318,0" VerticalAlignment="Top" Height="53" Width="194" FontSize="36"/>
-                        <k:KinectTileButton x:Name="InputSelect1" Content="" HorizontalAlignment="Right" Margin="0,444,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
-                        <k:KinectTileButton x:Name="InputSelect2" Content="" HorizontalAlignment="Right" Margin="0,444,47,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="ColorButton1_Click"/>
+                        <k:KinectTileButton x:Name="InputSelect1" Content="" HorizontalAlignment="Right" Margin="0,444,282,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="InputSelectButton_Click"/>
+                        <k:KinectTileButton x:Name="InputSelect2" Content="" HorizontalAlignment="Right" Margin="0,444,47,0" VerticalAlignment="Top" Width="230" Height="180" Panel.ZIndex="32" Background="#FF870000" Click="InputSelectButton_Click"/>
                     </Grid>
                 </Grid>
 

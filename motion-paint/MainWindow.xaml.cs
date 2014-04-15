@@ -319,5 +319,15 @@ namespace motion_paint
             inkCanvas.Children.Clear();
             paintingId++;
         }
+
+        private void ControlSelectButton_Click(object sender, RoutedEventArgs e) 
+        {
+        
+        }
+
+        private void InputSelectButton_Click(object sender, RoutedEventArgs e) 
+        {
+        
+        }
     }
 }
