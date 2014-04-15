@@ -322,7 +322,16 @@ namespace motion_paint
 
         private void ControlSelectButton_Click(object sender, RoutedEventArgs e) 
         {
-        
+            KinectTileButton b = sender as KinectTileButton;
+
+            if (b.Name == "ControlSelect1")
+            {
+                controlManager.changeCurrentControlMode(0);
+            }
+            else 
+            {
+                controlManager.changeCurrentControlMode(1);                
+            }
         }
 
         private void InputSelectButton_Click(object sender, RoutedEventArgs e) 
