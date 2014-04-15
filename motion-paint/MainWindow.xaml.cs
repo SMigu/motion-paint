@@ -92,18 +92,18 @@ namespace motion_paint
                 ColorButton10.Width = 180; ColorButton11.Width = 180; ColorButton12.Width = 180;
 
                 //set the margins
-                ColorButton1.Margin = new Thickness(10, 0, 0, 209);
-                ColorButton2.Margin = new Thickness(190, 0, 0, 209);
-                ColorButton3.Margin = new Thickness(370, 0, 0, 209);
-                ColorButton4.Margin = new Thickness(560, 0, 0, 209);
-                ColorButton5.Margin = new Thickness(740, 0, 0, 209);
-                ColorButton6.Margin = new Thickness(920, 0, 0, 209);
-                ColorButton7.Margin = new Thickness(10, 0, 0, 209);
-                ColorButton8.Margin = new Thickness(190, 0, 0, 209);
-                ColorButton9.Margin = new Thickness(370, 0, 0, 209);
-                ColorButton10.Margin = new Thickness(560, 0, 0, 209);
-                ColorButton11.Margin = new Thickness(740, 0, 0, 209);
-                ColorButton12.Margin = new Thickness(920, 0, 0, 209);
+                ColorButton1.Margin = new Thickness(10, 0, 0, 190);
+                ColorButton2.Margin = new Thickness(190, 0, 0, 190);
+                ColorButton3.Margin = new Thickness(370, 0, 0, 190);
+                ColorButton4.Margin = new Thickness(560, 0, 0, 190);
+                ColorButton5.Margin = new Thickness(740, 0, 0, 190);
+                ColorButton6.Margin = new Thickness(920, 0, 0, 190);
+                ColorButton7.Margin = new Thickness(10, 0, 0, 10);
+                ColorButton8.Margin = new Thickness(190, 0, 0, 10);
+                ColorButton9.Margin = new Thickness(370, 0, 0, 10);
+                ColorButton10.Margin = new Thickness(560, 0, 0, 10);
+                ColorButton11.Margin = new Thickness(740, 0, 0, 10);
+                ColorButton12.Margin = new Thickness(920, 0, 0, 10);
 
             }
 
@@ -285,7 +285,15 @@ namespace motion_paint
 
         private void ColorWheel_Click(object sender, RoutedEventArgs e)
         {
-            ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
+            if (ColorSelectorGrid.Visibility == System.Windows.Visibility.Collapsed)
+            {
+                ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
+            }
+            else
+            {
+                ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+            }
+            
         }
 
         private void ColorButton_Click(object sender, RoutedEventArgs e)
@@ -295,7 +303,6 @@ namespace motion_paint
             lastColor = color;
             color = brush.Color;
             ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
-            ColorSelectorGrid2.Visibility = System.Windows.Visibility.Collapsed;
             SelectedColorShower.Fill = new SolidColorBrush(color);
         }
 
@@ -328,18 +335,6 @@ namespace motion_paint
         private void InputSelectButton_Click(object sender, RoutedEventArgs e) 
         {
         
-        }
-
-        private void ColorPage2_Click(object sender, RoutedEventArgs e)
-        {
-            ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
-            ColorSelectorGrid2.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void ColorPage1_Click(object sender, RoutedEventArgs e)
-        {
-            ColorSelectorGrid2.Visibility = System.Windows.Visibility.Collapsed;
-            ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
         }
         
         private void brushButton_Click(object sender, RoutedEventArgs e)
