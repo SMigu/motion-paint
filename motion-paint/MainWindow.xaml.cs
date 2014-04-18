@@ -50,10 +50,11 @@ namespace motion_paint
             controlManager.changeCurrentControlMode(settings.controlModeId);
 
             //set the size of the canvas on load
-            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 200;
+            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 20;
             inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 250;
             //set the widths of the bars on load
             BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            colorBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
             
             //Set size and margin of message popup
             popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
