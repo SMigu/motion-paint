@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace motion_paint
@@ -13,7 +14,7 @@ namespace motion_paint
     public static class DrawCanvas
     {
 
-        public static void Paint(Point startPoint, Point nextPoint, InkCanvas Surface, Color color, int thickness, string brush)
+        public static void Paint(Point startPoint, Point nextPoint, InkCanvas Surface, Color color, int thickness, string brush, Point3D startDepth, Point3D nextDepth)
         {
             Point currentPoint = new Point();
             Line line = new Line();
@@ -75,6 +76,42 @@ namespace motion_paint
                         Line1.Stroke = new SolidColorBrush(color);
                         Surface.Children.Add(Line1);
                     }
+                    break;
+                case "throwpaint":
+
+                    if (startDepth.Z + nextDepth.Z < -2)
+                    {
+                        double a;
+                        double angle;
+                        double radians;
+                        
+                        Ellipse Ellipse = new Ellipse();
+                        a = startDepth.Z - nextDepth.Z;
+                        Point modPoint = new Point(nextPoint.X + (nextPoint.X * a)/10, nextPoint.Y + (nextPoint.Y * a)/10);
+                        radians = Math.Atan2(modPoint.Y - currentPoint.Y, modPoint.X - currentPoint.X);
+                        angle = radians * (180 / Math.PI);
+                        Ellipse.Stroke = new SolidColorBrush(color);
+
+                        Ellipse.StrokeThickness = thickness;
+                        Ellipse.StrokeDashCap = PenLineCap.Round;
+                        Ellipse.StrokeStartLineCap = PenLineCap.Round;
+                        Ellipse.StrokeEndLineCap = PenLineCap.Round;
+
+                        InkCanvas.SetBottom(Ellipse, currentPoint.Y);
+                        Ellipse.Height = currentPoint.Y - modPoint.Y;
+                        Ellipse.Width = thickness*10;
+                        Ellipse.RenderTransform = new RotateTransform(angle, Ellipse.Width / 2, Ellipse.Height / 2);
+                    
+
+
+                        currentPoint = nextPoint;
+
+                        Surface.Children.Add(Ellipse);
+
+
+                    }
+
+
                     break;
                 default:
                     break;
