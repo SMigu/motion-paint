@@ -374,12 +374,6 @@ namespace motion_paint
             showMessage("success", "Tiedosto tallennettu");
         }
 
-        private void MessageAcknowledged_Click(object sender, RoutedEventArgs e)
-        {
-            popupMessages.Visibility = System.Windows.Visibility.Collapsed;
-            MessageLabel.Content = "";
-        }
-
         // Clear canvas and increase painting id.
         private void newFileButton_Click(object sender, RoutedEventArgs e)
         {

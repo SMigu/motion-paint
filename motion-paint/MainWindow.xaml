@@ -116,7 +116,6 @@
                 <Grid x:Name="popupMessages" Visibility="Collapsed" MinHeight="150" MaxHeight="720" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="32">
                     <Rectangle x:Name="popupMessageBar" MinHeight="150" MaxHeight="720" MinWidth="1280" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" HorizontalAlignment="Left" Fill="#FF70C763" Margin="3,0,-3,0" />
                     <Label x:Name="MessageLabel" Content="Ilmoituskeskus" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Panel.ZIndex="33" FontSize="48"/>
-                    <k:KinectTileButton x:Name="MessageAcknowledged" Content="OK" HorizontalAlignment="Right" Margin="0,10,10,1" VerticalAlignment="Top" Width="143" Height="120" Panel.ZIndex="32" Background="{x:Null}" Click="MessageAcknowledged_Click" FontWeight="Bold" FontSize="48"/>
                 </Grid>
 
             </Grid>
