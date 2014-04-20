@@ -271,16 +271,13 @@ namespace motion_paint
             switch (type)
             {
                 case "success":
-                    // success: #FF70C763
-                    brush.Color = Color.FromArgb(112, 199, 99, 255);
+                    brush.Color = Color.FromArgb(255, 224, 252, 213);
                     break;
                 case "warning":
-                    // neutral: #FFF2FF71
-                    brush.Color = Color.FromArgb(242, 255, 113, 255);
+                    brush.Color = Color.FromArgb(255, 255, 246, 191);
                     break;
                 case "error":
-                    // error: #FFCF513D
-                    brush.Color = Color.FromArgb(207, 81, 61, 255);
+                    brush.Color = Color.FromArgb(255, 251, 227, 228);
                     break;
                 default:
                     throw new ArgumentException("Wrong message type");
@@ -288,7 +285,18 @@ namespace motion_paint
 
             popupMessageBar.Fill = brush;
             MessageLabel.Content = msg;
-            popupMessages.Visibility = System.Windows.Visibility.Visible;   
+            popupMessages.Visibility = System.Windows.Visibility.Visible;
+
+            System.Windows.Threading.DispatcherTimer dispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+            dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+            dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
+            dispatcherTimer.Start();
+        }
+
+        private void dispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            MessageLabel.Content = "";
+            popupMessages.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void MenuOpenBtn_Click(object sender, RoutedEventArgs e)
@@ -361,7 +369,7 @@ namespace motion_paint
                 showMessage("error", "Tiedoston tallennus epäonnistui");
                 Console.WriteLine(pictureUri + " " + ex.Message);
                 return;
-            }    
+            }
 
             showMessage("success", "Tiedosto tallennettu");
         }
