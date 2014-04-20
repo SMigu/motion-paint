@@ -17,6 +17,7 @@ using Microsoft.Kinect;
 using Microsoft.Kinect.Toolkit;
 using Microsoft.Kinect.Toolkit.Interaction;
 using Microsoft.Kinect.Toolkit.Controls;
+using System.IO;
 
 
 namespace motion_paint
@@ -34,10 +35,11 @@ namespace motion_paint
         private KinectSensor _sensor;
         private ControlManager controlManager = new ControlManager();
         private int paintingId = 0;
-        public Color lastColor;
-        public Color color = Colors.Black;
         private int thickness = 40;
         private string tool = "paintsplatter";
+        private Color lastColor;
+        private Color color = Colors.Black;
+        private string fileName;
 
         public MainWindow()
         {
@@ -326,10 +328,42 @@ namespace motion_paint
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var path = new Uri(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures) + "/pic" + paintingId + ".png");
-            Saveimage.ExportToPng(path, inkCanvas);
-            popupMessages.Visibility = System.Windows.Visibility.Visible;
-            MessageLabel.Content = "Tiedosto tallennettu";
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            Uri pictureUri;
+
+            if (fileName == null || fileName == "")
+            {
+                fileName = string.Format("pic_{0:yyyy-MM-dd_hh-mm-ss-tt}.png", DateTime.Now);
+                pictureUri = new Uri(path + System.IO.Path.DirectorySeparatorChar + fileName);
+            }
+            else 
+            {
+                try
+                {
+                    File.Delete(path + System.IO.Path.DirectorySeparatorChar + fileName);
+                }
+                catch (Exception ex)
+                {
+                    showMessage("error","Tiedoston tallennus epäonnistui");
+                    Console.WriteLine(path + System.IO.Path.DirectorySeparatorChar + fileName + " " + ex.Message);
+                    return;
+                }
+                fileName = string.Format("pic_{0:yyyy-MM-dd_hh-mm-ss-tt}.png", DateTime.Now);
+                pictureUri = new Uri(path + System.IO.Path.DirectorySeparatorChar + fileName);
+            }
+
+            try
+            {
+                Saveimage.ExportToPng(pictureUri, inkCanvas);
+            }
+            catch (Exception ex)
+            {
+                showMessage("error", "Tiedoston tallennus epäonnistui");
+                Console.WriteLine(pictureUri + " " + ex.Message);
+                return;
+            }    
+
+            showMessage("success", "Tiedosto tallennettu");
         }
 
         private void MessageAcknowledged_Click(object sender, RoutedEventArgs e)
@@ -343,6 +377,7 @@ namespace motion_paint
         {
             inkCanvas.Children.Clear();
             paintingId++;
+            fileName = "";
         }
 
         private void ControlSelectButton_Click(object sender, RoutedEventArgs e) 
