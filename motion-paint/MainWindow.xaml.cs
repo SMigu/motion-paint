@@ -57,16 +57,6 @@ namespace motion_paint
             
             //Set size and margin of message popup
             popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
-                //set the bacground color of the pop up bar according to the type of the message
-                // success: #FF70C763
-                SolidColorBrush successBrush = new SolidColorBrush();
-                successBrush.Color = Color.FromArgb(112, 199, 99, 255);
-                // neutral: #FFF2FF71
-                SolidColorBrush neutralBrush = new SolidColorBrush();
-                neutralBrush.Color = Color.FromArgb(242, 255, 113, 255);
-                // error: #FFCF513D
-                SolidColorBrush errorBrush = new SolidColorBrush();
-                errorBrush.Color = Color.FromArgb(207, 81, 61, 255);
 
             //Scaling if screen width is small (smaller than 1500), such as laptops
             if (System.Windows.SystemParameters.PrimaryScreenWidth < 1500)
@@ -269,6 +259,34 @@ namespace motion_paint
             {
                 stopDraw = true;
             }
+        }
+
+        private void showMessage(string type, string msg) 
+        {
+            //set the bacground color of the pop up bar according to the type of the message
+            SolidColorBrush brush = new SolidColorBrush();
+            
+            switch (type)
+            {
+                case "success":
+                    // success: #FF70C763
+                    brush.Color = Color.FromArgb(112, 199, 99, 255);
+                    break;
+                case "warning":
+                    // neutral: #FFF2FF71
+                    brush.Color = Color.FromArgb(242, 255, 113, 255);
+                    break;
+                case "error":
+                    // error: #FFCF513D
+                    brush.Color = Color.FromArgb(207, 81, 61, 255);
+                    break;
+                default:
+                    throw new ArgumentException("Wrong message type");
+            }
+
+            popupMessageBar.Fill = brush;
+            MessageLabel.Content = msg;
+            popupMessages.Visibility = System.Windows.Visibility.Visible;   
         }
 
         private void MenuOpenBtn_Click(object sender, RoutedEventArgs e)
