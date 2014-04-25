@@ -98,6 +98,7 @@ namespace motion_paint
                         Triangle.StrokeThickness = (iterationValue1 - i);
                         Triangle.StrokeStartLineCap = PenLineCap.Round;
                         Triangle.StrokeEndLineCap = PenLineCap.Round;
+                        Triangle.Points = Tripoints;
                         curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 2));
                         nextPoint.X += curveValue1;
                         curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 2));
@@ -138,6 +139,7 @@ namespace motion_paint
                         Star.StrokeThickness = (iterationValue2 - i);
                         Star.StrokeStartLineCap = PenLineCap.Round;
                         Star.StrokeEndLineCap = PenLineCap.Round;
+                        Star.Points = Starpoints;
                         curveValue2 = Convert.ToInt32(((NextDouble2.NextDouble() * (iterationValue2 - i))) - ((iterationValue2 - i) / 2));
                         nextPoint.X += curveValue2;
                         curveValue2 = Convert.ToInt32(((NextDouble2.NextDouble() * (iterationValue2 - i))) - ((iterationValue2 - i) / 2));
@@ -177,6 +179,7 @@ namespace motion_paint
                         Square.StrokeThickness = (iterationValue3 - i);
                         Square.StrokeStartLineCap = PenLineCap.Round;
                         Square.StrokeEndLineCap = PenLineCap.Round;
+                        Square.Points = Squarepoints;
                         curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
                         nextPoint.X += curveValue3;
                         curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
