@@ -81,7 +81,7 @@ namespace motion_paint
                     int iterationValue1;                   
                     int magnifyValue1;
                     int curveValue1;
-                    magnifyValue1 = Convert.ToInt32((NextDouble1.NextDouble() * thickness));
+                    magnifyValue1 = Convert.ToInt32((NextDouble1.NextDouble() * thickness/4));
                     iterationValue1 = Convert.ToInt32((NextDouble1.NextDouble() * magnifyValue1));
                     for (int i = 0; i < iterationValue1; i++)
                     {
@@ -104,7 +104,7 @@ namespace motion_paint
                         curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 2));
                         nextPoint.Y += curveValue1;
 
-                        Triangle.Fill = new SolidColorBrush(color);
+                        //Triangle.Fill = new SolidColorBrush(color);
                         
                         Triangle.Stroke = new SolidColorBrush(color);
                         Surface.Children.Add(Triangle);
@@ -115,18 +115,29 @@ namespace motion_paint
                     int iterationValue2;
                     int magnifyValue2;
                     int curveValue2;
-                    magnifyValue2 = Convert.ToInt32((NextDouble2.NextDouble() * thickness));
+                    magnifyValue2 = Convert.ToInt32((NextDouble2.NextDouble() * thickness/4));
                     iterationValue2 = Convert.ToInt32((NextDouble2.NextDouble() * magnifyValue2));
                     for (int i = 0; i < iterationValue2; i++)
                     {
                         startPoint = nextPoint;
                         Polygon Star = new Polygon();
-                        Point Point1 = new Point(startPoint.X + magnifyValue2, startPoint.Y);
-                        Point Point2 = new Point(startPoint.X - magnifyValue2  , startPoint.Y);
-                        Point Point3 = new Point(startPoint.X + magnifyValue2 * 0.6, startPoint.Y - magnifyValue2);
-                        Point Point4 = new Point(startPoint.X, startPoint.Y + magnifyValue2 * 0.6);
-                        Point Point5 = new Point(startPoint.X - magnifyValue2* 0.6, startPoint.Y);
-                        Point Point6 = new Point(startPoint.X - magnifyValue2 * 0.6, startPoint.Y);
+
+                        Point Point1 = new Point(startPoint.X + magnifyValue2, startPoint.Y + magnifyValue2 * 0.3);
+                        Point Point2 = new Point(startPoint.X + magnifyValue2 * 0.3  , startPoint.Y + magnifyValue2 * 0.3);
+                        Point Point3 = new Point(startPoint.X, startPoint.Y + magnifyValue2);
+                        Point Point4 = new Point(startPoint.X - magnifyValue2 * 0.3 , startPoint.Y - magnifyValue2 * 0.3);
+                        Point Point5 = new Point(startPoint.X - magnifyValue2, startPoint.Y + magnifyValue2 * 0.3);
+                        Point Point6 = new Point(startPoint.X - magnifyValue2 * 0.7, startPoint.Y - magnifyValue2 );
+                        Point Point7 = new Point(startPoint.X, startPoint.Y - magnifyValue2 * 0.3);
+                        Point Point8 = new Point(startPoint.X + magnifyValue2 * 0.7, startPoint.Y);
+                        Point Point9 = new Point(startPoint.X + magnifyValue2 * 0.3, startPoint.Y - magnifyValue2 * 0.3);
+                       
+                        //Point Point1 = new Point(startPoint.X + magnifyValue2, startPoint.Y);
+                        //Point Point2 = new Point(startPoint.X - magnifyValue2  , startPoint.Y);
+                        //Point Point3 = new Point(startPoint.X + magnifyValue2 * 0.6, startPoint.Y - magnifyValue2);
+                        //Point Point4 = new Point(startPoint.X, startPoint.Y + magnifyValue2 * 0.6);
+                        //Point Point5 = new Point(startPoint.X - magnifyValue2* 0.6, startPoint.Y - magnifyValue2);
+                        //Point Point6 = new Point(startPoint.X + magnifyValue2 * 0.6, startPoint.Y);
 
                         PointCollection Starpoints = new PointCollection();
                         Starpoints.Add(Point1);
@@ -135,6 +146,9 @@ namespace motion_paint
                         Starpoints.Add(Point4);
                         Starpoints.Add(Point5);
                         Starpoints.Add(Point6);
+                        Starpoints.Add(Point7);
+                        Starpoints.Add(Point8);
+                        Starpoints.Add(Point9);
 
                         Star.StrokeThickness = (iterationValue2 - i);
                         Star.StrokeStartLineCap = PenLineCap.Round;
@@ -144,7 +158,7 @@ namespace motion_paint
                         nextPoint.X += curveValue2;
                         curveValue2 = Convert.ToInt32(((NextDouble2.NextDouble() * (iterationValue2 - i))) - ((iterationValue2 - i) / 2));
                         nextPoint.Y += curveValue2;
-                        Star.Fill = new SolidColorBrush(color);
+                        //Star.Fill = new SolidColorBrush(color);
 
                         Star.Stroke = new SolidColorBrush(color);
                         Surface.Children.Add(Star);
@@ -155,7 +169,7 @@ namespace motion_paint
                     int iterationValue3;
                     int magnifyValue3;
                     int curveValue3;
-                    magnifyValue3 = Convert.ToInt32((NextDouble3.NextDouble() * thickness));
+                    magnifyValue3 = Convert.ToInt32((NextDouble3.NextDouble() * thickness/4));
                     iterationValue3 = Convert.ToInt32((NextDouble3.NextDouble() * magnifyValue3));
                     for (int i = 0; i < iterationValue3; i++)
                     {
@@ -184,7 +198,7 @@ namespace motion_paint
                         nextPoint.X += curveValue3;
                         curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
                         nextPoint.Y += curveValue3;
-                        Square.Fill = new SolidColorBrush(color);
+                        //Square.Fill = new SolidColorBrush(color);
 
                         Square.Stroke = new SolidColorBrush(color);
                         Surface.Children.Add(Square);
