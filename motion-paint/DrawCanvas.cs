@@ -79,34 +79,58 @@ namespace motion_paint
                     break;
                 case "throwpaint":
 
-                    if (startDepth.Z + nextDepth.Z < -2)
+                    if (nextDepth.Z - startDepth.Z > 0.4 )
                     {
                         double a;
                         double angle;
                         double radians;
+                        Point modPoint = new Point();
+
+
+                        a = nextDepth.Z - startDepth.Z;
+                        if (nextPoint.X - startPoint.X > 0)
+                        {
+                            modPoint.X = nextPoint.X + (50 * a);
+                        }
+                        else 
+                        {
+                            modPoint.X = nextPoint.X - (50 * a);   
+                        }
+                        if (nextPoint.Y - startPoint.Y > 0)
+                        {
+                            modPoint.Y = nextPoint.Y + (50 * a);
+                        }
+                        else
+                        {
+                            modPoint.Y = nextPoint.Y - (50 * a);
+                        }
                         
-                        Ellipse Ellipse = new Ellipse();
-                        a = startDepth.Z - nextDepth.Z;
-                        Point modPoint = new Point(nextPoint.X + (nextPoint.X * a)/10, nextPoint.Y + (nextPoint.Y * a)/10);
                         radians = Math.Atan2(modPoint.Y - currentPoint.Y, modPoint.X - currentPoint.X);
                         angle = radians * (180 / Math.PI);
-                        Ellipse.Stroke = new SolidColorBrush(color);
 
-                        Ellipse.StrokeThickness = thickness;
-                        Ellipse.StrokeDashCap = PenLineCap.Round;
-                        Ellipse.StrokeStartLineCap = PenLineCap.Round;
-                        Ellipse.StrokeEndLineCap = PenLineCap.Round;
 
-                        InkCanvas.SetBottom(Ellipse, currentPoint.Y);
-                        Ellipse.Height = currentPoint.Y - modPoint.Y;
-                        Ellipse.Width = thickness*10;
-                        Ellipse.RenderTransform = new RotateTransform(angle, Ellipse.Width / 2, Ellipse.Height / 2);
+                        line.Stroke = new SolidColorBrush(color);
+
+                        line.StrokeThickness = thickness;
+                        line.StrokeDashCap = PenLineCap.Round;
+                        line.StrokeStartLineCap = PenLineCap.Round;
+                        line.StrokeEndLineCap = PenLineCap.Round;
+
+                        line.X1 = currentPoint.X;
+                        line.Y1 = currentPoint.Y;
+                        line.X2 = nextPoint.X;
+                        line.Y2 = nextPoint.Y;
+                                                        
+                        
+                        //Ellipse.RenderTransform = new RotateTransform(angle, Ellipse.Width / 2, Ellipse.Height / 2);
+
+                        line.RenderTransform = new RotateTransform(Math.PI / 2, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
                     
 
 
                         currentPoint = nextPoint;
 
-                        Surface.Children.Add(Ellipse);
+                        Surface.Children.Add(line);
 
 
                     }
