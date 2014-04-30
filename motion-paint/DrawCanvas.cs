@@ -81,21 +81,21 @@ namespace motion_paint
                     int iterationValue1;                   
                     int magnifyValue1;
                     int curveValue1;
-                    magnifyValue1 = Convert.ToInt32((NextDouble1.NextDouble() * thickness/4));
+                    magnifyValue1 = Convert.ToInt32((NextDouble1.NextDouble() * thickness/3));
                     iterationValue1 = Convert.ToInt32((NextDouble1.NextDouble() * magnifyValue1));
                     for (int i = 0; i < iterationValue1; i++)
                     {
                         startPoint = nextPoint;
                         Polygon Triangle = new Polygon();
-                        Point Point1 = new Point(startPoint.X + magnifyValue1, startPoint.Y);
-                        Point Point2 = new Point(startPoint.X, startPoint.Y + magnifyValue1);
-                        Point Point3 = new Point(startPoint.X - magnifyValue1, startPoint.Y);
+                        Point Point1 = new Point(startPoint.X - magnifyValue1, startPoint.Y);
+                        Point Point2 = new Point(startPoint.X, startPoint.Y - magnifyValue1);
+                        Point Point3 = new Point(startPoint.X + magnifyValue1, startPoint.Y);
                         
                         PointCollection Tripoints = new PointCollection();
                         Tripoints.Add(Point1);
                         Tripoints.Add(Point2);
                         Tripoints.Add(Point3);
-                        Triangle.StrokeThickness = (iterationValue1 - i);
+                        Triangle.StrokeThickness = (iterationValue1 - i)/3;
                         Triangle.StrokeStartLineCap = PenLineCap.Round;
                         Triangle.StrokeEndLineCap = PenLineCap.Round;
                         Triangle.Points = Tripoints;
