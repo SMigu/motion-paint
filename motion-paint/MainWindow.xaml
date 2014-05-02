@@ -1,4 +1,4 @@
-﻿<Window x:Class="motion_paint.MainWindow"
+﻿<Window x:Name="MWindow" x:Class="motion_paint.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:k="http://schemas.microsoft.com/kinect/2013"

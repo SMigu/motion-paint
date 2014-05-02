@@ -11,6 +11,7 @@ namespace Microsoft.Kinect.Toolkit.Controls
     using System.Windows;
     using System.Windows.Automation.Peers;
     using System.Windows.Controls.Primitives;
+    using System.Windows.Threading;
 
     /// <summary>
     /// Button that responds to Kinect events
@@ -145,12 +146,30 @@ namespace Microsoft.Kinect.Toolkit.Controls
             }
         }
 
+        private DispatcherTimer onHoverTimer;
+        public bool hoverEnabled = false;
+
         private void OnHandPointerEnter(object sender, HandPointerEventArgs handPointerEventArgs)
         {
             if (KinectRegion.GetIsPrimaryHandPointerOver(this))
             {
                 VisualStateManager.GoToState(this, "MouseOver", true);
+                if(hoverEnabled)
+                    OnHover();
             }
+        }
+
+        private void OnHover()
+        {
+            onHoverTimer = new System.Windows.Threading.DispatcherTimer();
+            onHoverTimer.Tick += new EventHandler(onHoverTimerTick);
+            onHoverTimer.Interval = new TimeSpan(0, 0, 3/2);
+            onHoverTimer.Start();
+        }
+
+        private void onHoverTimerTick(object sender, EventArgs e)
+        {
+            this.OnClick();
         }
 
         private void OnHandPointerLeave(object sender, HandPointerEventArgs handPointerEventArgs)
@@ -158,6 +177,8 @@ namespace Microsoft.Kinect.Toolkit.Controls
             if (!KinectRegion.GetIsPrimaryHandPointerOver(this))
             {
                 VisualStateManager.GoToState(this, "Normal", true);
+                if (onHoverTimer != null)
+                    onHoverTimer.Stop();
             }
         }
     }

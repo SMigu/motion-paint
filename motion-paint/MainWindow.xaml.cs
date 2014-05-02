@@ -112,6 +112,26 @@ namespace motion_paint
             }
         }
 
+        public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj != null)
+            {
+                for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+                {
+                    DependencyObject child = VisualTreeHelper.GetChild(depObj, i);
+                    if (child != null && child is T)
+                    {
+                        yield return (T)child;
+                    }
+
+                    foreach (T childOfChild in FindVisualChildren<T>(child))
+                    {
+                        yield return childOfChild;
+                    }
+                }
+            }
+        }
+
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)
         {
             var desktopWorkingArea = System.Windows.SystemParameters.WorkArea;
@@ -413,11 +433,31 @@ namespace motion_paint
 
             if (b.Name == "InputSelect1")
             {
+                foreach (KinectTileButton button in FindVisualChildren<KinectTileButton>(MWindow))
+                {
+                    button.hoverEnabled = false;
+                }
+
+                foreach (KinectCircleButton button in FindVisualChildren<KinectCircleButton>(MWindow))
+                {
+                    button.hoverEnabled = false;
+                }
+
                 settings.selectionMode = "push";
                 settings.Save();
             }
             else
             {
+                foreach (KinectTileButton button in FindVisualChildren<KinectTileButton>(MWindow))
+                {
+                    button.hoverEnabled = true;
+                }
+
+                foreach (KinectCircleButton button in FindVisualChildren<KinectCircleButton>(MWindow))
+                {
+                    button.hoverEnabled = true;
+                }
+
                 settings.selectionMode = "hover";
                 settings.Save();
             }
