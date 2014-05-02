@@ -52,37 +52,50 @@ namespace motion_paint
             controlManager.changeCurrentControlMode(settings.controlModeId);
 
             //set the size of the canvas on load
-            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 200;
+            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 20;
             inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 250;
             //set the widths of the bars on load
             BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            colorBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            //set the size of the menu on load
+            OuterMenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
+            OuterMenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
+            MenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
+            MenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
             
-            //Set size and margin of message popup
+            //Set size, color and margin of message popup
             popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
 
             //Scaling if screen width is small (smaller than 1500), such as laptops
             if (System.Windows.SystemParameters.PrimaryScreenWidth < 1500)
             {
                 //set the new width and height of the buttons
-                brushButton.Width = 180; brushButton.Height = 140;
-                paintsplatterButton.Width = 180; paintsplatterButton.Height = 140;
-                eraserButton.Width = 180; eraserButton.Height = 140;
-                newFileButton.Width = 180; newFileButton.Height = 140;
-                SaveButton.Width = 180; SaveButton.Height = 140;
+                brushButton.Width = 160; brushButton.Height = 120;
+                paintsplatterButton.Width = 160; paintsplatterButton.Height = 120;
+                patternButton.Width = 160; patternButton.Height = 120;
+                eraserButton.Width = 160; eraserButton.Height = 120;
+                newFileButton.Width = 160; newFileButton.Height = 120;
+                openFileButton.Width = 160; openFileButton.Height = 120;
+                SaveButton.Width = 160; SaveButton.Height = 120;
                 ColorWheel.Width = 200; ColorWheel.Height = 200;
                 SelectedColorShower.Width = 140; SelectedColorShower.Height = 140;
+                MenuOpenBtn.Width = 100; MenuOpenBtn.Height = 100;
+                BottomBar.Height = 150;
+
                 //set the new margins of the buttons
-                paintsplatterButton.Margin = new Thickness(190, 0, 0, 10);
-                eraserButton.Margin = new Thickness(370, 0, 0, 10);
-                newFileButton.Margin = new Thickness(0, 0, 240, 10);
-                SaveButton.Margin = new Thickness(0, 0, 460, 10);
+                brushButton.Margin = new Thickness(10, 0, 0, 15);
+                paintsplatterButton.Margin = new Thickness(170, 0, 0, 15);
+                patternButton.Margin = new Thickness(330, 0, 0, 15);
+                eraserButton.Margin = new Thickness(490, 0, 0, 15);
+                newFileButton.Margin = new Thickness(0, 0, 180, 15);
+                openFileButton.Margin = new Thickness(0, 0, 340, 15);
+                SaveButton.Margin = new Thickness(0, 0, 500, 15);
 
                 //Scale the color buttons as well
                 ColorButton1.Width = 180; ColorButton2.Width = 180; ColorButton3.Width = 180;
                 ColorButton4.Width = 180; ColorButton5.Width = 180; ColorButton6.Width = 180;
                 ColorButton7.Width = 180; ColorButton8.Width = 180; ColorButton9.Width = 180;
                 ColorButton10.Width = 180; ColorButton11.Width = 180; ColorButton12.Width = 180;
-
                 //set the margins
                 ColorButton1.Margin = new Thickness(10, 0, 0, 190);
                 ColorButton2.Margin = new Thickness(190, 0, 0, 190);
@@ -96,13 +109,7 @@ namespace motion_paint
                 ColorButton10.Margin = new Thickness(560, 0, 0, 10);
                 ColorButton11.Margin = new Thickness(740, 0, 0, 10);
                 ColorButton12.Margin = new Thickness(920, 0, 0, 10);
-
             }
-
-            OuterMenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
-            OuterMenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
-            MenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
-            MenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs routedEventArgs)

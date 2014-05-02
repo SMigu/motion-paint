@@ -132,17 +132,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Brush-2-outline.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Icons\Brush-2-outline.png" />
-    <Resource Include="Icons\Brush-3-outline.png" />
     <Resource Include="Icons\Brush-outline.png" />
     <Resource Include="Icons\Eraser-outline.png" />
+    <Resource Include="Icons\hover.png" />
+    <Resource Include="Icons\open.png" />
     <Resource Include="Icons\Paint-outline.png" />
     <Resource Include="Icons\Pencil-outline.png" />
-    <Resource Include="Icons\Splatter-outline.png" />
-    <Resource Include="Icons\Spray-outline.png" />
+    <Resource Include="Icons\push.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\Add-File-256.png" />
@@ -157,6 +153,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Icons\mutteri.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\1hand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\2hands.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\color_wheel_2.png" />
+    <Resource Include="Icons\pattern.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
