@@ -1,0 +1,1390 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Microsoft.Kinect.Toolkit.Controls">
+
+    <SolidColorBrush x:Key="KinectLightGray" Color="#D2D2D2"/>
+    <SolidColorBrush x:Key="KinectDarkGray" Color="#505050"/>
+    <SolidColorBrush x:Key="KinectPurpleBrush" Color="#FF52318F"/>
+    <SolidColorBrush x:Key="KinectLabelBackgroundBrush" Color="#E6FFFFFF"/>
+    <SolidColorBrush x:Key="KinectButtonForegroundBrush" Color="#FF5A5B5B"/>
+    <SolidColorBrush x:Key="KinectWhiteBrush" Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="KinectButtonBorderBrush" Color="#FF939598"/>
+    <SolidColorBrush x:Key="KinectButtonPressedOverlayBrush" Color="#32000000"/>
+    <SolidColorBrush x:Key="KinectCircleButtonForegroundThemeBrush" Color="Black"/>
+    <SolidColorBrush x:Key="KinectCircleButtonDisabledForegroundThemeBrush" Color="#939597"/>
+    <SolidColorBrush x:Key="KinectCircleButtonPressedForegroundThemeBrush" Color="White"/>
+    <SolidColorBrush x:Key="KinectCursorPressingProgressOverlayBrush" Color="#44FFFFFF" />
+
+    <Style x:Key="KinectCircleButtonLabelTextStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"/>
+        <Setter Property="FontWeight" Value="{Binding FontWeight, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"/>
+        <Setter Property="TextTrimming" Value="WordEllipsis" />
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+    <Style x:Key="KinectCircleButtonDisabledLabelTextStyle" TargetType="{x:Type TextBlock}" BasedOn="{StaticResource KinectCircleButtonLabelTextStyle}">
+        <Setter Property="Foreground" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"/>
+    </Style>
+
+    <Style TargetType="{x:Type local:KinectItemsControl}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ItemsControl}">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
+                        <local:KinectScrollViewer HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}" VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </local:KinectScrollViewer>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Vertical" VerticalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="Orientation" Value="Vertical">
+                <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+                <Setter Property="ItemsPanel">
+                    <Setter.Value>
+                        <ItemsPanelTemplate>
+                            <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center" />
+                        </ItemsPanelTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ScrollBarButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border x:Name="Border" BorderThickness="1" BorderBrush="{StaticResource KinectLightGray}" Background="{TemplateBinding Background}">
+                        <Path x:Name="Arrow" HorizontalAlignment="Center" VerticalAlignment="Center" Data="{Binding Content, RelativeSource={RelativeSource TemplatedParent}}" Fill="{StaticResource KinectDarkGray}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="VerticalScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle Fill="{TemplateBinding Background}" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="ScrollBarThumb" TargetType="{x:Type Thumb}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="{StaticResource KinectDarkGray}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Thumb}">
+                    <Rectangle Width="{TemplateBinding Width}" Height="{TemplateBinding Height}" Fill="{TemplateBinding Background}"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ScrollBarPageButton" TargetType="{x:Type RepeatButton}">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Rectangle Fill="{TemplateBinding Background}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="KinectScrollViewerScrollBarStyle" TargetType="{x:Type ScrollBar}">
+        <Setter Property="Background" Value="{StaticResource KinectLightGray}" />
+        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="false" />
+        <Setter Property="Stylus.IsFlicksEnabled" Value="false" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="Width" Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" />
+        <Setter Property="MinWidth" Value="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ScrollBar}">
+                    <Grid x:Name="verticalScrollBar" SnapsToDevicePixels="true" Opacity="1.0">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Stopped">
+                                    <Storyboard>
+                                        <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollbarBackground" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalDecreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalIncreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <ThicknessAnimation To="0,7,0,7" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="Margin" />
+                                        <ObjectAnimationUsingKeyFrames  Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource KinectLightGray}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="GripScrolling">
+                                    <Storyboard>
+                                        <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollbarBackground" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalDecreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalIncreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <ThicknessAnimation To="7,0,7,0" Duration="0:00:00.0" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="Margin" />
+                                        <ObjectAnimationUsingKeyFrames  Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource KinectLightGray}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseScrolling">
+                                    <Storyboard>
+                                        <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollbarBackground" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalDecreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalIncreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                        <ThicknessAnimation To="0,0,0,0" Duration="0:00:00.0" FillBehavior="HoldEnd" Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="Margin" />
+                                        <ObjectAnimationUsingKeyFrames  Storyboard.TargetName="verticalScrollThumb" Storyboard.TargetProperty="Background">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource KinectDarkGray}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid.RowDefinitions>
+                            <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}" />
+                            <RowDefinition Height="0.00001*" />
+                            <RowDefinition MaxHeight="{DynamicResource {x:Static SystemParameters.VerticalScrollBarButtonHeightKey}}" />
+                        </Grid.RowDefinitions>
+                        <Rectangle x:Name="verticalScrollbarBackground" Grid.RowSpan="3" Fill="{TemplateBinding Background}" Opacity="0.7" />
+                        <RepeatButton x:Name="verticalDecreaseRepeatButton" Command="{x:Static ScrollBar.LineUpCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Content="M 0 4 L 8 4 L 4 0 Z" />
+                        <Track x:Name="PART_Track" IsDirectionReversed="true" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="1">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="{x:Static ScrollBar.PageUpCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="{x:Static ScrollBar.PageDownCommand}" Style="{StaticResource VerticalScrollBarPageButton}" />
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb x:Name="verticalScrollThumb" Style="{StaticResource ScrollBarThumb}" />
+                            </Track.Thumb>
+                        </Track>
+                        <RepeatButton x:Name="verticalIncreaseRepeatButton" Command="{x:Static ScrollBar.LineDownCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Grid.Row="2" Style="{StaticResource ScrollBarButton}" Content="M 0 0 L 4 4 L 8 0 Z"  />
+                    </Grid>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="Orientation" Value="Horizontal">
+                <Setter Property="Width" Value="Auto" />
+                <Setter Property="MinWidth" Value="0" />
+                <Setter Property="Height" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}" />
+                <Setter Property="MinHeight" Value="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarHeightKey}}" />
+                <Setter Property="Background" Value="{StaticResource KinectLightGray}" />
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ScrollBar}">
+                            <Grid x:Name="horizontalScrollBar" SnapsToDevicePixels="true" Opacity="1.0">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Stopped">
+                                            <Storyboard>
+                                                <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollbarBackground" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalDecreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalIncreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <ThicknessAnimation To="0,7,0,7" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="Margin" />
+                                                <ObjectAnimationUsingKeyFrames  Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource KinectLightGray}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="GripScrolling">
+                                            <Storyboard>
+                                                <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollbarBackground" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalDecreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalIncreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <ThicknessAnimation To="0,7,0,7" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="Margin" />
+                                                <ObjectAnimationUsingKeyFrames  Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource KinectLightGray}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseScrolling">
+                                            <Storyboard>
+                                                <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollbarBackground" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalDecreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalIncreaseRepeatButton" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                                <ThicknessAnimation To="0,0,0,0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="Margin" />
+                                                <ObjectAnimationUsingKeyFrames  Storyboard.TargetName="horizontalScrollThumb" Storyboard.TargetProperty="Background">
+                                                    <DiscreteObjectKeyFrame KeyTime="0" Value="{StaticResource KinectDarkGray}"/>
+                                                </ObjectAnimationUsingKeyFrames>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}" />
+                                    <ColumnDefinition Width="0.00001*" />
+                                    <ColumnDefinition MaxWidth="{DynamicResource {x:Static SystemParameters.HorizontalScrollBarButtonWidthKey}}" />
+                                </Grid.ColumnDefinitions>
+                                <Rectangle x:Name="horizontalScrollbarBackground" Grid.ColumnSpan="3" Fill="{TemplateBinding Background}" Opacity="0.7"/>
+                                <RepeatButton x:Name="horizontalDecreaseRepeatButton" Command="{x:Static ScrollBar.LineLeftCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Content="M 4 0 L 4 8 L 0 4 Z" />
+                                <Track x:Name="PART_Track" Grid.Column="1" IsEnabled="{TemplateBinding IsMouseOver}">
+                                    <Track.DecreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageLeftCommand}" Style="{StaticResource ScrollBarPageButton}" />
+                                    </Track.DecreaseRepeatButton>
+                                    <Track.IncreaseRepeatButton>
+                                        <RepeatButton Command="{x:Static ScrollBar.PageRightCommand}" Style="{StaticResource ScrollBarPageButton}" />
+                                    </Track.IncreaseRepeatButton>
+                                    <Track.Thumb>
+                                        <Thumb x:Name="horizontalScrollThumb" Style="{StaticResource ScrollBarThumb}" />
+                                    </Track.Thumb>
+                                </Track>
+                                <RepeatButton Grid.Column="2" x:Name="horizontalIncreaseRepeatButton" Command="{x:Static ScrollBar.LineRightCommand}" IsEnabled="{TemplateBinding IsMouseOver}" Style="{StaticResource ScrollBarButton}" Content="M 0 0 L 4 4 L 0 8 Z" />
+                            </Grid>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <local:DoubleToThicknessConverter x:Key="DoubleToThicknessConverter" />
+
+    <Style TargetType="{x:Type local:KinectScrollViewer}">
+        <Setter Property="ContentMargin" Value="100" />
+        <Setter Property="HoverBackground" Value="#7F505050"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:KinectScrollViewer}">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <DoubleAnimation To="0.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="HandPointerOver">
+                                    <Storyboard>
+                                        <DoubleAnimation To="1.0" Duration="0:00:00.3" FillBehavior="HoldEnd" Storyboard.TargetName="HoverBackground" Storyboard.TargetProperty="(UIElement.Opacity)" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Rectangle x:Name="scrollviewerBackground" Fill="{TemplateBinding Background}" />
+                        <Rectangle x:Name="HoverBackground" Fill="{TemplateBinding HoverBackground}" Opacity="0.0" />
+                        <Rectangle x:Name="Corner" Grid.Column="1" Fill="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" Grid.Row="1"/>
+                        <ScrollContentPresenter x:Name="PART_ScrollContentPresenter" CanContentScroll="{TemplateBinding CanContentScroll}" CanHorizontallyScroll="False" CanVerticallyScroll="False" Grid.Column="0" Margin="{TemplateBinding Padding}" Grid.Row="0">
+                            <ScrollContentPresenter.Content>
+                                <ContentPresenter x:Name="PART_ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" Margin="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ContentMargin, ConverterParameter=TopBottomLeftRight, Converter={StaticResource DoubleToThicknessConverter}}" />
+                            </ScrollContentPresenter.Content>
+                        </ScrollContentPresenter>
+                        <ScrollBar x:Name="PART_VerticalScrollBar" Style="{StaticResource KinectScrollViewerScrollBarStyle}" AutomationProperties.AutomationId="VerticalScrollBar" Cursor="Arrow" Grid.Column="1" Maximum="{TemplateBinding ScrollableHeight}" Minimum="0" Grid.Row="0" Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportHeight}" />
+                        <ScrollBar x:Name="PART_HorizontalScrollBar" Style="{StaticResource KinectScrollViewerScrollBarStyle}" AutomationProperties.AutomationId="HorizontalScrollBar" Cursor="Arrow" Grid.Column="0" Maximum="{TemplateBinding ScrollableWidth}" Minimum="0" Orientation="Horizontal" Grid.Row="1" Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}" ViewportSize="{TemplateBinding ViewportWidth}" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled">
+                            <Setter TargetName="PART_ContentPresenter" Property="Margin" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ContentMargin, ConverterParameter=TopBottom, Converter={StaticResource DoubleToThicknessConverter}}" />
+                        </Trigger>
+                        <Trigger Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled">
+                            <Setter TargetName="PART_ContentPresenter" Property="Margin" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ContentMargin, ConverterParameter=LeftRight, Converter={StaticResource DoubleToThicknessConverter}}" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+                                <Condition Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="PART_ContentPresenter" Property="Margin">
+                                <Setter.Value>
+                                    <Thickness Left="0" Top="0" Right="0" Bottom="0" />
+                                </Setter.Value>
+                            </Setter>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <local:ContentStateToVisibilityConverter x:Key="ContentStateToVisibilityConverter" />
+
+    <Style TargetType="local:KinectCircleButton">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource KinectCircleButtonForegroundThemeBrush}"/>
+        <Setter Property="ContentForeground" Value="{Binding Path=Foreground, RelativeSource={RelativeSource Self}}"/>
+        <Setter Property="ContentPressedForeground" Value="{StaticResource KinectCircleButtonPressedForegroundThemeBrush}"/>
+        <Setter Property="FontFamily" Value="Segoe UI Light"/>
+        <Setter Property="FontWeight" Value="Light"/>
+        <Setter Property="FontSize" Value="48px"/>
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="HorizontalLabelAlignment" Value="Center"/>
+        <Setter Property="VerticalLabelAlignment" Value="Center"/>
+        <Style.Triggers>
+            <Trigger Property="LabelPosition" Value="Bottom">
+                <Setter Property="Width" Value="165"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:KinectCircleButton}">
+                            <Viewbox Stretch="Uniform">
+                                <Viewbox.RenderTransform>
+                                    <ScaleTransform x:Name="CircleButtonRenderTransform" ScaleX="1.0" ScaleY="1.0"/>
+                                </Viewbox.RenderTransform>
+                                <Viewbox.RenderTransformOrigin>
+                                    <Point X="0.5" Y="0.5"/>
+                                </Viewbox.RenderTransformOrigin>
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid HorizontalAlignment="Center" Margin="30, 30, 30, 30" Background="Transparent">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="105" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Ellipse Stroke="{TemplateBinding Foreground}" StrokeThickness="0" Fill="{TemplateBinding Foreground}" Opacity="0.0" Height="105" Width="105" x:Name="ellipseFill"  Grid.Row="0"/>
+                                        <Ellipse Stroke="{TemplateBinding Foreground}" StrokeThickness="9" Fill="Transparent" Height="105" Width="105" x:Name="ellipse"  Grid.Row="0"/>
+                                        <ContentPresenter Content="{TemplateBinding Content}" x:Name="PART_DefaultContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Grid.Row="0">
+                                            <ContentPresenter.Resources>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Foreground" Value="{Binding ContentForeground, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"></Setter>
+                                                    <Setter Property="FontSize" Value="44"/>
+                                                    <Setter Property="FontWeight" Value="Normal"/>
+                                                    <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                                                    <Setter Property="TextAlignment" Value="Center"/>
+                                                </Style>
+                                            </ContentPresenter.Resources>
+                                        </ContentPresenter>
+                                        <Border Grid.Row="1" Background="{TemplateBinding LabelBackground}"
+                                                Visibility="{TemplateBinding Label, Converter={StaticResource ContentStateToVisibilityConverter}}">
+                                            <ContentPresenter 
+                                                x:Name="contentPresenter" 
+                                                ContentTemplate="{TemplateBinding LabelTemplate}"
+                                                ContentTemplateSelector="{TemplateBinding LabelTemplateSelector}"
+                                                Content="{TemplateBinding Label}" 
+                                                HorizontalAlignment="{TemplateBinding HorizontalLabelAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalLabelAlignment}"
+                                                TextBlock.Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}">
+                                                <ContentPresenter.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"/>
+                                                        <Setter Property="FontWeight" Value="{Binding FontWeight, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"/>
+                                                        <Setter Property="TextTrimming" Value="WordEllipsis" />
+                                                    </Style>
+                                                </ContentPresenter.Resources>
+                                            </ContentPresenter>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="0.0" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.05" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.05" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="0.33" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="0.95" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="0.95" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="1.00" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Viewbox>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="ellipseFill" Property="Fill" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter TargetName="ellipseFill" Property="Stroke" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter TargetName="ellipse" Property="Stroke" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter Property="ContentForeground" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="ContentForeground" Value="{Binding Path=ContentPressedForeground, RelativeSource={RelativeSource Self}}"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="LabelPosition" Value="Right">
+                <Setter Property="Height" Value="165"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:KinectCircleButton}">
+                            <Viewbox Stretch="Uniform">
+                                <Viewbox.RenderTransform>
+                                    <ScaleTransform x:Name="CircleButtonRenderTransform" ScaleX="1.0" ScaleY="1.0"/>
+                                </Viewbox.RenderTransform>
+                                <Viewbox.RenderTransformOrigin>
+                                    <Point X="0.5" Y="0.5"/>
+                                </Viewbox.RenderTransformOrigin>
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid HorizontalAlignment="Center" Margin="30, 30, 30, 30" Background="Transparent">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="105" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <Ellipse Stroke="{TemplateBinding Foreground}" StrokeThickness="0" Fill="{TemplateBinding Foreground}" Opacity="0.0" Height="105" Width="105" x:Name="ellipseFill"  Grid.Row="0"/>
+                                        <Ellipse Stroke="{TemplateBinding Foreground}" StrokeThickness="9" Fill="Transparent" Height="105" Width="105" x:Name="ellipse"  Grid.Row="0"/>
+                                        <ContentPresenter Content="{TemplateBinding Content}" x:Name="PART_DefaultContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Grid.Row="0">
+                                            <ContentPresenter.Resources>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Foreground" Value="{Binding ContentForeground, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"></Setter>
+                                                    <Setter Property="FontSize" Value="44"/>
+                                                    <Setter Property="FontWeight" Value="Normal"/>
+                                                    <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                                                    <Setter Property="TextAlignment" Value="Center"/>
+                                                </Style>
+                                            </ContentPresenter.Resources>
+                                        </ContentPresenter>
+                                        <Border Grid.Column="1" Background="{TemplateBinding LabelBackground}"
+                                                Margin="20,0,0,0"
+                                                Visibility="{TemplateBinding Label, Converter={StaticResource ContentStateToVisibilityConverter}}">
+                                            <ContentPresenter 
+                                                x:Name="contentPresenter" 
+                                                ContentTemplate="{TemplateBinding LabelTemplate}"
+                                                ContentTemplateSelector="{TemplateBinding LabelTemplateSelector}"
+                                                Content="{TemplateBinding Label}" 
+                                                HorizontalAlignment="{TemplateBinding HorizontalLabelAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalLabelAlignment}"
+                                                TextBlock.Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}">
+                                                <ContentPresenter.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="FontSize" Value="{Binding FontSize, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"/>
+                                                        <Setter Property="FontWeight" Value="{Binding FontWeight, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"/>
+                                                        <Setter Property="TextTrimming" Value="WordEllipsis" />
+                                                    </Style>
+                                                </ContentPresenter.Resources>
+                                            </ContentPresenter>
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="0.0" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.05" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.05" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="0.33" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="0.95" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="0.95" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="1.00" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Viewbox>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="ellipseFill" Property="Fill" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter TargetName="ellipseFill" Property="Stroke" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter TargetName="ellipse" Property="Stroke" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter Property="ContentForeground" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="ContentForeground" Value="{Binding Path=ContentPressedForeground, RelativeSource={RelativeSource Self}}"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+            <Trigger Property="LabelPosition" Value="None">
+                <Setter Property="Width" Value="165"/>
+                <Setter Property="Height" Value="165"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type local:KinectCircleButton}">
+                            <Viewbox Stretch="Uniform">
+                                <Viewbox.RenderTransform>
+                                    <ScaleTransform x:Name="CircleButtonRenderTransform" ScaleX="1.0" ScaleY="1.0"/>
+                                </Viewbox.RenderTransform>
+                                <Viewbox.RenderTransformOrigin>
+                                    <Point X="0.5" Y="0.5"/>
+                                </Viewbox.RenderTransformOrigin>
+                                <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                                    <Grid HorizontalAlignment="Center" Margin="30, 30, 30, 30" Background="Transparent">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="105" />
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Ellipse Stroke="{TemplateBinding Foreground}" StrokeThickness="0" Fill="{TemplateBinding Foreground}" Opacity="0.0" Height="105" Width="105" x:Name="ellipseFill"  Grid.Row="0"/>
+                                        <Ellipse Stroke="{TemplateBinding Foreground}" StrokeThickness="9" Fill="Transparent" Height="105" Width="105" x:Name="ellipse"  Grid.Row="0"/>
+                                        <ContentPresenter Content="{TemplateBinding Content}" x:Name="PART_DefaultContentPresenter" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Grid.Row="0">
+                                            <ContentPresenter.Resources>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="Foreground" Value="{Binding ContentForeground, RelativeSource={RelativeSource AncestorType={x:Type local:KinectCircleButton}}}"></Setter>
+                                                    <Setter Property="FontSize" Value="44"/>
+                                                    <Setter Property="FontWeight" Value="Normal"/>
+                                                    <Setter Property="FontFamily" Value="Segoe UI Symbol"/>
+                                                    <Setter Property="TextAlignment" Value="Center"/>
+                                                </Style>
+                                            </ContentPresenter.Resources>
+                                        </ContentPresenter>
+                                    </Grid>
+                                </Border>
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="0.0" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.05" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="1.05" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="0.33" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00.15" To="0.95" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00.15" To="0.95" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                                <DoubleAnimation Duration="00:00:00" To="1.00" Storyboard.TargetName="ellipseFill" Storyboard.TargetProperty="Opacity"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Disabled">
+                                            <Storyboard>
+                                                <DoubleAnimation Duration="00:00:00" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleX"/>
+                                                <DoubleAnimation Duration="00:00:00" To="1.0" Storyboard.TargetName="CircleButtonRenderTransform" Storyboard.TargetProperty="ScaleY"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                    </VisualStateGroup>
+                                    <VisualStateGroup x:Name="FocusStates">
+                                        <VisualState x:Name="Focused">
+                                            <Storyboard>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Unfocused" />
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                            </Viewbox>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter TargetName="ellipseFill" Property="Fill" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter TargetName="ellipseFill" Property="Stroke" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter TargetName="ellipse" Property="Stroke" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                    <Setter Property="ContentForeground" Value="{StaticResource KinectCircleButtonDisabledForegroundThemeBrush}"></Setter>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="ContentForeground" Value="{Binding Path=ContentPressedForeground, RelativeSource={RelativeSource Self}}"></Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="{x:Type local:KinectTileButton}">
+        <Setter Property="Background" Value="{StaticResource KinectPurpleBrush}" />
+        <Setter Property="LabelBackground" Value="{StaticResource KinectLabelBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource KinectButtonForegroundBrush}" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="24pt" />
+        <Setter Property="Height" Value="220" />
+        <Setter Property="Width" Value="220" />
+        <Setter Property="FontWeight" Value="Normal" />
+        <Setter Property="HorizontalLabelAlignment" Value="Left" />
+        <Setter Property="VerticalLabelAlignment" Value="Bottom" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource KinectButtonBorderBrush}" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="local:KinectTileButton">
+                    <Grid>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal">
+                                    <Storyboard>
+                                        <ThicknessAnimation Duration="00:00:00.15" To="5" Storyboard.TargetProperty="BorderThickness" Storyboard.TargetName="transparentBorder" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="MouseOver">
+                                    <Storyboard>
+                                        <ThicknessAnimation Duration="00:00:00.15" To="0" Storyboard.TargetProperty="BorderThickness" Storyboard.TargetName="transparentBorder" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <ThicknessAnimation Duration="00:00:00.15" To="10" Storyboard.TargetProperty="BorderThickness" Storyboard.TargetName="transparentBorder" />
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="PressedVisualElement" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To=".55" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="DisabledVisualElement" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="FocusStates">
+                                <VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.9" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="FocusVisualElement" />
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Unfocused" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Border BorderThickness="5" BorderBrush="Transparent"
+                            x:Name="transparentBorder">
+                            <Viewbox  Stretch="UniformToFill">
+                                <Border BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                    <Grid Background="{TemplateBinding Background}" Height="{TemplateBinding ActualHeight}" Width="{TemplateBinding ActualWidth}" >
+                                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                            Content="{TemplateBinding Content}" />
+                                        <Border Background="{TemplateBinding LabelBackground}" VerticalAlignment="{TemplateBinding VerticalLabelAlignment}" 
+                                                Visibility="{TemplateBinding Label, Converter={StaticResource ContentStateToVisibilityConverter}}">
+                                            <ContentPresenter 
+                                                x:Name="contentPresenter" 
+                                                ContentTemplate="{TemplateBinding LabelTemplate}"
+                                                ContentTemplateSelector="{TemplateBinding LabelTemplateSelector}"
+                                                Content="{TemplateBinding Label}" 
+                                                HorizontalAlignment="{TemplateBinding HorizontalLabelAlignment}">
+                                                <ContentPresenter.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Setter Property="Padding" Value="14,13,15,15"/>
+                                                    </Style>
+                                                </ContentPresenter.Resources>
+                                            </ContentPresenter>
+                                        </Border>
+                                        <Rectangle x:Name="DisabledVisualElement" Fill="White" IsHitTestVisible="false" Opacity="0" RadiusY="3" RadiusX="3" />
+                                        <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Margin="1" Opacity="0" Stroke="White" StrokeThickness="2" />
+                                        <Rectangle x:Name="PressedVisualElement" IsHitTestVisible="false" Opacity="0" Fill="{StaticResource KinectButtonPressedOverlayBrush}" />
+                                    </Grid>
+                                </Border>
+                            </Viewbox>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:KinectRegion}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:KinectRegion}">
+                    <Grid>
+                        <Grid.Resources>
+                            <BooleanToVisibilityConverter x:Key="BoolToVisConverter" />
+                        </Grid.Resources>
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" />
+                        <local:KinectCursorVisualizer
+                            Visibility="{TemplateBinding IsCursorVisible, Converter={StaticResource BoolToVisConverter}}"
+                            CursorPressingColor="{TemplateBinding CursorPressingColor}"
+                            CursorExtendedColor1="{TemplateBinding CursorExtendedColor1}"
+                            CursorExtendedColor2="{TemplateBinding CursorExtendedColor2}"
+                            CursorGrippedColor1="{TemplateBinding CursorGrippedColor1}"
+                            CursorGrippedColor2="{TemplateBinding CursorGrippedColor2}"
+                            />
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:KinectUserViewer}">
+        <Setter Property="UserColoringMode" Value="HighlightPrimary" />
+        <Setter Property="PrimaryUserColor" Value="DarkGray" />
+        <Setter Property="DefaultUserColor" Value="LightGray" />
+        <Setter Property="FlowDirection" Value="LeftToRight" />
+    </Style>
+
+    <Style x:Key="open_hand_style" TargetType="{x:Type Path}">
+        <Setter Property="Stretch" Value="Fill"/>
+        <Setter Property="StrokeThickness" Value="2.66667"/>
+        <Setter Property="StrokeMiterLimit" Value="2.75"/>
+        <Setter Property="Stroke" Value="Black"/>
+        <Setter Property="Data" Value="F1 M 339.325,184.329C 332.166,183.961 329.195,188.492 328.858,191.838C 328.858,191.838 325.148,249.1 325.148,250.229C 325.148,253.405 321.84,256.394 318.662,256.394C 315.488,256.394 312.912,253.819 312.912,250.644C 312.912,249.843 315.558,158.069 315.558,158.069C 315.746,153.648 311.897,146.964 303.905,146.845C 295.912,146.727 292.941,152.814 292.759,157.106C 292.759,157.106 291.4,239.066 291.4,240.288C 291.4,243.463 288.825,246.038 285.65,246.038C 282.474,246.038 279.9,243.463 279.9,240.288C 279.9,239.743 275.237,147.217 274.553,145.92C 273.498,142.296 268.94,139.103 263.746,139.227C 257.84,139.368 253.306,143.584 253.41,147.973C 253.412,148.051 253.427,148.125 253.431,148.202C 253.162,149.142 257.662,243.92 257.662,244.943C 257.662,248.118 255.087,250.693 251.912,250.693C 248.735,250.693 244.829,248.118 244.829,244.943C 244.829,244.611 233.418,173.71 232.47,172.035C 232.142,170.973 230.392,162.547 220.819,163.637C 211.246,164.727 211.261,175.062 211.588,176.996L 226.393,277.191C 227.726,282.746 228.426,289.547 222.168,291.684C 221.531,291.901 201.958,265.145 201.958,265.145C 180.587,240.413 166.363,253.842 166.363,253.842C 160.045,260.159 164.566,265.019 167.931,269.088C 167.931,269.088 210.426,324.383 223.087,339.555C 235.746,354.727 257.327,372.773 280.829,372.773C 313.92,372.773 337.465,348.875 340.017,312.696C 342.571,276.516 348.48,194.303 348.48,194.303C 348.712,192.008 346.484,184.696 339.325,184.329 Z "/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Width" Value="100.469"/>
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+        <Setter Property="Height" Value="126.257"/>
+        <Setter Property="Canvas.Left" Value="9.374"/>
+        <Setter Property="Canvas.Top" Value="10.55"/>
+        <Setter Property="RenderTransform">
+            <Setter.Value>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type local:KinectCursorVisualizer}">
+        <Setter Property="FlowDirection" Value="LeftToRight" />
+    </Style>
+
+    <Style TargetType="{x:Type local:KinectCursor}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:KinectCursor}">
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="CursorPress">
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(RadialGradientBrush.RadiusY)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1.42"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(RadialGradientBrush.RadiusX)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1.336"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(RadialGradientBrush.Center)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingPointKeyFrame KeyTime="0" Value="0.608,1.368"/>
+                            </PointAnimationUsingKeyFrames>
+                            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(RadialGradientBrush.GradientOrigin)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingPointKeyFrame KeyTime="0" Value="0.609,1.384"/>
+                            </PointAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[3].(GradientStop.Offset)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0.244"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="0.371"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.667" Value="0.487"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0.746"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.961"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[2].(GradientStop.Offset)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0.26"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.467" Value="0.397"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.667" Value="0.51"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:0.833" Value="0.767"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.967"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(GradientBrush.GradientStops)[1].(GradientStop.Offset)" Storyboard.TargetName="open_hand_pressing">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="0.972"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="glow">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="glow">
+                                <SplineDoubleKeyFrame KeyTime="0" Value="0.7"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="glow">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="10"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="glow">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1.384"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="glow">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1.408"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="glow">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="-7.326"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="glow">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="-4.194"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="glow">
+                                <EasingColorKeyFrame KeyTime="0" Value="#FFD5D5D8"/>
+                            </ColorAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="canvas1">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.9"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="canvas1">
+                                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.9"/>
+                            </DoubleAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path3">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.4" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.425" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path4">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.475" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.5" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path5">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.55" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.575" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path6">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.625" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.65" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path7">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.675" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path8">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.7" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.725" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path9">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.725" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.75" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path10">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.775" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.8" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path11">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.8" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.825" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path12">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.825" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.85" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path13">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.85" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.875" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path14">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.9" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.925" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path15">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.925" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.95" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path16">
+                                <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.95" Value="{x:Static Visibility.Hidden}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:0.975" Value="{x:Static Visibility.Visible}"/>
+                                <DiscreteObjectKeyFrame KeyTime="0:0:1" Value="{x:Static Visibility.Visible}"/>
+                            </ObjectAnimationUsingKeyFrames>
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <Grid x:Name="grid" ClipToBounds="False" RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+                                <SkewTransform/>
+                                <RotateTransform/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CursorStates">
+                                <VisualState x:Name="HandClosed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fist">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_pressing">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_white">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_extended">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="glow">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Collapsed}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="fist">
+                                            <EasingColorKeyFrame KeyTime="0" Value="White"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="fist_outline">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="canvas1">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path17">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="path17">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF050050"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeEndLineCap)" Storyboard.TargetName="path17">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static PenLineCap.Round}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Data).(PathGeometry.Figures)[0].(PathFigure.Segments)[1].(BezierSegment.Point2)" Storyboard.TargetName="path17">
+                                            <EasingPointKeyFrame KeyTime="0" Value="1.82303921568628,16.0389215686275"/>
+                                        </PointAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Data).(PathGeometry.Figures)[0].(PathFigure.Segments)[1].(BezierSegment.Point3)" Storyboard.TargetName="path17">
+                                            <EasingPointKeyFrame KeyTime="0" Value="1.82303921568628,16.0389215686275"/>
+                                        </PointAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Data).(PathGeometry.Figures)[0].(PathFigure.Segments)[0].(BezierSegment.Point2)" Storyboard.TargetName="path17">
+                                            <EasingPointKeyFrame KeyTime="0" Value="3.79851746675071,7.79604158203144"/>
+                                        </PointAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Data).(PathGeometry.Figures)[0].(PathFigure.Segments)[0].(BezierSegment.Point3)" Storyboard.TargetName="path17">
+                                            <EasingPointKeyFrame KeyTime="0" Value="3.9799019607843,11.3330392156863"/>
+                                        </PointAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Data).(PathGeometry.Figures)[0].(PathFigure.Segments)[1].(BezierSegment.Point1)" Storyboard.TargetName="path17">
+                                            <EasingPointKeyFrame KeyTime="0" Value="4.17598039215685,15.156568627451"/>
+                                        </PointAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Data).(PathGeometry.Figures)[0].(PathFigure.StartPoint)" Storyboard.TargetName="path17">
+                                            <EasingPointKeyFrame KeyTime="0" Value="1.92107843137255,1.52911764705881"/>
+                                        </PointAnimationUsingKeyFrames>
+                                        <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(Path.Data).(PathGeometry.Figures)[0].(PathFigure.Segments)[0].(BezierSegment.Point1)" Storyboard.TargetName="path17">
+                                            <EasingPointKeyFrame KeyTime="0" Value="3.88186274509803,1.6271568627451"/>
+                                        </PointAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path17">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Idle" >
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_pressing">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_white">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_extended">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="glow">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="canvas2">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Hover" >
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_pressing">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_white">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_extended">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="grid">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="glow">
+                                            <SplineDoubleKeyFrame KeyTime="0" Value="0.7"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="glow">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="10"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.384"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.408"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="-7.326"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="-4.194"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="glow">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FFD5D5D8"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Pressed" >
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_pressing">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_white">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="open_hand_extended">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="glow">
+                                            <SplineDoubleKeyFrame KeyTime="0" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.125" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.225" Value="0.6"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="glow">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                            <DiscreteObjectKeyFrame KeyTime="0:0:0.35" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="20"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.208"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.125" Value="1.372"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.225" Value="1.452"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="1.629"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.264"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.125" Value="1.423"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.225" Value="1.472"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="1.63"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="-7.816"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.125" Value="-7.966"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.225" Value="-8.062"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="-6.906"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="glow">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="-4.096"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.125" Value="-5.158"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.225" Value="-4.542"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="-3.508"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="press_background_outline">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="press_background_outline">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF050050"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="press_background_outline">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="press_background_outline">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.03"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="press_background_outline">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="1.03"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.X)" Storyboard.TargetName="press_background_outline">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[3].(TranslateTransform.Y)" Storyboard.TargetName="press_background_outline">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="canvas">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Visible}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#99D5FFFF"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.StrokeThickness)" Storyboard.TargetName="path">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0.5"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path">
+                                            <EasingColorKeyFrame KeyTime="0" Value="#99D5FFFF"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path1">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.225" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path">
+                                            <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="0"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.225" Value="1"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.35" Value="0"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="path2">
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.3" Value="0"/>
+                                            <EasingDoubleKeyFrame KeyTime="0:0:0.325" Value="1"/>
+                                        </DoubleAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="path2">
+                                            <EasingColorKeyFrame KeyTime="0:0:0.325" Value="#33B9FFFF"/>
+                                            <EasingColorKeyFrame KeyTime="0:0:0.425" Value="#00B9FFFF"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="glow">
+                                            <EasingColorKeyFrame KeyTime="0" Value="White"/>
+                                            <EasingColorKeyFrame KeyTime="0:0:0.125" Value="#FFC7BFF3"/>
+                                            <EasingColorKeyFrame KeyTime="0:0:0.225" Value="#FFC7BFF3"/>
+                                            <EasingColorKeyFrame KeyTime="0:0:0.35" Value="#FFE9E5FD"/>
+                                        </ColorAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path3">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path4">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path5">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path6">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path7">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path8">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path9">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path10">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path11">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path12">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path13">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path14">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path15">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="path16">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{x:Static Visibility.Hidden}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Canvas x:Name="canvas1" Margin="-29.638,-39.67,-8.619,-25.004" RenderTransformOrigin="0.5,0.5">
+                            <Canvas.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform/>
+                                    <SkewTransform/>
+                                    <RotateTransform/>
+                                    <TranslateTransform/>
+                                </TransformGroup>
+                            </Canvas.RenderTransform>
+                            <Path x:Name="glow" Stretch="Fill" StrokeThickness="16" StrokeMiterLimit="2.75" Stroke="#FF7C6DCF" Fill="{x:Null}" Data="F1 M 113.605,138.966C 106.446,138.598 103.475,143.129 103.138,146.476C 103.138,146.476 99.4282,203.739 99.4282,204.866C 99.4282,208.043 96.1196,211.032 92.9425,211.032C 89.7681,211.032 87.1925,208.457 87.1925,205.282C 87.1925,204.481 89.8384,112.707 89.8384,112.707C 90.0259,108.285 86.1769,101.602 78.1847,101.483C 70.1925,101.365 67.2212,107.452 67.0389,111.744C 67.0389,111.744 65.6795,193.703 65.6795,194.926C 65.6795,198.101 63.1053,200.676 59.9295,200.676C 56.7537,200.676 54.1795,198.101 54.1795,194.926C 54.1795,194.382 49.5168,101.854 48.8332,100.558C 47.7785,96.9339 43.2199,93.7412 38.0259,93.8649C 32.1196,94.0055 27.5858,98.2217 27.6899,102.611C 27.6925,102.689 27.7069,102.763 27.7108,102.84C 27.4425,103.78 31.9425,198.558 31.9425,199.58C 31.9425,202.757 29.367,205.33 26.1925,205.33C 23.0155,205.33 19.1092,202.757 19.1092,199.58C 19.1092,199.249 7.69775,128.348 6.74984,126.673C 6.42171,125.611 4.67171,117.185 -4.9012,118.275C -14.4741,119.365 -14.4585,129.7 -14.1317,131.634L 0.673014,231.828C 2.00635,237.384 2.70557,244.185 -3.55225,246.322C -4.18896,246.539 -23.7619,219.783 -23.7619,219.783C -45.133,195.051 -59.3569,208.479 -59.3569,208.479C -65.6746,214.796 -61.1538,219.658 -57.7892,223.726C -57.7892,223.726 -15.2944,279.021 -2.63298,294.193C 10.0259,309.365 31.6066,327.41 55.1092,327.41C 88.2004,327.41 111.745,303.513 114.297,267.334C 116.851,231.154 122.76,148.94 122.76,148.94C 122.992,146.645 120.764,139.335 113.605,138.966 Z " Margin="0" Width="80.738" Opacity="0" Visibility="Collapsed" RenderTransformOrigin="0.5,0.5" Height="97.471" Canvas.Left="26.888" Canvas.Top="29.154">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <Canvas x:Name="canvas" Margin="0" Visibility="Hidden" Height="144.674" Width="118.257">
+                                <Path x:Name="path1" Stretch="Fill" Fill="#33FFFFFF" Data="F1 M 298.477,128.101L 298.125,128.114C 290.529,128.295 284.485,134.138 284.653,141.172L 284.67,141.625L 284.71,142.039L 284.718,142.039C 284.724,142.039 284.747,143.7 284.787,144.985C 282.395,142.751 279.245,141.424 275.685,141.424C 275.093,141.424 274.483,141.459 273.874,141.529C 270.092,141.959 266.803,143.8 264.612,146.712C 261.627,150.682 261.439,155.619 261.81,158.013L 267.537,196.778C 262.135,191.575 256.489,188.942 250.713,188.942C 244.183,188.942 240.166,192.424 239.428,193.121L 239.264,193.281C 236.093,196.451 231.898,203.116 239.407,212.146L 239.528,212.291C 241.357,214.672 263.066,242.897 269.881,251.061C 275.171,257.401 289.443,272.149 307.684,272.149C 330.165,272.149 346.413,255.925 348.116,231.774C 349.486,212.368 352.618,168.806 352.753,166.931C 353.014,163.78 351.714,160.048 349.416,157.369C 347.069,154.634 343.784,153.034 340.168,152.847C 340.014,152.84 339.86,152.838 339.709,152.838C 339.576,152.838 339.444,152.839 339.314,152.839C 337.556,152.839 335.955,153.144 334.523,153.639C 334.593,151.191 334.659,148.944 334.718,146.877C 334.87,143.345 333.424,139.714 330.847,136.985C 328.167,134.146 324.476,132.705 320.455,132.705L 320.21,132.705C 316.463,132.705 313.404,133.758 311.112,135.713C 308.864,131.324 303.877,128.101 298.477,128.101" Margin="0" Height="140.705" Canvas.Top="3.459" Width="114.861" Canvas.Left="1.373" Opacity="0"/>
+                                <Path x:Name="path" Stretch="Fill" Fill="#FFD5FFFF" Data="F1 M 241.662,183.849L 241.658,183.573C 241.654,176.866 247.481,171.227 254.809,171.051L 254.831,171.051L 255.178,170.996C 260.419,171 265.307,174.465 267.492,178.74L 267.684,179.116L 268.004,178.841C 270.212,176.958 273.178,176.227 276.886,176.226L 277.131,176.226C 281.094,176.228 284.679,177.313 287.281,180.068C 289.683,182.613 291.072,185.798 291.071,189.056C 291.071,189.22 291.068,189.385 291.061,189.551L 291.061,189.555C 291.002,191.622 290.936,193.785 290.865,196.233L 290.851,196.716L 291.308,196.558C 292.713,196.073 294.277,195.735 295.99,195.735C 296.223,195.735 296.443,195.718 296.657,195.718L 296.827,195.722C 300.356,195.905 303.55,197.451 305.839,200.118C 307.89,202.506 309.131,205.776 309.128,208.644C 309.128,208.91 309.118,209.172 309.097,209.43L 309.097,209.433C 308.96,211.308 305.83,254.868 304.46,274.274C 302.751,298.285 286.667,314.325 264.36,314.337L 264.334,314.337C 246.292,314.337 232.074,299.685 226.813,293.368C 220.009,285.218 198.295,256.987 196.468,254.609L 196.464,254.604L 196.339,254.453C 193.268,250.758 192.205,247.507 192.205,244.748C 192.203,240.848 194.347,237.866 196.171,236.041L 196.335,235.881L 196.335,235.881C 197.05,235.206 200.994,231.795 207.389,231.797C 213.059,231.797 218.619,234.377 223.981,239.539L 224.686,240.217L 218.816,200.485L 218.816,200.483C 218.734,199.956 218.679,199.293 218.679,198.541C 218.679,195.991 219.308,192.417 221.554,189.433C 223.689,186.597 226.89,184.802 230.588,184.381C 231.186,184.313 231.782,184.278 232.364,184.278C 235.816,184.278 238.889,185.891 241.235,188.083L 241.821,188.631L 241.796,187.829C 241.775,187.189 241.76,186.535 241.749,186.043C 241.743,185.797 241.739,185.591 241.735,185.446L 241.73,185.274L 241.729,185.224L 241.726,185.2L 241.723,185.172L 241.715,185.141L 241.679,184.465L 241.662,183.85L 241.662,183.849M 255.153,170.33L 255.127,170.33L 254.771,170.385C 247.123,170.579 240.995,176.472 240.992,183.573L 240.995,183.867L 241.012,184.489L 241.012,184.495L 241.053,185.244L 241.07,185.56L 241.071,185.56C 241.079,185.892 241.09,186.455 241.107,187.075C 238.749,185.064 235.743,183.612 232.361,183.612C 231.756,183.612 231.133,183.647 230.512,183.718C 226.645,184.157 223.268,186.046 221.021,189.032C 218.658,192.178 218.014,195.887 218.012,198.541C 218.012,199.326 218.07,200.019 218.157,200.584L 223.743,238.399C 218.511,233.591 213.02,231.13 207.389,231.13C 200.734,231.132 196.645,234.672 195.874,235.4L 195.87,235.404L 195.706,235.563L 195.704,235.566C 193.813,237.456 191.54,240.589 191.538,244.748C 191.537,247.685 192.68,251.099 195.826,254.88L 195.941,255.017C 197.785,257.415 219.476,285.62 226.3,293.795C 231.618,300.157 245.93,314.989 264.36,315.004L 264.383,315.004C 287.027,315.004 303.428,298.603 305.124,274.321C 306.494,254.916 309.626,211.355 309.761,209.481L 309.761,209.485C 309.783,209.208 309.795,208.928 309.795,208.644C 309.792,205.588 308.499,202.2 306.344,199.684C 303.941,196.879 300.565,195.246 296.861,195.056L 296.657,195.051C 296.413,195.052 296.191,195.068 295.99,195.068C 294.373,195.068 292.887,195.355 291.545,195.778C 291.611,193.523 291.673,191.507 291.727,189.574L 291.727,189.574C 291.734,189.401 291.738,189.229 291.738,189.056C 291.738,185.605 290.269,182.262 287.765,179.611C 285.01,176.689 281.215,175.56 277.131,175.56L 276.886,175.56C 273.266,175.559 270.229,176.243 267.891,178.073C 265.502,173.748 260.551,170.336 255.153,170.33" HorizontalAlignment="Stretch" Height="141.316" Margin="0" VerticalAlignment="Stretch" Width="115.511" Canvas.Left="1.373" Canvas.Top="2.848" Stroke="Black" Opacity="0"/>
+                                <Path x:Name="path2" Stretch="Fill" Fill="#33B9FFFF" Data="F1 M 175.979,241.897L 176.171,241.421C 179.093,234.182 186.277,228.845 194.837,228.428L 194.906,228.424L 195.39,228.299L 195.932,228.299C 201.197,228.299 206.452,230.546 210.425,234.188L 210.691,234.431L 211.041,234.342C 213.018,233.837 215.216,233.632 217.657,233.632L 217.902,233.632C 224.375,233.636 229.777,235.803 233.628,239.88C 237.108,243.565 239.125,248.058 239.459,252.729L 239.497,253.262L 240.025,253.341C 244.872,254.065 249.212,256.451 252.428,260.199C 255.701,264.01 257.57,268.982 257.567,273.695C 257.567,274.178 257.548,274.658 257.508,275.134L 257.507,275.141C 257.378,276.933 254.248,320.483 252.878,339.887C 251.895,353.817 246.485,365.607 238.069,373.92C 229.65,382.23 218.226,387.074 205.131,387.076L 205.126,387.076C 194.496,387.076 185.139,382.952 177.679,377.911C 170.219,372.871 164.674,366.923 161.696,363.352C 154.897,355.207 134.05,328.113 131.252,324.473L 131.243,324.462L 131.208,324.419L 131.212,324.423C 126.958,319.304 125.311,314.359 125.308,309.878C 125.307,304.237 127.942,299.274 131.52,295.694L 131.761,295.459C 133.36,293.947 139.085,289.202 148.16,289.202C 150.308,289.202 152.427,289.459 154.515,289.97L 155.479,290.206L 152.002,266.678L 152.002,266.673C 151.856,265.739 151.774,264.693 151.774,263.576C 151.773,259.402 152.93,254.239 156.199,249.898C 159.614,245.359 164.677,242.499 170.492,241.837C 171.372,241.736 172.263,241.684 173.132,241.684C 173.912,241.684 174.693,241.734 175.468,241.833L 175.979,241.897M 195.924,226.966L 195.305,226.966L 195.219,226.966L 194.702,227.1C 185.837,227.561 178.36,232.985 175.131,240.452C 174.467,240.385 173.799,240.351 173.132,240.351C 172.21,240.351 171.27,240.405 170.341,240.511C 164.182,241.21 158.768,244.262 155.134,249.096C 151.65,253.73 150.442,259.166 150.441,263.576C 150.441,264.76 150.528,265.87 150.684,266.878L 153.872,288.458C 151.992,288.066 150.085,287.869 148.16,287.869C 138.593,287.872 132.565,292.862 130.841,294.494L 130.837,294.498L 130.589,294.739L 130.583,294.746C 126.804,298.522 123.976,303.807 123.975,309.878C 123.972,314.693 125.768,319.967 130.186,325.276L 130.19,325.279L 130.202,325.294C 133.036,328.982 153.835,356.014 160.673,364.206C 163.706,367.841 169.325,373.874 176.932,379.016C 184.537,384.154 194.145,388.408 205.131,388.41L 205.131,388.41C 218.555,388.412 230.344,383.425 239.006,374.868C 247.67,366.313 253.206,354.199 254.209,339.98C 255.579,320.579 258.709,277.028 258.838,275.236L 258.838,275.236C 258.88,274.726 258.9,274.212 258.9,273.695C 258.898,268.633 256.917,263.387 253.441,259.33C 250.136,255.477 245.692,252.965 240.744,252.107C 240.278,247.304 238.143,242.718 234.597,238.964C 230.481,234.597 224.678,232.299 217.902,232.299L 217.657,232.299C 215.279,232.299 213.085,232.486 211.059,232.964C 206.89,229.257 201.454,226.968 195.924,226.966" Height="157.914" Canvas.Left="-6.599" Canvas.Top="-5.779" Width="131.976" Opacity="0" RenderTransformOrigin="0.5,0.5">
+                                    <Path.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform X="1"/>
+                                        </TransformGroup>
+                                    </Path.RenderTransform>
+                                </Path>
+                            </Canvas>
+                            <Path x:Name="press_background_outline" Stretch="Fill" StrokeThickness="2.66667" StrokeMiterLimit="2.75" Stroke="#FF330051" Data="F1 M 339.325,184.329C 332.166,183.961 329.195,188.492 328.858,191.838C 328.858,191.838 325.148,249.1 325.148,250.229C 325.148,253.405 321.84,256.394 318.662,256.394C 315.488,256.394 312.912,253.819 312.912,250.644C 312.912,249.843 315.558,158.069 315.558,158.069C 315.746,153.648 311.897,146.964 303.905,146.845C 295.912,146.727 292.941,152.814 292.759,157.106C 292.759,157.106 291.4,239.066 291.4,240.288C 291.4,243.463 288.825,246.038 285.65,246.038C 282.474,246.038 279.9,243.463 279.9,240.288C 279.9,239.743 275.237,147.217 274.553,145.92C 273.498,142.296 268.94,139.103 263.746,139.227C 257.84,139.368 253.306,143.584 253.41,147.973C 253.412,148.051 253.427,148.125 253.431,148.202C 253.162,149.142 257.662,243.92 257.662,244.943C 257.662,248.118 255.087,250.693 251.912,250.693C 248.735,250.693 244.829,248.118 244.829,244.943C 244.829,244.611 233.418,173.71 232.47,172.035C 232.142,170.973 230.392,162.547 220.819,163.637C 211.246,164.727 211.261,175.062 211.588,176.996L 226.393,277.191C 227.726,282.746 228.426,289.547 222.168,291.684C 221.531,291.901 201.958,265.145 201.958,265.145C 180.587,240.413 166.363,253.842 166.363,253.842C 160.045,260.159 164.566,265.019 167.931,269.088C 167.931,269.088 210.426,324.383 223.087,339.555C 235.746,354.727 257.327,372.773 280.829,372.773C 313.92,372.773 337.465,348.875 340.017,312.696C 342.571,276.516 348.48,194.303 348.48,194.303C 348.712,192.008 346.484,184.696 339.325,184.329 Z " Margin="0" HorizontalAlignment="Stretch" Width="100.469" RenderTransformOrigin="0.5,0.5" Visibility="Hidden" Fill="{x:Null}" Height="126.257" Canvas.Left="9.374" Canvas.Top="10.55">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                            <Path x:Name="open_hand_white" Style="{StaticResource open_hand_style}" Visibility="Collapsed" >
+                                <Path.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="White"/>
+                                        <GradientStop Color="White" Offset="1"/>
+                                        <GradientStop Color="White" Offset="0.981"/>
+                                        <GradientStop Color="White" Offset="0.992"/>
+                                    </RadialGradientBrush>
+                                </Path.Fill>
+                            </Path>
+                            <Path x:Name="open_hand_pressing" Style="{StaticResource open_hand_style}" Visibility="Collapsed">
+                                <Path.Fill>
+                                    <RadialGradientBrush>
+                                        <!-- Provide a Name property to each Gradient stop as a workaround for wpf erroneously complaining for binding error -->
+                                        <GradientStop x:Name="workaround1" Color="{Binding CursorPressingColor, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                        <GradientStop Color="White" Offset="1"/>
+                                        <GradientStop Color="White" Offset="0.981"/>
+                                        <GradientStop x:Name="workaround2" Color="{Binding CursorPressingColor, RelativeSource={RelativeSource TemplatedParent}}" Offset="0.992"/>
+                                    </RadialGradientBrush>
+                                </Path.Fill>
+                            </Path>
+                            <Path x:Name="open_hand_extended" Style="{StaticResource open_hand_style}" Visibility="Collapsed" StrokeThickness="2">
+                                <Path.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop x:Name="workaround3" Color="{Binding CursorExtendedColor1, RelativeSource={RelativeSource TemplatedParent}}" Offset="0"/>
+                                        <GradientStop x:Name="workaround4" Color="{Binding CursorExtendedColor2, RelativeSource={RelativeSource TemplatedParent}}" Offset="0.981"/>
+                                        <GradientStop x:Name="workaround5" Color="{Binding CursorExtendedColor2, RelativeSource={RelativeSource TemplatedParent}}" Offset="0.992"/>
+                                        <GradientStop x:Name="workaround6" Color="{Binding CursorExtendedColor2, RelativeSource={RelativeSource TemplatedParent}}" Offset="1"/>
+                                    </RadialGradientBrush>
+                                </Path.Fill>
+                            </Path>
+                            <Canvas x:Name="canvas2" Width="109.865" Height="135.85" Clip="F1 M 111.952,28.2403C 107.483,28.0091 105.628,30.8385 105.415,32.9278C 105.415,32.9278 103.099,68.6862 103.099,69.3912C 103.099,71.3749 101.035,73.2409 99.0521,73.2409C 97.069,73.2409 95.4584,71.6321 95.4584,69.6518C 95.4584,69.1491 97.112,11.8418 97.112,11.8418C 97.2306,9.07947 94.8256,4.90494 89.8333,4.832C 84.8424,4.75906 82.9883,8.5592 82.8762,11.2409C 82.8762,11.2409 82.026,62.4212 82.026,63.1836C 82.026,65.1667 80.4167,66.7735 78.4349,66.7735C 76.4505,66.7735 74.8424,65.1667 74.8424,63.1836C 74.8424,62.8451 71.9322,5.06442 71.5038,4.2532C 70.8477,1.99216 67.9986,0 64.759,0.0736084C 61.0664,0.162811 58.2357,2.7963 58.3021,5.53641L 58.315,5.67844C 58.1458,6.26627 60.9584,65.4499 60.9584,66.0905C 60.9584,68.0755 59.3503,69.6816 57.3685,69.6816C 55.3841,69.6816 52.9426,68.0755 52.9426,66.0905C 52.9426,65.8828 45.8177,21.6093 45.2253,20.5625C 45.0208,19.8984 43.9284,14.6367 37.9492,15.3189C 31.974,15.9987 31.9831,22.4524 32.1863,23.6628L 41.4311,86.2272C 42.2644,89.6979 42.7005,93.944 38.7917,95.2787C 38.3945,95.4147 26.1705,78.7057 26.1705,78.7057C 12.8281,63.2617 3.94402,71.6465 3.94402,71.6465C 0,75.5924 2.82561,78.6276 4.92317,81.1667C 4.92317,81.1667 31.4584,115.698 39.3647,125.171C 47.2721,134.647 60.75,145.916 75.4257,145.916C 96.0885,145.916 110.793,130.992 112.384,108.4C 113.976,85.8073 117.671,34.4675 117.671,34.4675C 117.816,33.0339 116.424,28.4693 111.952,28.2403 Z " Canvas.Left="1.078" Canvas.Top="1.177" RenderTransformOrigin="0.5,0.5">
+                                <Canvas.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform ScaleX="0.85" ScaleY="0.85"/>
+                                        <SkewTransform/>
+                                        <RotateTransform/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Canvas.RenderTransform>
+                                <Path x:Name="path3" Width="32.6185" Height="14.5567" Canvas.Left="58.5938" Canvas.Top="129.053" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 74.7513,129.053C 67.0547,129.053 60.5702,134.236 58.5938,141.302C 59.3854,141.725 60.1888,142.126 61.0027,142.502C 61.621,139.934 62.9415,137.641 64.7513,135.83C 67.315,133.268 70.8424,131.688 74.7513,131.687C 78.6615,131.688 82.1901,133.268 84.7527,135.83C 86.819,137.898 88.2461,140.593 88.7213,143.609C 89.5702,143.294 90.401,142.947 91.2122,142.571C 89.6953,134.865 82.9036,129.053 74.7513,129.053" Visibility="Hidden"/>
+                                <Path x:Name="path4" Width="48.509" Height="19.1895" Canvas.Left="50.7201" Canvas.Top="119.933" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 74.7513,119.933C 63.8672,119.934 54.5508,126.65 50.7201,136.163C 51.4374,136.718 52.1694,137.26 52.9167,137.786C 54.0911,134.599 55.9453,131.74 58.3021,129.381C 62.5169,125.169 68.3242,122.568 74.7513,122.567C 81.1797,122.568 86.9869,125.169 91.2005,129.381C 93.8841,132.066 95.9128,135.397 97.0326,139.122C 97.7891,138.564 98.5196,137.975 99.2292,137.355C 95.7188,127.215 86.0872,119.934 74.7513,119.933" Visibility="Hidden"/>
+                                <Path x:Name="path5" Width="62.207" Height="21.2955" Canvas.Left="43.5977" Canvas.Top="110.813" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 74.7513,110.813C 61.1784,110.814 49.4089,118.538 43.5977,129.831C 44.2357,130.478 44.8958,131.124 45.5768,131.764C 47.1667,128.473 49.297,125.491 51.8555,122.932C 57.7188,117.07 65.806,113.448 74.7513,113.447C 83.698,113.448 91.7852,117.07 97.6497,122.932C 100.296,125.58 102.486,128.681 104.092,132.109C 104.693,131.313 105.263,130.488 105.805,129.633C 99.9584,118.447 88.2475,110.814 74.7513,110.813" Visibility="Hidden"/>
+                                <Path x:Name="path6" Width="73.0912" Height="23.0436" Canvas.Left="37.2344" Canvas.Top="101.693" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 74.7513,101.693C 58.9115,101.693 45.0208,110.04 37.2344,122.573C 37.8868,123.378 38.4792,124.103 39.0027,124.736C 40.7877,121.72 42.9426,118.949 45.4063,116.483C 52.9205,108.97 63.2877,104.327 74.7513,104.327C 86.2162,104.327 96.5833,108.97 104.098,116.483C 106.016,118.402 107.746,120.506 109.26,122.766C 109.648,121.77 110.004,120.75 110.326,119.702C 102.292,108.78 89.3503,101.693 74.7513,101.693" Visibility="Hidden"/>
+                                <Path x:Name="path7" Width="81.1355" Height="24.6674" Canvas.Left="31.2655" Canvas.Top="92.5736" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 74.7513,92.5736C 56.7929,92.5743 40.9115,101.464 31.2655,115.082C 31.8489,115.822 32.418,116.543 32.9714,117.241C 34.7435,114.656 36.7486,112.245 38.9584,110.035C 48.1224,100.872 60.7696,95.2083 74.7513,95.2078C 88.7344,95.2083 101.381,100.872 110.546,110.035C 111.063,110.552 111.569,111.08 112.063,111.619C 112.199,110.564 112.307,109.491 112.384,108.4C 112.389,108.321 112.395,108.244 112.401,108.165C 102.764,98.5312 89.4543,92.5743 74.7513,92.5736" Visibility="Hidden"/>
+                                <Path x:Name="path8" Width="87.7826" Height="26.3333" Canvas.Left="25.4297" Canvas.Top="83.4538" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 74.7513,83.4538C 62.4844,83.4544 51.0443,86.9962 41.3972,93.1133C 40.9128,94.0671 40.0938,94.834 38.7865,95.2794C 38.7527,95.2794 38.6615,95.1992 38.5221,95.0495C 33.5702,98.5899 29.155,102.838 25.4297,107.644C 25.9909,108.363 26.5508,109.079 27.1055,109.787C 28.7644,107.598 30.5702,105.525 32.5104,103.586C 43.3256,92.7728 58.2527,86.0885 74.7513,86.0879C 89.2981,86.0885 102.622,91.2839 112.984,99.9232C 113.059,98.8828 113.134,97.8112 113.212,96.72C 102.616,88.4102 89.2617,83.4544 74.7513,83.4538" Visibility="Hidden"/>
+                                <Path x:Name="path9" Width="94.3022" Height="28.0468" Canvas.Left="19.6705" Canvas.Top="74.334" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 32.9271,87.8392C 27.9986,91.4004 23.5429,95.5736 19.6705,100.249C 20.2188,100.956 20.7721,101.667 21.3268,102.381C 22.815,100.553 24.3958,98.8033 26.0612,97.1373C 28.6784,94.5215 31.5038,92.1146 34.5104,89.9454C 33.9975,89.2663 33.4648,88.5574 32.9271,87.8392M 74.7513,74.334C 62.5169,74.334 50.9975,77.4088 40.9284,82.8261L 41.3385,85.6042C 51.2331,80.1016 62.6237,76.9688 74.7513,76.9681C 89.2357,76.9688 102.668,81.4375 113.757,89.0729C 113.828,88.0716 113.9,87.0632 113.973,86.0436C 102.711,78.64 89.2357,74.334 74.7513,74.334" Visibility="Hidden"/>
+                                <Path x:Name="path10" Width="100.743" Height="29.795" Canvas.Left="13.9622" Canvas.Top="65.2141" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 27.4961,80.5117C 22.5273,84.1133 17.9869,88.267 13.9622,92.8842C 14.4961,93.5748 15.047,94.2858 15.6068,95.0091C 16.888,93.5195 18.2253,92.0775 19.6133,90.6888C 22.5417,87.7617 25.6992,85.0664 29.0598,82.6328C 28.4701,81.8354 27.9388,81.1133 27.4961,80.5117M 102.961,70.2884C 102.697,71.1536 102.076,71.9402 101.297,72.4831C 105.914,74.1549 110.331,76.2507 114.496,78.7234C 114.565,77.748 114.635,76.7728 114.706,75.7968C 110.967,73.6595 107.043,71.8138 102.961,70.2884M 74.7513,65.2141C 70.0456,65.2141 65.4311,65.6179 60.9453,66.3919C 60.7929,68.2356 59.2486,69.6816 57.3685,69.6816C 56.0808,69.6816 54.5989,69.0045 53.7188,67.9863C 48.7839,69.3171 44.0339,71.1048 39.5208,73.3015L 39.9257,76.0391C 50.4063,70.7975 62.2331,67.8489 74.7513,67.8483C 81.974,67.8483 88.9674,68.83 95.6041,70.6673C 95.509,70.3457 95.4584,70.0045 95.4584,69.6518C 95.4584,69.6016 95.4753,68.9831 95.5038,67.9108C 90.8854,66.6836 86.1093,65.8575 81.2043,65.4688C 80.5456,66.2656 79.5495,66.7735 78.4349,66.7735C 77.2057,66.7735 76.121,66.1576 75.474,65.2175C 75.2331,65.2155 74.9935,65.2141 74.7513,65.2141" Visibility="Hidden"/>
+                                <Path x:Name="path11" Width="107.129" Height="31.5644" Canvas.Left="8.29036" Canvas.Top="56.0944" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 21.2018,73.8189C 16.5273,77.3015 12.2005,81.2311 8.29036,85.5391C 8.79175,86.1895 9.33716,86.8978 9.92448,87.6588C 10.974,86.4903 12.0547,85.3503 13.1653,84.2396C 16.2917,81.1133 19.655,78.2234 23.224,75.5989C 22.5365,74.9447 21.8607,74.3521 21.2018,73.8189M 103.622,60.8399C 103.561,61.806 103.504,62.7193 103.451,63.5664C 107.517,64.9851 111.448,66.6979 115.215,68.6778C 115.284,67.7175 115.352,66.765 115.419,65.8184C 111.634,63.89 107.695,62.2234 103.622,60.8399M 51.8229,59.0508C 47.0938,60.2968 42.5196,61.9187 38.1289,63.8842L 38.53,66.5944C 42.918,64.5847 47.5,62.9297 52.2435,61.664C 52.1172,60.8749 51.9753,59.9973 51.8229,59.0508M 82.1328,56.3932C 82.1172,57.3575 82.1029,58.2428 82.0898,59.0326C 86.7383,59.4206 91.2799,60.1725 95.6926,61.2617C 95.7162,60.4102 95.7423,59.5104 95.7696,58.5689C 91.3424,57.5066 86.7865,56.7722 82.1328,56.3932M 74.4896,56.0944C 69.7513,56.108 65.095,56.489 60.556,57.211C 60.5989,58.1543 60.6406,59.0378 60.6784,59.8587C 65.2188,59.1211 69.8751,58.7351 74.6237,58.7279C 74.5833,57.9355 74.5391,57.0533 74.4896,56.0944" Visibility="Hidden"/>
+                                <Path x:Name="path12" Width="113.428" Height="33.3756" Canvas.Left="2.69402" Canvas.Top="46.9765" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 11.9792,69.4616C 8.70052,72.1602 5.60027,75.0644 2.69402,78.1576C 3.11848,78.9309 3.68221,79.6595 4.24861,80.3521C 5.05598,79.4831 5.87761,78.6302 6.71614,77.7911C 9.39063,75.1179 12.2188,72.6021 15.1901,70.2572C 14.0443,69.8307 12.9714,69.5813 11.9792,69.4616M 104.221,51.442C 104.164,52.3489 104.105,53.2532 104.048,54.1497C 108.133,55.4531 112.094,57.0215 115.921,58.8359C 115.988,57.8828 116.056,56.9427 116.122,56.0222C 112.281,54.2494 108.31,52.7175 104.221,51.442M 50.353,50.0084C 45.6771,51.196 41.1328,52.7175 36.7486,54.5443L 37.1472,57.2344C 41.5339,55.3698 46.0872,53.8216 50.7786,52.6186C 50.6406,51.7683 50.4975,50.8946 50.353,50.0084M 82.2813,47.2566C 82.2669,48.157 82.2527,49.0384 82.2383,49.8952C 86.9142,50.2552 91.4935,50.9485 95.9584,51.9524C 95.9831,51.0736 96.009,50.1791 96.0352,49.2715C 91.5547,48.2884 86.9662,47.6093 82.2813,47.2566M 74.0221,46.9765C 69.306,47.0111 64.6705,47.3749 60.1328,48.0482C 60.1745,48.9485 60.2148,49.8313 60.2552,50.6933C 64.7917,50.0078 69.4363,49.6387 74.1589,49.61C 74.1147,48.7545 74.069,47.8783 74.0221,46.9765" Visibility="Hidden"/>
+                                <Path x:Name="path13" Width="81.4388" Height="11.2753" Canvas.Left="35.3776" Canvas.Top="37.8607" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 104.823,42.0976C 104.767,42.963 104.708,43.8645 104.65,44.7916C 108.749,46.0025 112.742,47.4557 116.616,49.136C 116.685,48.1744 116.753,47.2455 116.816,46.3555C 112.928,44.7096 108.927,43.2857 104.823,42.0976M 48.8647,40.9779C 44.2448,42.1152 39.7423,43.5488 35.3776,45.2597L 35.7734,47.9355C 40.1431,46.194 44.6602,44.7351 49.297,43.5847C 49.1536,42.7148 49.009,41.8444 48.8647,40.9779M 82.4311,38.1231C 82.4167,39.0039 82.4023,39.8867 82.388,40.7611C 87.0924,41.0976 91.7109,41.7441 96.224,42.6784C 96.25,41.7878 96.2748,40.8971 96.3008,40.0052C 91.7708,39.0872 87.1483,38.4544 82.4311,38.1231M 73.5443,37.8607C 68.8593,37.9121 64.2369,38.2631 59.7122,38.8939C 59.7527,39.7787 59.7929,40.6621 59.8333,41.5364C 64.362,40.8946 68.9883,40.5404 73.6836,40.4935C 73.638,39.6224 73.5912,38.7448 73.5443,37.8607" Visibility="Hidden"/>
+                                <Path x:Name="path14" Width="83.4921" Height="10.7943" Canvas.Left="34.0117" Canvas.Top="28.7462" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 105.431,32.795C 105.424,32.8392 105.419,32.8835 105.415,32.9278C 105.415,32.9278 105.354,33.8802 105.25,35.4759C 109.367,36.6114 113.389,37.9707 117.306,39.5404C 117.383,38.4668 117.449,37.5398 117.504,36.7852C 113.578,35.2448 109.549,33.9102 105.431,32.795M 47.3489,31.959C 42.7929,33.0515 38.3424,34.4095 34.0117,36.0176L 34.405,38.6823C 38.7475,37.0463 43.2148,35.6667 47.7904,34.5619C 47.6406,33.6712 47.4923,32.8008 47.3489,31.959M 82.5819,28.9915C 82.5677,29.8593 82.5535,30.7376 82.5391,31.6283C 87.2734,31.9467 91.9311,32.5527 96.4896,33.4297C 96.5155,32.5294 96.5417,31.6393 96.5664,30.7631C 91.9935,29.9011 87.3256,29.3053 82.5819,28.9915M 73.056,28.7462C 68.3945,28.8119 63.8098,29.1497 59.2956,29.7455C 59.3346,30.6191 59.3751,31.5013 59.4153,32.3867C 63.9311,31.7819 68.5313,31.4402 73.198,31.3783C 73.151,30.4973 73.1029,29.6179 73.056,28.7462" Visibility="Hidden"/>
+                                <Path x:Name="path15" Width="64.1809" Height="9.83133" Canvas.Left="32.651" Canvas.Top="19.6328" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 45.7552,22.9616C 41.2904,24.0111 36.9194,25.2975 32.651,26.8079L 33.0429,29.4641C 37.3346,27.9251 41.7369,26.6179 46.2331,25.5553C 46.0547,24.5632 45.8945,23.6902 45.7552,22.9616M 82.7331,19.8627C 82.7188,20.6985 82.7043,21.582 82.6901,22.4987C 87.4584,22.8015 92.1497,23.3737 96.7552,24.2012C 96.7826,23.278 96.8073,22.3887 96.8319,21.5391C 92.2122,20.724 87.5117,20.1608 82.7331,19.8627M 72.5495,19.6328C 67.9311,19.7116 63.3724,20.0391 58.888,20.6016C 58.9245,21.4603 58.9636,22.3431 59.0038,23.2422C 63.4975,22.6706 68.0677,22.3405 72.698,22.2649C 72.6483,21.3691 72.5977,20.4909 72.5495,19.6328" Visibility="Hidden"/>
+                                <Path x:Name="path16" Width="64.5833" Height="9.47067" Canvas.Left="32.5144" Canvas.Top="10.5215" Stretch="Fill" Fill="{StaticResource KinectCursorPressingProgressOverlayBrush}" Data="F1 M 39.0339,15.2584C 37.6199,15.6446 36.2161,16.0522 34.8202,16.4831C 33.5729,17.4049 32.8828,18.724 32.5144,19.9922C 36.0325,18.8119 39.6172,17.7747 43.259,16.888C 42.3385,15.9844 40.9948,15.2701 39.0339,15.2584M 82.9167,10.7363C 82.8972,10.9082 82.8828,11.0768 82.8762,11.2409C 82.8762,11.2409 82.8633,12.0143 82.8412,13.3711C 87.642,13.6595 92.371,14.2031 97.0208,14.989C 97.056,13.7604 97.0833,12.8483 97.0977,12.3307C 92.4453,11.5573 87.7174,11.0221 82.9167,10.7363M 72.0065,10.5215C 67.444,10.612 62.9388,10.9284 58.4975,11.4603C 58.5313,12.2735 58.5677,13.1563 58.6068,14.1003C 63.0639,13.5599 67.5885,13.2403 72.1693,13.153C 72.1133,12.2175 72.0587,11.3372 72.0065,10.5215" Visibility="Hidden"/>
+                            </Canvas>
+                        </Canvas>
+                        <Path x:Name="fist_outline" Stretch="Fill" StrokeThickness="8" StrokeMiterLimit="2.75" Data="F1 M 662.842,217.834C 658.082,217.713 654.132,220.416 652.584,217.644C 648.026,209.481 637.354,208.32 632.774,209.377C 629.589,210.113 628.497,211.705 625.321,211.705C 622.145,211.705 620.44,204.092 608.943,204.227C 603.783,204.288 602.94,205.736 599.77,208.32C 596.599,210.904 596.011,213.37 590.96,213.489C 587.784,213.562 587.387,209.968 574.663,216.777C 570.075,219.232 568.539,226.962 568.375,235.989C 568.662,237.682 568.951,239.434 569.14,241.174C 570.239,251.303 571.375,261.775 564.455,265.167C 564.172,265.307 563.871,265.372 563.576,265.372C 562.836,265.372 562.127,264.96 561.779,264.252C 561.292,263.26 561.702,262.062 562.694,261.576C 566.858,259.535 566.165,250.962 565.31,242.975C 554.99,254.917 538.757,276.459 552.438,298.404C 566.119,320.35 596.998,339.773 620.5,339.773C 653.592,339.773 674.526,315.596 679.688,279.696C 688.194,220.525 672.338,218.075 662.842,217.834 Z " HorizontalAlignment="Stretch" Margin="-3.399,12.951,0.062,-16.666" Width="Auto" Visibility="Hidden" Stroke="#FF050050">
+                            <Path.Fill>
+                                <RadialGradientBrush GradientOrigin="0.622,1.006">
+                                    <GradientStop x:Name="workaround7" Color="{Binding CursorGrippedColor1, RelativeSource={RelativeSource TemplatedParent}}" Offset="0"/>
+                                    <GradientStop x:Name="workaround8" Color="{Binding CursorGrippedColor2, RelativeSource={RelativeSource TemplatedParent}}" Offset="1"/>
+                                </RadialGradientBrush>
+                            </Path.Fill>
+                        </Path>
+                        <Path x:Name="fist" Stretch="Fill" StrokeThickness="2.66667" StrokeMiterLimit="2.75" Data="F1 M 662.842,217.834C 658.082,217.713 654.132,220.416 652.584,217.644C 648.026,209.481 637.354,208.32 632.774,209.377C 629.589,210.113 628.497,211.705 625.321,211.705C 622.145,211.705 620.44,204.092 608.943,204.227C 603.783,204.288 602.94,205.736 599.77,208.32C 596.599,210.904 596.011,213.37 590.96,213.489C 587.784,213.562 587.387,209.968 574.663,216.777C 570.075,219.232 568.539,226.962 568.375,235.989C 568.662,237.682 568.951,239.434 569.14,241.174C 570.239,251.303 571.375,261.775 564.455,265.167C 564.172,265.307 563.871,265.372 563.576,265.372C 562.836,265.372 562.127,264.96 561.779,264.252C 561.292,263.26 561.702,262.062 562.694,261.576C 566.858,259.535 566.165,250.962 565.31,242.975C 554.99,254.917 538.757,276.459 552.438,298.404C 566.119,320.35 596.998,339.773 620.5,339.773C 653.592,339.773 674.526,315.596 679.688,279.696C 688.194,220.525 672.338,218.075 662.842,217.834 Z " HorizontalAlignment="Stretch" Margin="-0.666,15.696,2.795,-13.921" Width="Auto" Visibility="Hidden" Stroke="White">
+                            <Path.Fill>
+                                <RadialGradientBrush GradientOrigin="0.622,1.006">
+                                    <GradientStop x:Name="workaround9" Color="{Binding CursorGrippedColor1, RelativeSource={RelativeSource TemplatedParent}}" Offset="0"/>
+                                    <GradientStop x:Name="workaround10" Color="{Binding CursorGrippedColor2, RelativeSource={RelativeSource TemplatedParent}}" Offset="1"/>
+                                </RadialGradientBrush>
+                            </Path.Fill>
+                        </Path>
+                        <Path x:Name="path17" HorizontalAlignment="Left" Margin="8.275,33.765,0,28.667" Opacity="1" Stretch="None" Stroke="White" StrokeThickness="2.66667" StrokeMiterLimit="2.75" Width="5.434" Fill="{x:Null}" Visibility="Hidden">
+                            <Path.Data>
+                                <PathGeometry>
+                                    <PathFigure StartPoint="2.01982688217388,1.33333502344842">
+                                        <BezierSegment Point3="3.88268990776436,9.76474529219458" Point2="4.17680755482317,6.2353335274887" Point1="4.17668962727191,3.49019776854646"/>
+                                        <BezierSegment Point3="1.333335001898,16.2350000772095" Point2="1.333335001898,16.2350000772095" Point1="3.58857226070554,13.2941570569005"/>
+                                    </PathFigure>
+                                </PathGeometry>
+                            </Path.Data>
+                        </Path>
+
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>
