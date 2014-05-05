@@ -87,6 +87,9 @@ namespace Microsoft.Kinect.Toolkit.Controls
         public static readonly DependencyProperty IsPressTargetProperty =
             DependencyProperty.RegisterAttached("IsPressTarget", typeof(bool), typeof(KinectRegion), new UIPropertyMetadata(false));
 
+        public static readonly DependencyProperty IsHoverTargetProperty =
+            DependencyProperty.RegisterAttached("IsHoverTarget", typeof(bool), typeof(KinectRegion), new UIPropertyMetadata(false));
+
         public static readonly DependencyProperty IsGripTargetProperty =
             DependencyProperty.RegisterAttached("IsGripTarget", typeof(bool), typeof(KinectRegion), new UIPropertyMetadata(false));
 
@@ -399,6 +402,26 @@ namespace Microsoft.Kinect.Toolkit.Controls
             }
 
             obj.SetValue(IsPressTargetProperty, value);
+        }
+
+        public static bool GetIsHoverTarget(DependencyObject obj) 
+        {
+        if (obj == null)
+            {
+                throw new ArgumentNullException("obj");
+            }
+
+            return (bool)obj.GetValue(IsHoverTargetProperty);
+        }
+
+        public static void SetIsHoverTarget(DependencyObject obj, bool value) 
+        {
+            if (obj == null)
+            {
+                throw new ArgumentNullException("obj");
+            }
+
+            obj.SetValue(IsHoverTargetProperty, value);
         }
 
         public static bool GetIsGripTarget(DependencyObject obj)

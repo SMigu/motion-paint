@@ -147,14 +147,13 @@ namespace Microsoft.Kinect.Toolkit.Controls
         }
 
         private DispatcherTimer onHoverTimer;
-        public bool hoverEnabled = false;
 
         private void OnHandPointerEnter(object sender, HandPointerEventArgs handPointerEventArgs)
         {
             if (KinectRegion.GetIsPrimaryHandPointerOver(this))
             {
                 VisualStateManager.GoToState(this, "MouseOver", true);
-                if(hoverEnabled)
+                if(KinectRegion.GetIsHoverTarget(this))
                     OnHover();
             }
         }

@@ -436,13 +436,13 @@ namespace motion_paint
             {
                 foreach (KinectTileButton button in FindVisualChildren<KinectTileButton>(MainWindow1))
                 {
-                    button.hoverEnabled = false;
+                    KinectRegion.SetIsHoverTarget(button, false);
                     KinectRegion.SetIsPressTarget(button, true);
                 }
 
                 foreach (KinectCircleButton button in FindVisualChildren<KinectCircleButton>(MainWindow1))
                 {
-                    button.hoverEnabled = false;
+                    KinectRegion.SetIsHoverTarget(button, false);
                     KinectRegion.SetIsPressTarget(button, true);
                 }
 
@@ -453,13 +453,13 @@ namespace motion_paint
             {
                 foreach (KinectTileButton button in FindVisualChildren<KinectTileButton>(MainWindow1))
                 {
-                    button.hoverEnabled = true;
+                    KinectRegion.SetIsHoverTarget(button, true);
                     KinectRegion.SetIsPressTarget(button, false);
                 }
 
                 foreach (KinectCircleButton button in FindVisualChildren<KinectCircleButton>(MainWindow1))
                 {
-                    button.hoverEnabled = true;
+                    KinectRegion.SetIsHoverTarget(button, true);
                     KinectRegion.SetIsPressTarget(button, false);
                 }
 
