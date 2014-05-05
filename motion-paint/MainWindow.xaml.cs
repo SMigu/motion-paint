@@ -508,7 +508,7 @@ namespace motion_paint
             //set the size of the menu on Resize
             OuterMenuGrid.Width = MainWindow1.Width - 10;
             OuterMenuGrid.Height = MainWindow1.Height - 20;
-            MenuGrid.Width = MainWindow1.Width - 10;
+            MenuGrid.Width = MainWindow1.Width - 100;
             MenuGrid.Height = MainWindow1.Height - 20;
 
             //Scaling if screen width is small (smaller than 1500), such as laptops
