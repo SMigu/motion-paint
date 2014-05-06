@@ -579,16 +579,28 @@ namespace motion_paint
 
         private void starButton_Click(object sender, RoutedEventArgs e)
         {
+            tool = "starspray";
+            if (color == Colors.White)
+                color = lastColor;
+
             patternMenu.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void squareButton_Click(object sender, RoutedEventArgs e)
         {
+            tool = "squarespray";
+            if (color == Colors.White)
+                color = lastColor;
+
             patternMenu.Visibility = System.Windows.Visibility.Collapsed;
         }
 
         private void triangleButton_Click(object sender, RoutedEventArgs e)
         {
+            tool = "trianglespray";
+            if (color == Colors.White)
+                color = lastColor;
+
             patternMenu.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
