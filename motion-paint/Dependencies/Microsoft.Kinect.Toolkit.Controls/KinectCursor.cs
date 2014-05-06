@@ -12,6 +12,7 @@ namespace Microsoft.Kinect.Toolkit.Controls
     using System.Windows.Controls;
     using System.Windows.Media;
     using System.Windows.Media.Animation;
+    using System.Windows.Threading;
 
     /// <summary>
     /// Visualization for a Kinect cursor
@@ -51,6 +52,12 @@ namespace Microsoft.Kinect.Toolkit.Controls
             typeof(KinectCursor),
             new UIPropertyMetadata(0.0, (o, args) => ((KinectCursor)o).OnPressExtentChanged()));
 
+        public static readonly DependencyProperty HoverExtentProperty = DependencyProperty.Register(
+            "HoverExtent",
+            typeof(double),
+            typeof(KinectCursor),
+            new UIPropertyMetadata(0.0, (o, args) => ((KinectCursor)o).OnHoverExtentChanged()));
+
         public static readonly DependencyProperty CursorPressingColorProperty = KinectCursorVisualizer.CursorPressingColorProperty.AddOwner(typeof(KinectCursor));
 
         public static readonly DependencyProperty CursorExtendedColor1Property = KinectCursorVisualizer.CursorExtendedColor1Property.AddOwner(typeof(KinectCursor));
@@ -63,7 +70,6 @@ namespace Microsoft.Kinect.Toolkit.Controls
 
 
         private FrameworkElement pressStoryboardTarget;
-
         private Storyboard pressStoryboard;
 
         private string currentVisualState;
@@ -131,6 +137,19 @@ namespace Microsoft.Kinect.Toolkit.Controls
             set
             {
                 this.SetValue(PressExtentProperty, value);
+            }
+        }
+
+        public double HoverExtent
+        {
+            get
+            {
+                return (double)this.GetValue(HoverExtentProperty);
+            }
+
+            set
+            {
+                this.SetValue(HoverExtentProperty, value);
             }
         }
 
@@ -277,12 +296,20 @@ namespace Microsoft.Kinect.Toolkit.Controls
                 this.pressStoryboard.Pause(this.pressStoryboardTarget);
             }
         }
-        
+
         private void OnPressExtentChanged()
         {
             if (this.pressStoryboard != null)
             {
                 this.pressStoryboard.Seek(this.pressStoryboardTarget, TimeSpan.FromSeconds(this.PressExtent), TimeSeekOrigin.BeginTime);
+            }
+        }
+
+        private void OnHoverExtentChanged()
+        {
+            if (this.pressStoryboard != null) 
+            {
+                this.pressStoryboard.Seek(this.pressStoryboardTarget, TimeSpan.FromSeconds(this.HoverExtent), TimeSeekOrigin.BeginTime);
             }
         }
 

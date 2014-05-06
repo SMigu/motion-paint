@@ -153,22 +153,30 @@ namespace Microsoft.Kinect.Toolkit.Controls
             if (KinectRegion.GetIsPrimaryHandPointerOver(this))
             {
                 VisualStateManager.GoToState(this, "MouseOver", true);
-                if(KinectRegion.GetIsHoverTarget(this))
-                    OnHover();
+                if (KinectRegion.GetIsHoverTarget(this))
+                    startHover();
             }
         }
 
-        private void OnHover()
-        {
+        public double extent = 0.0;
+
+        private void startHover()
+        {  
             onHoverTimer = new System.Windows.Threading.DispatcherTimer();
             onHoverTimer.Tick += new EventHandler(onHoverTimerTick);
-            onHoverTimer.Interval = new TimeSpan(0, 0, 3/2);
+            onHoverTimer.Interval = new TimeSpan(0, 0, 0, 0, 150);
             onHoverTimer.Start();
         }
 
         private void onHoverTimerTick(object sender, EventArgs e)
         {
-            this.OnClick();
+            extent += 0.1;
+            if (extent >= 1.0) 
+            {
+                this.OnClick();
+                extent = 0.0;
+                onHoverTimer.Stop();
+            }
         }
 
         private void OnHandPointerLeave(object sender, HandPointerEventArgs handPointerEventArgs)

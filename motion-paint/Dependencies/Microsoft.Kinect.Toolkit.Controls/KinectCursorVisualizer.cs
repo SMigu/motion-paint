@@ -14,7 +14,6 @@ namespace Microsoft.Kinect.Toolkit.Controls
     using System.Windows.Controls;
     using System.Windows.Data;
     using System.Windows.Media;
-
     using Microsoft.Kinect.Toolkit.Interaction;
 
     /// <summary>
@@ -23,7 +22,7 @@ namespace Microsoft.Kinect.Toolkit.Controls
     public class KinectCursorVisualizer : Canvas
     {
         public static readonly DependencyProperty CursorPressingColorProperty = DependencyProperty.Register(
-                "CursorPressingColor", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 102, 48, 133)));
+            "CursorPressingColor", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 102, 48, 133)));
 
         public static readonly DependencyProperty CursorExtendedColor1Property = DependencyProperty.Register(
             "CursorExtendedColor1", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 1, 179, 255)));
@@ -231,6 +230,7 @@ namespace Microsoft.Kinect.Toolkit.Controls
                 // Get information about what this hand pointer is over
                 bool isHovering = false;
                 bool isOverPressTarget = false;
+                bool isOverHoverTarget = false;
                 foreach (UIElement element in pointer.EnteredElements)
                 {
                     if (KinectRegion.GetIsPressTarget(element))
@@ -238,6 +238,19 @@ namespace Microsoft.Kinect.Toolkit.Controls
                         isHovering = true;
                         isOverPressTarget = true;
                         break;
+                    }
+
+                    if (KinectRegion.GetIsHoverTarget(element))
+                    {
+                        var buttonElement = (KinectButtonBase)element;
+                        cursor.HoverExtent = buttonElement.extent; 
+                        isHovering = true;
+                        isOverHoverTarget = true;
+                        break;
+                    }
+                    else 
+                    {
+                        //cursor.HoverExtent = 0.0;
                     }
 
                     if (KinectRegion.GetIsGripTarget(element))
@@ -256,6 +269,10 @@ namespace Microsoft.Kinect.Toolkit.Controls
 
                 // pointer.PressExtent has a range of 0..1 - map that to Min/Max for cursor scale
                 double finalRadius = KinectCursor.ArtworkSize * (1.0 - (adjustedPressExtent * ((KinectCursor.MaximumCursorScale - KinectCursor.MinimumCursorScale) / 2.0)));
+                if (isOverHoverTarget) 
+                {
+                    finalRadius = KinectCursor.ArtworkSize * (1.0 - (cursor.HoverExtent * ((KinectCursor.MaximumCursorScale - KinectCursor.MinimumCursorScale) / 2.0)));
+                }
 
                 // Compute Transforms
                 double scaleX = finalRadius / KinectCursor.ArtworkSize;
