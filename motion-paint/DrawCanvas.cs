@@ -87,7 +87,7 @@ namespace motion_paint
                     
 
 
-                    magnifyValue1 = Convert.ToInt32((NextDouble1.NextDouble() * thickness/3));
+                    magnifyValue1 = Convert.ToInt32((NextDouble1.NextDouble() * thickness/4)*2);
                     iterationValue1 = Convert.ToInt32((NextDouble1.NextDouble() * magnifyValue1));
                     for (int i = 0; i < iterationValue1; i++)
                     {
@@ -106,13 +106,13 @@ namespace motion_paint
                         Triangle.StrokeEndLineCap = PenLineCap.Round;
                         Triangle.Points = Tripoints;
                         radians = Math.Atan2(nextPoint.Y - currentPoint.Y, nextPoint.X - currentPoint.X);
-                        angle = radians * (180 / Math.PI);
+                        angle = (radians) * (180 / Math.PI) + magnifyValue1;
 
                         Triangle.RenderTransform = new RotateTransform(angle, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
 
-                        curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 2));
+                        curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 3));
                         nextPoint.X += curveValue1;
-                        curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 2));
+                        curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 3));
                         nextPoint.Y += curveValue1;
 
                         //Triangle.Fill = new SolidColorBrush(color);
@@ -127,7 +127,7 @@ namespace motion_paint
                     int magnifyValue2;
                     int curveValue2;
                     
-                    magnifyValue2 = Convert.ToInt32((NextDouble2.NextDouble() * thickness/4));
+                    magnifyValue2 = Convert.ToInt32((NextDouble2.NextDouble() * thickness/4))*2;
                     iterationValue2 = Convert.ToInt32((NextDouble2.NextDouble() * magnifyValue2));
                     for (int i = 0; i < iterationValue2; i++)
                     {
@@ -161,7 +161,7 @@ namespace motion_paint
                         Star.StrokeEndLineCap = PenLineCap.Round;
                         Star.Points = Starpoints;
                         radians = Math.Atan2(nextPoint.Y - currentPoint.Y, nextPoint.X - currentPoint.X);
-                        angle = radians * (180 / Math.PI);
+                        angle = radians * (180 / Math.PI) + magnifyValue2;
 
                         Star.RenderTransform = new RotateTransform(angle, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
 
@@ -180,7 +180,7 @@ namespace motion_paint
                     int iterationValue3;
                     int magnifyValue3;
                     int curveValue3;
-                    magnifyValue3 = Convert.ToInt32((NextDouble3.NextDouble() * thickness/4));
+                    magnifyValue3 = Convert.ToInt32((NextDouble3.NextDouble() * thickness/4))*2;
                     iterationValue3 = Convert.ToInt32((NextDouble3.NextDouble() * magnifyValue3));
                     for (int i = 0; i < iterationValue3; i++)
                     {
@@ -206,7 +206,7 @@ namespace motion_paint
                         Square.StrokeEndLineCap = PenLineCap.Round;
                         Square.Points = Squarepoints;
                         radians = Math.Atan2(nextPoint.Y - currentPoint.Y, nextPoint.X - currentPoint.X);
-                        angle = radians * (180 / Math.PI);
+                        angle = radians * (180 / Math.PI)+magnifyValue3;
 
                         Square.RenderTransform = new RotateTransform(angle, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
 
