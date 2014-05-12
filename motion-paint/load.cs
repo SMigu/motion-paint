@@ -23,18 +23,14 @@ namespace motion_paint
         {
             if (path == null) return;
 
-            BitmapSource bitMapSource;
+            Stream imageStreamSource = new FileStream("path", FileMode.Open, FileAccess.Read, FileShare.Read);
+            PngBitmapDecoder decoder = new PngBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+            BitmapSource bitmapSource = decoder.Frames[0];
 
-            // Create a file stream for saving image
-            using (FileStream inStream = new FileStream(path.LocalPath, FileMode.Open))
-            {
-                // Use png decoder for png
-                PngBitmapDecoder decoder = new PngBitmapDecoder(inStream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
-                bitMapSource = decoder.Frames[0];
-            }
-
+            // Draw the Image
             var image = new Image();
-            image.Source = bitMapSource;
+            image.Source = bitmapSource;
+            image.Stretch = Stretch.UniformToFill;
             Surface.Children.Add(image);
         }
     }
