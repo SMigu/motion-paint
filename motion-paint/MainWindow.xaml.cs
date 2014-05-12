@@ -559,5 +559,15 @@ namespace motion_paint
 
             patternMenu.Visibility = System.Windows.Visibility.Collapsed;
         }
+
+        private void openFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            imageSelectOverlay.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void closeOverlay_Click(object sender, RoutedEventArgs e)
+        {
+            imageSelectOverlay.Visibility = System.Windows.Visibility.Collapsed;
+        }
     }
 }
