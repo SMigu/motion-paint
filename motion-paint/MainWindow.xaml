@@ -2,7 +2,9 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:k="http://schemas.microsoft.com/kinect/2013"
-        Title="Kinect MotionPaint"  MinWidth="1280" MinHeight="720" WindowState="Maximized" Height="1159.35" Width="2021" SizeChanged="MainWindow1_SizeChanged">
+        Title="Kinect MotionPaint"  MinWidth="1280" MinHeight="720" WindowState="Maximized"
+        Height="1159.35" Width="2021">
+        <!-- Editoidessa ota Height ja Width tästä ja lisää  ylle -->
     <Grid>
         <k:KinectSensorChooserUI Name="sensorChooserUi" HorizontalAlignment="Center" VerticalAlignment="Top"></k:KinectSensorChooserUI>
         <k:KinectRegion Name="kinectRegion">
@@ -146,12 +148,33 @@
                 </Grid>
 
                 <!--GRID FOR Pattern select Menu -->
-                <Grid x:Name="patternMenu" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Bottom" Panel.ZIndex="32" Width="230" Height="456" Margin="480,0,0,190">
-                    <Rectangle x:Name="patternMenuBar" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" HorizontalAlignment="Left" Fill="#FFEAEAEA" Margin="3,10,0,0" Height="470" Width="227" />
-                    <k:KinectTileButton x:Name="triangleButton" Content="Kolmio" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" Background="#FFCFCFCF" FontWeight="Bold" FontSize="48" Click="triangleButton_Click"/>
-                    <k:KinectTileButton x:Name="squareButton" Content="Neliö" HorizontalAlignment="Left" Margin="10,0,0,150" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" Background="#FFCFCFCF" FontWeight="Bold" FontSize="48" Click="squareButton_Click"/>
-                    <k:KinectTileButton x:Name="starButton" Content="Tähti" HorizontalAlignment="Left" Margin="10,0,0,290" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" Background="#FFCFCFCF" FontWeight="Bold" FontSize="48" Click="starButton_Click"/>
+                <Grid x:Name="patternMenu" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Bottom" Panel.ZIndex="32" Width="230" Height="594" Margin="480,0,0,190">
+                    <Rectangle x:Name="patternMenuBar" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" HorizontalAlignment="Left" Fill="#FFEAEAEA" Margin="0" Height="608" Width="227" />
+                    <k:KinectTileButton x:Name="triangleButton" Content="" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" FontWeight="Bold" FontSize="48" Click="triangleButton_Click" BorderBrush="#00000000">
+                        <k:KinectTileButton.Background>
+                            <ImageBrush ImageSource="Icons/trianglepattern.png" Stretch="Uniform"/>
+                        </k:KinectTileButton.Background>
+                    </k:KinectTileButton>
+                    <k:KinectTileButton x:Name="squareButton" Content="" HorizontalAlignment="Left" Margin="10,0,0,150" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" FontWeight="Bold" FontSize="48" Click="squareButton_Click" BorderBrush="#00000000">
+                        <k:KinectTileButton.Background>
+                            <ImageBrush ImageSource="Icons/squarepattern.png" Stretch="Uniform"/>
+                        </k:KinectTileButton.Background>
+                    </k:KinectTileButton>
+                    <k:KinectTileButton x:Name="starButton" Content="" HorizontalAlignment="Left" Margin="10,0,0,290" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" FontWeight="Bold" FontSize="48" Click="starButton_Click" BorderBrush="#00000000">
+                        <k:KinectTileButton.Background>
+                            <ImageBrush ImageSource="Icons/starpattern.png" Stretch="Uniform"/>
+                        </k:KinectTileButton.Background>
+                    </k:KinectTileButton>
+                    <k:KinectTileButton x:Name="splatterButton" Content="" HorizontalAlignment="Left" Margin="10,0,0,430" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" FontWeight="Bold" FontSize="48" Click="starButton_Click" BorderBrush="#00000000">
+                        <k:KinectTileButton.Background>
+                            <ImageBrush ImageSource="Icons/Splatter-outline.png" Stretch="Uniform"/>
+                        </k:KinectTileButton.Background>
+                    </k:KinectTileButton>
                 </Grid>
+
+                <!-- Buttonit paksuuden vaihdolle -->
+                <k:KinectTileButton x:Name="thicknessUpButton" Content="+" HorizontalAlignment="Right" Margin="0,0,0,180" VerticalAlignment="Center" Width="180" Height="180" Panel.ZIndex="10" Click="brushButton_Click" BorderBrush="White" Foreground="White" LabelBackground="White" Background="#FF636363" FontSize="90" FontWeight="Bold"/>
+                <k:KinectTileButton x:Name="thicknessDownButton" Content="-" HorizontalAlignment="Right" Margin="0,180,0,0" VerticalAlignment="Center" Width="180" Height="180" Panel.ZIndex="10" Click="brushButton_Click" BorderBrush="White" Foreground="White" LabelBackground="White" Background="#FF636363" FontSize="90" FontWeight="Bold"/>
 
 
 
