@@ -364,7 +364,12 @@ namespace motion_paint
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/pictures" ;
+            if (!System.IO.Directory.Exists(path)) 
+            {
+                System.IO.Directory.CreateDirectory(path);
+            }
+
             Uri pictureUri;
 
             if (fileName == null || fileName == "")
