@@ -618,6 +618,19 @@ namespace motion_paint
             patternMenu.Visibility = System.Windows.Visibility.Collapsed;
         }
 
+        private void thicknessAddButton_Click(object sender, RoutedEventArgs e) 
+        {
+            thickness += 10;
+        }
+
+        private void thicknessDecreaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (thickness >= 20) 
+            {
+                thickness -= 10;
+            }
+        }
+
         private bool changeLoadMenuButtonBackgrounds() 
         {
             List<string> images = getImagePreviews(6, offset);

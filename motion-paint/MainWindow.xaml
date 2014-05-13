@@ -173,8 +173,8 @@
                 </Grid>
 
                 <!-- Buttonit paksuuden vaihdolle -->
-                <k:KinectTileButton x:Name="thicknessUpButton" Content="+" HorizontalAlignment="Right" Margin="0,0,0,180" VerticalAlignment="Center" Width="180" Height="180" Panel.ZIndex="10" Click="brushButton_Click" BorderBrush="White" Foreground="White" LabelBackground="White" Background="#FF636363" FontSize="90" FontWeight="Bold"/>
-                <k:KinectTileButton x:Name="thicknessDownButton" Content="-" HorizontalAlignment="Right" Margin="0,180,0,0" VerticalAlignment="Center" Width="180" Height="180" Panel.ZIndex="10" Click="brushButton_Click" BorderBrush="White" Foreground="White" LabelBackground="White" Background="#FF636363" FontSize="90" FontWeight="Bold"/>
+                <k:KinectTileButton x:Name="thicknessUpButton" Content="+" HorizontalAlignment="Right" Margin="0,0,0,180" VerticalAlignment="Center" Width="180" Height="180" Panel.ZIndex="10" Click="thicknessAddButton_Click" BorderBrush="White" Foreground="White" LabelBackground="White" Background="#FF636363" FontSize="90" FontWeight="Bold"/>
+                <k:KinectTileButton x:Name="thicknessDownButton" Content="-" HorizontalAlignment="Right" Margin="0,180,0,0" VerticalAlignment="Center" Width="180" Height="180" Panel.ZIndex="10" Click="thicknessDecreaseButton_Click" BorderBrush="White" Foreground="White" LabelBackground="White" Background="#FF636363" FontSize="90" FontWeight="Bold"/>
 
                 <!-- Overlay for select image menu-->
                 <Grid x:Name="imageSelectOverlay" MinWidth="1280" MinHeight="720" Visibility="Collapsed" Background="#FF838383" Margin="18,20,19,20" Panel.ZIndex="60">
