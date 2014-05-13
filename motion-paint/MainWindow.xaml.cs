@@ -572,7 +572,7 @@ namespace motion_paint
 
         private void paintThrowButton_Click(object sender, RoutedEventArgs e)
         {
-            tool = "paintthrow";
+            tool = "throwpaint";
             if (color == Colors.White)
                 color = lastColor;
         }
