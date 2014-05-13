@@ -486,6 +486,7 @@ namespace motion_paint
         private void newFileButton_Click(object sender, RoutedEventArgs e)
         {
             inkCanvas.Children.Clear();
+            inkCanvas.Strokes.Clear();
             paintingId++;
             fileName = "";
         }
@@ -629,7 +630,7 @@ namespace motion_paint
                 {
                     img = images[i];
                     brush = new ImageBrush();
-                    brush.ImageSource = new BitmapImage(new Uri(img, UriKind.Absolute));
+                    brush.ImageSource = new BitmapImage(new Uri(img, UriKind.Absolute)).Clone();
                 }
                 else
                 {
@@ -645,6 +646,7 @@ namespace motion_paint
                         }
                         else
                         {
+                            imageButton1.Tag = img;
                             imageButton1.Visibility = Visibility.Visible;
                             imageButton1.Background = brush;
                         }
@@ -656,6 +658,7 @@ namespace motion_paint
                         }
                         else
                         {
+                            imageButton2.Tag = img;
                             imageButton2.Visibility = Visibility.Visible;
                             imageButton2.Background = brush;
                         }
@@ -667,6 +670,7 @@ namespace motion_paint
                         }
                         else
                         {
+                            imageButton3.Tag = img;
                             imageButton3.Visibility = Visibility.Visible;
                             imageButton3.Background = brush;
                         }
@@ -678,6 +682,7 @@ namespace motion_paint
                         }
                         else
                         {
+                            imageButton4.Tag = img;
                             imageButton4.Visibility = Visibility.Visible;
                             imageButton4.Background = brush;
                         }
@@ -689,6 +694,7 @@ namespace motion_paint
                         }
                         else
                         {
+                            imageButton5.Tag = img;
                             imageButton5.Visibility = Visibility.Visible;
                             imageButton5.Background = brush;
                         }
@@ -700,6 +706,7 @@ namespace motion_paint
                         }
                         else
                         {
+                            imageButton6.Tag = img;
                             imageButton6.Visibility = Visibility.Visible;
                             imageButton6.Background = brush;
                         }
@@ -726,6 +733,18 @@ namespace motion_paint
         {
             offset -= 6;
             changeLoadMenuButtonBackgrounds();
+        }
+
+        private void loadPicture_Click(object sender, RoutedEventArgs e) 
+        {
+            var button = (KinectTileButton)sender;
+            string imgPath = (string)button.Tag;
+
+            inkCanvas.Children.Clear();
+            inkCanvas.Strokes.Clear();
+            fileName = System.IO.Path.GetFileName(imgPath);
+            Loadimage.ImportPng(new Uri(imgPath), inkCanvas);
+            imageSelectOverlay.Visibility = Visibility.Collapsed;
         }
 
         private void closeOverlay_Click(object sender, RoutedEventArgs e)
