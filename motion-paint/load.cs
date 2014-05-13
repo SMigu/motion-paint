@@ -33,5 +33,18 @@ namespace motion_paint
             image.Stretch = Stretch.UniformToFill;
             Surface.Children.Add(image);
         }
+
+        public static Image getImage(Uri path) 
+        {
+            Stream imageStreamSource = new FileStream("path", FileMode.Open, FileAccess.Read, FileShare.Read);
+            PngBitmapDecoder decoder = new PngBitmapDecoder(imageStreamSource, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.Default);
+            BitmapSource bitmapSource = decoder.Frames[0];
+
+            // Draw the Image
+            var image = new Image();
+            image.Source = bitmapSource;
+
+            return image;
+        }
     }
 }
