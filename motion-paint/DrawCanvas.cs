@@ -24,6 +24,7 @@ namespace motion_paint
             }
             double angle;
             double radians;
+            Random NextDouble = new Random();
             switch(brush)
             {
 
@@ -53,7 +54,7 @@ namespace motion_paint
                     Surface.Children.Add(line);
                     break;
                 case "paintsplatter":
-                    Random NextDouble = new Random();
+                    //Random NextDouble = new Random();
                     int iterationValue;
                     int curveValue;
                     int magnifyValue;
@@ -79,18 +80,19 @@ namespace motion_paint
                     }
                     break;
                 case "trianglespray":
-                    Random NextDouble1 = new Random();
                     int iterationValue1;                   
                     int magnifyValue1;
-                    int curveValue1;
-                    
-                    
+                    //int curveValue1;  
+                    if (thickness<20)
+                    {
+                        thickness = 20;
+                    }
 
-
-                    magnifyValue1 = Convert.ToInt32((NextDouble1.NextDouble() * thickness/4)*2);
-                    iterationValue1 = Convert.ToInt32((NextDouble1.NextDouble() * magnifyValue1));
+                    magnifyValue1 = Convert.ToInt32((NextDouble.NextDouble() * thickness)*1.5);
+                    iterationValue1 = Convert.ToInt32((NextDouble.NextDouble() * magnifyValue1)/2);
                     for (int i = 0; i < iterationValue1; i++)
                     {
+                        
                         startPoint = nextPoint;
                         Polygon Triangle = new Polygon();
                         Point Point1 = new Point(startPoint.X - magnifyValue1, startPoint.Y);
@@ -101,19 +103,21 @@ namespace motion_paint
                         Tripoints.Add(Point1);
                         Tripoints.Add(Point2);
                         Tripoints.Add(Point3);
-                        Triangle.StrokeThickness = (iterationValue1 - i)/3;
+                        Triangle.StrokeThickness = (iterationValue1 - i)/8;
                         Triangle.StrokeStartLineCap = PenLineCap.Round;
                         Triangle.StrokeEndLineCap = PenLineCap.Round;
                         Triangle.Points = Tripoints;
                         radians = Math.Atan2(nextPoint.Y - currentPoint.Y, nextPoint.X - currentPoint.X);
-                        angle = (radians) * (180 / Math.PI) + magnifyValue1;
+                        angle = (radians) * (180 / Math.PI)*1.4;
 
                         Triangle.RenderTransform = new RotateTransform(angle, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
 
-                        curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 3));
-                        nextPoint.X += curveValue1;
-                        curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 3));
-                        nextPoint.Y += curveValue1;
+
+                        //curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 2));
+                        //nextPoint.X += curveValue1/4;
+                        //curveValue1 = Convert.ToInt32(((NextDouble1.NextDouble() * (iterationValue1 - i))) - ((iterationValue1 - i) / 2));
+                        //nextPoint.Y += curveValue1/4;
+
 
                         //Triangle.Fill = new SolidColorBrush(color);
                         
@@ -122,13 +126,16 @@ namespace motion_paint
                     }
                     break;
                 case "starspray":
-                    Random NextDouble2 = new Random();
                     int iterationValue2;
                     int magnifyValue2;
-                    int curveValue2;
+                    //int curveValue2;
+                    if (thickness < 20)
+                    {
+                        thickness = 20;
+                    }
                     
-                    magnifyValue2 = Convert.ToInt32((NextDouble2.NextDouble() * thickness/4))*2;
-                    iterationValue2 = Convert.ToInt32((NextDouble2.NextDouble() * magnifyValue2));
+                    magnifyValue2 = Convert.ToInt32((NextDouble.NextDouble() * thickness));
+                    iterationValue2 = Convert.ToInt32((NextDouble.NextDouble() * magnifyValue2)/5);
                     for (int i = 0; i < iterationValue2; i++)
                     {
                         startPoint = nextPoint;
@@ -156,7 +163,7 @@ namespace motion_paint
                         Starpoints.Add(Point5);
                        
 
-                        Star.StrokeThickness = (iterationValue2 - i);
+                        Star.StrokeThickness = 1;
                         Star.StrokeStartLineCap = PenLineCap.Round;
                         Star.StrokeEndLineCap = PenLineCap.Round;
                         Star.Points = Starpoints;
@@ -165,23 +172,26 @@ namespace motion_paint
 
                         Star.RenderTransform = new RotateTransform(angle, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
 
-                        curveValue2 = Convert.ToInt32(((NextDouble2.NextDouble() * (iterationValue2 - i))) - ((iterationValue2 - i) / 2));
-                        nextPoint.X += curveValue2;
-                        curveValue2 = Convert.ToInt32(((NextDouble2.NextDouble() * (iterationValue2 - i))) - ((iterationValue2 - i) / 2));
-                        nextPoint.Y += curveValue2;
+                        //curveValue2 = Convert.ToInt32(((NextDouble2.NextDouble() * (iterationValue2 - i))) - ((iterationValue2 - i) / 2));
+                        //nextPoint.X += curveValue2/10;
+                        //curveValue2 = Convert.ToInt32(((NextDouble2.NextDouble() * (iterationValue2 - i))) - ((iterationValue2 - i) / 2));
+                        //nextPoint.Y += curveValue2/10;
                         Star.Fill = new SolidColorBrush(color);
 
                         Star.Stroke = new SolidColorBrush(color);
                         Surface.Children.Add(Star);
                     }
                     break;
-                case "squarespray":
-                    Random NextDouble3 = new Random();
+                case "squarespray":                    
                     int iterationValue3;
                     int magnifyValue3;
-                    int curveValue3;
-                    magnifyValue3 = Convert.ToInt32((NextDouble3.NextDouble() * thickness/4))*2;
-                    iterationValue3 = Convert.ToInt32((NextDouble3.NextDouble() * magnifyValue3));
+                    //int curveValue3;
+                    if (thickness < 20)
+                    {
+                        thickness = 20;
+                    }
+                    magnifyValue3 = Convert.ToInt32((NextDouble.NextDouble() * thickness)*1.5);
+                    iterationValue3 = Convert.ToInt32((NextDouble.NextDouble() * magnifyValue3)/1.5);
                     for (int i = 0; i < iterationValue3; i++)
                     {
                         startPoint = nextPoint;
@@ -201,19 +211,19 @@ namespace motion_paint
                         Squarepoints.Add(Point5);
                         
 
-                        Square.StrokeThickness = (iterationValue3 - i);
+                        Square.StrokeThickness = (iterationValue3 - i)/8;
                         Square.StrokeStartLineCap = PenLineCap.Round;
                         Square.StrokeEndLineCap = PenLineCap.Round;
                         Square.Points = Squarepoints;
                         radians = Math.Atan2(nextPoint.Y - currentPoint.Y, nextPoint.X - currentPoint.X);
-                        angle = radians * (180 / Math.PI)+magnifyValue3;
+                        angle = radians * (180 / Math.PI)*1.3;
 
                         Square.RenderTransform = new RotateTransform(angle, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
 
-                        curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
-                        nextPoint.X += curveValue3;
-                        curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
-                        nextPoint.Y += curveValue3;
+                        //curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
+                        //nextPoint.X += curveValue3;
+                        //curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
+                        //nextPoint.Y += curveValue3;
                         //Square.Fill = new SolidColorBrush(color);
 
                         Square.Stroke = new SolidColorBrush(color);
