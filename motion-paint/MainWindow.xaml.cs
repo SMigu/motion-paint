@@ -40,6 +40,7 @@ namespace motion_paint
         private Color lastColor;
         private Color color = Colors.Black;
         private string fileName;
+        private string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/pictures" ;
 
         public MainWindow()
         {
@@ -321,6 +322,41 @@ namespace motion_paint
             dispatcherTimer.Start();
         }
 
+        private List<Image> getImagePreviews(int amount, int offset)
+        {
+            List<Image> retPics = new List<Image>();
+            if (Directory.Exists(path))
+            {
+                string[] files = Directory.GetFiles(path);
+                List<FileInfo> pictures = new List<FileInfo>();
+
+                if (files != null || files.Length != 0)
+                {
+                    foreach (var file in files)
+                    {
+                        string ext = System.IO.Path.GetExtension(file);
+                        if (ext == ".png")
+                        {
+                            FileInfo fInfo = new FileInfo(file);
+                            pictures.Add(fInfo);
+                        }
+                    }
+
+                    if (pictures.Count != 0) 
+                    {
+                        pictures = pictures.OrderBy(o => o.LastWriteTime).ToList();
+                        for (int i = 0+offset; i < amount; i++)
+                        {
+                            string picPath = pictures[i].FullName;
+                            Image image = Loadimage.getImage(new Uri(picPath));
+                            retPics.Add(image);
+                        }
+                    }
+                }
+            }
+            return retPics;
+        }
+
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             MessageLabel.Content = "";
@@ -364,7 +400,6 @@ namespace motion_paint
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/pictures" ;
             if (!System.IO.Directory.Exists(path)) 
             {
                 System.IO.Directory.CreateDirectory(path);
