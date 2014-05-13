@@ -41,6 +41,7 @@ namespace motion_paint
         private Color color = Colors.Black;
         private string fileName;
         private string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/pictures" ;
+        private int offset = 0;
 
         public MainWindow()
         {
@@ -377,7 +378,7 @@ namespace motion_paint
                     if (pictures.Count != 0) 
                     {
                         pictures = pictures.OrderBy(o => o.LastWriteTime).ToList();
-                        for (int i = 0+offset; i < amount; i++)
+                        for (int i = 0+offset; i < amount+offset; i++)
                         {
                             string picPath;
                             try
@@ -616,12 +617,12 @@ namespace motion_paint
             patternMenu.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        private void openFileButton_Click(object sender, RoutedEventArgs e)
+        private void changeLoadMenuButtonBackgrounds() 
         {
-            List<string> images = getImagePreviews(6,0);
+            List<string> images = getImagePreviews(6, offset);
             string img = "";
             ImageBrush brush = null;
-            
+
             for (int i = 0; i < 6; i++)
             {
                 if (images[i] != "")
@@ -630,7 +631,7 @@ namespace motion_paint
                     brush = new ImageBrush();
                     brush.ImageSource = new BitmapImage(new Uri(img, UriKind.Absolute));
                 }
-                else 
+                else
                 {
                     img = "";
                 }
@@ -642,11 +643,11 @@ namespace motion_paint
                         {
                             imageButton1.Visibility = Visibility.Hidden;
                         }
-                        else 
+                        else
                         {
                             imageButton1.Visibility = Visibility.Visible;
                             imageButton1.Background = brush;
-                        } 
+                        }
                         break;
                     case 1:
                         if (img == "")
@@ -657,7 +658,7 @@ namespace motion_paint
                         {
                             imageButton2.Visibility = Visibility.Visible;
                             imageButton2.Background = brush;
-                        } 
+                        }
                         break;
                     case 2:
                         if (img == "")
@@ -668,7 +669,7 @@ namespace motion_paint
                         {
                             imageButton3.Visibility = Visibility.Visible;
                             imageButton3.Background = brush;
-                        } 
+                        }
                         break;
                     case 3:
                         if (img == "")
@@ -679,7 +680,7 @@ namespace motion_paint
                         {
                             imageButton4.Visibility = Visibility.Visible;
                             imageButton4.Background = brush;
-                        } 
+                        }
                         break;
                     case 4:
                         if (img == "")
@@ -690,7 +691,7 @@ namespace motion_paint
                         {
                             imageButton5.Visibility = Visibility.Visible;
                             imageButton5.Background = brush;
-                        } 
+                        }
                         break;
                     case 5:
                         if (img == "")
@@ -701,13 +702,30 @@ namespace motion_paint
                         {
                             imageButton6.Visibility = Visibility.Visible;
                             imageButton6.Background = brush;
-                        } 
+                        }
                         break;
                     default:
                         break;
                 }
             }
+        }
+
+        private void openFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            changeLoadMenuButtonBackgrounds();   
             imageSelectOverlay.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void nextImagesButton_Click(object sender, RoutedEventArgs e) 
+        {
+            offset += 6;
+            changeLoadMenuButtonBackgrounds();
+        }
+
+        private void previousImagesButton_Click(object sender, RoutedEventArgs e) 
+        {
+            offset -= 6;
+            changeLoadMenuButtonBackgrounds();
         }
 
         private void closeOverlay_Click(object sender, RoutedEventArgs e)
