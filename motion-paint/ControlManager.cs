@@ -102,14 +102,9 @@ namespace motion_paint
             return modesList.ElementAt(currentModeId).getCursorLocation(region);
         }
 
-        public Dictionary<Point3D, DateTime> getHandLocation()
-        {
-            var dict = new Dictionary<Point3D, DateTime>();
-            var location =  modesList.ElementAt(currentModeId).getHandLocation();
-            var time = DateTime.Now;
-            dict.Add(location,time);
-
-            return dict;
+        public Point3D getHandLocation()
+        {            
+            return modesList.ElementAt(currentModeId).getHandLocation();            
         }
 
         public double calculateSpeed(Dictionary<Point3D, DateTime> lastLocationData, Dictionary<Point3D, DateTime> currentLocationData)

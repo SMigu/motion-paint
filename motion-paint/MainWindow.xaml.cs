@@ -18,6 +18,7 @@ using Microsoft.Kinect.Toolkit;
 using Microsoft.Kinect.Toolkit.Interaction;
 using Microsoft.Kinect.Toolkit.Controls;
 using System.IO;
+using System.Windows.Media.Media3D;
 
 
 namespace motion_paint
@@ -260,6 +261,8 @@ namespace motion_paint
 
         public Point oldPoint;
         public Point newPoint;
+        public Point3D oldDepth;
+        public Point3D newDepth;
         bool stopDraw;
 
         private void InteractionStreamOnInteractionFrameReady(object sender, InteractionFrameReadyEventArgs e)
@@ -277,13 +280,22 @@ namespace motion_paint
             {
                 newPoint = controlManager.getCursorLocation(kinectRegion);
 
+                if (oldDepth == null || stopDraw == true)
+                {
+                    oldDepth = newDepth;
+
+                }
                 if (oldPoint == null || stopDraw == true )
                 {
                     oldPoint = newPoint;
                     stopDraw = false;
                 }
-                DrawCanvas.Paint(oldPoint, newPoint, inkCanvas, color, thickness, tool);
+
+                newDepth = controlManager.getHandLocation();
+
+                DrawCanvas.Paint(oldPoint, newPoint, inkCanvas, color, thickness, tool, oldDepth, newDepth);
                 oldPoint = newPoint;
+                oldDepth = newDepth;
             }
             else
             {

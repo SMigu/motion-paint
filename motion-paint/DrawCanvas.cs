@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Media3D;
 using System.Windows.Shapes;
 
 namespace motion_paint
@@ -13,7 +14,7 @@ namespace motion_paint
     public static class DrawCanvas
     {
 
-        public static void Paint(Point startPoint, Point nextPoint, InkCanvas Surface, Color color, int thickness, string brush)
+        public static void Paint(Point startPoint, Point nextPoint, InkCanvas Surface, Color color, int thickness, string brush, Point3D startDepth, Point3D nextDepth)
         {
             Point currentPoint = new Point();
             Line line = new Line();
@@ -219,7 +220,7 @@ namespace motion_paint
                         angle = radians * (180 / Math.PI)*1.3;
 
                         Square.RenderTransform = new RotateTransform(angle, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
-
+                        
                         //curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
                         //nextPoint.X += curveValue3;
                         //curveValue3 = Convert.ToInt32(((NextDouble3.NextDouble() * (iterationValue3 - i))) - ((iterationValue3 - i) / 2));
@@ -228,6 +229,205 @@ namespace motion_paint
 
                         Square.Stroke = new SolidColorBrush(color);
                         Surface.Children.Add(Square);
+                    }
+                    break;
+                case "throwpaint":
+
+                    while (nextDepth.Z - startDepth.Z > 0.05)
+                    {
+                        
+                        Point modPoint = new Point();
+
+                        modPoint.X = nextPoint.X + (nextPoint.X - startPoint.X)*2;
+                        modPoint.Y = nextPoint.Y + (nextPoint.Y - startPoint.Y)*2;
+                        Point mPoint1 = new Point((startPoint.X + nextPoint.X) / 2, (startPoint.Y + nextPoint.Y) / 2);
+                        Point mPoint3 = new Point((startPoint.X + mPoint1.X) / 2, (startPoint.Y + mPoint1.Y) / 2);
+                        Point mPoint2 = new Point((nextPoint.X + modPoint.X) / 2, (nextPoint.Y + modPoint.Y) / 2);
+                        Point mPoint4 = new Point((mPoint1.X + nextPoint.X) / 2, (mPoint1.Y + nextPoint.Y) / 2);
+                        Point mPoint5 = new Point((nextPoint.X + mPoint2.X) / 2, (nextPoint.Y + mPoint2.Y) / 2);
+                        Point mPoint6 = new Point((mPoint2.X + modPoint.X) / 2, (mPoint2.Y + modPoint.Y) / 2);
+                        
+                        nextDepth.Z = startDepth.Z;
+                        
+
+                        int iterationValue4;
+                        int magnifyValue4;
+                        magnifyValue4 = Convert.ToInt32((NextDouble.NextDouble() * thickness));
+                        iterationValue4 = Convert.ToInt32((NextDouble.NextDouble() * magnifyValue4*2.1));
+
+                        for (int i = 0; i < iterationValue4; i++)
+                        {
+
+                        //startPoint = nextPoint;
+                        Line Line1 = new Line();
+                        Line1.StrokeThickness = (iterationValue4 - i);
+                        Line1.StrokeStartLineCap = PenLineCap.Round;
+                        Line1.StrokeEndLineCap = PenLineCap.Round;
+                        Line1.X1 = startPoint.X;
+                        Line1.Y1 = startPoint.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        startPoint.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        startPoint.Y += curveValue;
+                        Line1.X2 = startPoint.X;
+                        Line1.Y2 = startPoint.Y;
+                        Line1.Stroke = new SolidColorBrush(color);
+                       
+                        Surface.Children.Add(Line1);
+
+                        Line Line6 = new Line();
+                        
+                        Line6.StrokeThickness = (iterationValue4 - i);
+                        Line6.StrokeStartLineCap = PenLineCap.Round;
+                        Line6.StrokeEndLineCap = PenLineCap.Round;
+                        Line6.X1 = mPoint3.X;
+                        Line6.Y1 = mPoint3.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint3.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint3.Y += curveValue;
+                        Line6.X2 = mPoint3.X;
+                        Line6.Y2 = mPoint3.Y;
+                        Line6.Stroke = new SolidColorBrush(color);
+
+                        Surface.Children.Add(Line6);
+
+                        Line Line4 = new Line();
+                        
+                        Line4.StrokeThickness = (iterationValue4 - i);
+                        Line4.StrokeStartLineCap = PenLineCap.Round;
+                        Line4.StrokeEndLineCap = PenLineCap.Round;
+                        Line4.X1 = mPoint1.X;
+                        Line4.Y1 = mPoint1.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint1.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint1.Y += curveValue;
+                        Line4.X2 = mPoint1.X;
+                        Line4.Y2 = mPoint1.Y;
+                        Line4.Stroke = new SolidColorBrush(color);
+
+                        Surface.Children.Add(Line4);
+
+                        Line Line7 = new Line();
+
+                        Line7.StrokeThickness = (iterationValue4 - i);
+                        Line7.StrokeStartLineCap = PenLineCap.Round;
+                        Line7.StrokeEndLineCap = PenLineCap.Round;
+                        Line7.X1 = mPoint4.X;
+                        Line7.Y1 = mPoint4.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint4.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint4.Y += curveValue;
+                        Line7.X2 = mPoint4.X;
+                        Line7.Y2 = mPoint4.Y;
+                        Line7.Stroke = new SolidColorBrush(color);
+
+                        Surface.Children.Add(Line7);
+
+                        Line Line8 = new Line();
+
+                        Line8.StrokeThickness = (iterationValue4 - i);
+                        Line8.StrokeStartLineCap = PenLineCap.Round;
+                        Line8.StrokeEndLineCap = PenLineCap.Round;
+                        Line8.X1 = mPoint5.X;
+                        Line8.Y1 = mPoint5.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint5.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint5.Y += curveValue;
+                        Line8.X2 = mPoint5.X;
+                        Line8.Y2 = mPoint5.Y;
+                        Line8.Stroke = new SolidColorBrush(color);
+
+                        Surface.Children.Add(Line8);
+
+                        Line Line9 = new Line();
+
+                        Line9.StrokeThickness = (iterationValue4 - i);
+                        Line9.StrokeStartLineCap = PenLineCap.Round;
+                        Line9.StrokeEndLineCap = PenLineCap.Round;
+                        Line9.X1 = mPoint6.X;
+                        Line9.Y1 = mPoint6.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint6.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint6.Y += curveValue;
+                        Line9.X2 = mPoint6.X;
+                        Line9.Y2 = mPoint6.Y;
+                        Line9.Stroke = new SolidColorBrush(color);
+
+                        Surface.Children.Add(Line9);
+
+                        startPoint = nextPoint;
+                        Line Line3 = new Line();
+                        Line3.StrokeThickness = (iterationValue4 - i);
+                        Line3.StrokeStartLineCap = PenLineCap.Round;
+                        Line3.StrokeEndLineCap = PenLineCap.Round;
+                        Line3.X1 = nextPoint.X;
+                        Line3.Y1 = nextPoint.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        nextPoint.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        nextPoint.Y += curveValue;
+                        Line3.X2 = nextPoint.X;
+                        Line3.Y2 = nextPoint.Y;
+                        Line3.Stroke = new SolidColorBrush(color);
+                        Surface.Children.Add(Line3);
+
+                        Line Line5 = new Line();
+                        
+                        Line5.StrokeThickness = (iterationValue4 - i);
+                        Line5.StrokeStartLineCap = PenLineCap.Round;
+                        Line5.StrokeEndLineCap = PenLineCap.Round;
+                        Line5.X1 = mPoint2.X;
+                        Line5.Y1 = mPoint2.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint2.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        mPoint2.Y += curveValue;
+                        Line5.X2 = mPoint2.X;
+                        Line5.Y2 = mPoint2.Y;
+                        Line5.Stroke = new SolidColorBrush(color);
+
+                        Surface.Children.Add(Line5);
+
+                        Line Line2 = new Line();                                                
+                        Line2.StrokeThickness = (iterationValue4 - i);
+                        Line2.StrokeStartLineCap = PenLineCap.Round;
+                        Line2.StrokeEndLineCap = PenLineCap.Round;
+                        Line2.X1 = modPoint.X;
+                        Line2.Y1 = modPoint.Y;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        modPoint.X += curveValue;
+                        curveValue = Convert.ToInt32(((NextDouble.NextDouble() * (iterationValue4 - i))) - ((iterationValue4 - i) / 2));
+                        modPoint.Y += curveValue;
+                        Line2.X2 = modPoint.X;
+                        Line2.Y2 = modPoint.Y;
+                        Line2.Stroke = new SolidColorBrush(color);
+                        Surface.Children.Add(Line2);
+                        
+                        
+
+                        
+                        
+                        
+
+                            
+                        }
+
+
+                        
+
+                        //line.RenderTransform = new RotateTransform(angle, (nextPoint.X + startPoint.X) / 2, (nextPoint.Y + startPoint.Y) / 2);
+                        
+
+                        //currentPoint = modPoint;
+                        //currentPoint = modPoint;
+
+                        break;
+                   
                     }
                     break;
                 default:
