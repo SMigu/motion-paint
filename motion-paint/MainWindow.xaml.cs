@@ -618,7 +618,7 @@ namespace motion_paint
             patternMenu.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        private void changeLoadMenuButtonBackgrounds() 
+        private bool changeLoadMenuButtonBackgrounds() 
         {
             List<string> images = getImagePreviews(6, offset);
             string img = "";
@@ -642,7 +642,7 @@ namespace motion_paint
                     case 0:
                         if (img == "")
                         {
-                            imageButton1.Visibility = Visibility.Hidden;
+                            return false;
                         }
                         else
                         {
@@ -715,6 +715,7 @@ namespace motion_paint
                         break;
                 }
             }
+            return true;
         }
 
         private void openFileButton_Click(object sender, RoutedEventArgs e)
@@ -726,13 +727,20 @@ namespace motion_paint
         private void nextImagesButton_Click(object sender, RoutedEventArgs e) 
         {
             offset += 6;
-            changeLoadMenuButtonBackgrounds();
+            if (!changeLoadMenuButtonBackgrounds())
+            {
+                offset -= 6;
+            }
         }
 
         private void previousImagesButton_Click(object sender, RoutedEventArgs e) 
         {
             offset -= 6;
-            changeLoadMenuButtonBackgrounds();
+            if (!changeLoadMenuButtonBackgrounds()) 
+            {
+                offset += 6;
+            }
+           
         }
 
         private void loadPicture_Click(object sender, RoutedEventArgs e) 
