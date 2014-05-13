@@ -58,6 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="load.cs" />
     <Compile Include="OneHandMode.cs" />
     <Compile Include="SettingsManager.cs" />
     <Compile Include="TwoHandMode.cs" />
@@ -165,6 +166,14 @@
       <Project>{c6f9c31b-6130-4443-a5cc-ef0664552ecd}</Project>
       <Name>Microsoft.Kinect.Toolkit</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\squarepattern.png" />
+    <Resource Include="Icons\starpattern.png" />
+    <Resource Include="Icons\trianglepattern.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Splatter-outline.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

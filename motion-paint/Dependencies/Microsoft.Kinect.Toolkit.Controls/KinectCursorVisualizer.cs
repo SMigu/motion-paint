@@ -22,19 +22,19 @@ namespace Microsoft.Kinect.Toolkit.Controls
     public class KinectCursorVisualizer : Canvas
     {
         public static readonly DependencyProperty CursorPressingColorProperty = DependencyProperty.Register(
-            "CursorPressingColor", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 102, 48, 133)));
+            "CursorPressingColor", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 222, 0, 82)));
 
         public static readonly DependencyProperty CursorExtendedColor1Property = DependencyProperty.Register(
-            "CursorExtendedColor1", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 1, 179, 255)));
+            "CursorExtendedColor1", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 255, 139, 0)));
 
         public static readonly DependencyProperty CursorExtendedColor2Property = DependencyProperty.Register(
-            "CursorExtendedColor2", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 04, 229, 255)));
+            "CursorExtendedColor2", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 255, 57, 0)));
 
         public static readonly DependencyProperty CursorGrippedColor1Property = DependencyProperty.Register(
-            "CursorGrippedColor1", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 1, 179, 255)));
+            "CursorGrippedColor1", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 255, 139, 0)));
 
         public static readonly DependencyProperty CursorGrippedColor2Property = DependencyProperty.Register(
-            "CursorGrippedColor2", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 04, 229, 255)));
+            "CursorGrippedColor2", typeof(Color), typeof(KinectCursorVisualizer), new PropertyMetadata(Color.FromArgb(255, 255, 57, 0)));
 
         private const double CursorBoundsMargin = 20.0;
 
@@ -263,6 +263,8 @@ namespace Microsoft.Kinect.Toolkit.Controls
                 // display any pressing progress.
                 double adjustedPressExtent = isOverPressTarget ? pointer.PressExtent : 0.0;
 
+                if ((string)kinectRegion.Tag == "draw")
+                    isHovering = true;
                 cursor.IsHovering = isHovering;
                 cursor.IsPressed = isOverPressTarget && pointer.IsPressed && !pointer.IsInGripInteraction;
                 cursor.PressExtent = adjustedPressExtent;

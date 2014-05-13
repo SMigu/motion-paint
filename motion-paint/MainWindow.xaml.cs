@@ -38,9 +38,11 @@ namespace motion_paint
         private int paintingId = 0;
         private int thickness = 40;
         private string tool = "paintsplatter";
-        private Color lastColor;
+        private Color lastColor = Colors.Black;
         private Color color = Colors.Black;
         private string fileName;
+        private string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/pictures" ;
+        private int offset = 0;
 
         public MainWindow()
         {
@@ -50,11 +52,7 @@ namespace motion_paint
             // initialize control modes
             controlManager.addControlMode(new OneHandMode(controlManager)); // id 0
             controlManager.addControlMode(new TwoHandMode(controlManager)); // id 1
-            controlManager.changeCurrentControlMode(settings.controlModeId);
-
-            //set the size of the canvas on load
-            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 20;
-            //inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - BottomBar.Height;
+            controlManager.changeCurrentControlMode(settings.controlModeId);       
             
             //set the widths of the bars on load
             BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
@@ -68,12 +66,20 @@ namespace motion_paint
             //Set size, color and margin of message popup
             popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
 
+            //set size of patternMenuBar onload
+            patternMenuBar.Width = patternMenu.Width;
+            patternMenuBar.Height = patternMenu.Height;
+
+            //set the size of the canvas on load
+            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 20;
+            inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - BottomBar.Height -100; 
+
             //Scaling if screen width is small (smaller than 1500), such as laptops
             if (System.Windows.SystemParameters.PrimaryScreenWidth < 1500)
             {
                 //set the new width and height of the buttons
                 brushButton.Width = 160; brushButton.Height = 120;
-                paintsplatterButton.Width = 160; paintsplatterButton.Height = 120;
+                paintThrowButton.Width = 160; paintThrowButton.Height = 120;
                 patternButton.Width = 160; patternButton.Height = 120;
                 eraserButton.Width = 160; eraserButton.Height = 120;
                 newFileButton.Width = 160; newFileButton.Height = 120;
@@ -84,14 +90,38 @@ namespace motion_paint
                 MenuOpenBtn.Width = 100; MenuOpenBtn.Height = 100;
                 BottomBar.Height = 150;
 
+                // Set the thickness adjust buttons
+                thicknessUpButton.Width = 150; thicknessUpButton.Height = 150;
+                thicknessDownButton.Width = 150; thicknessDownButton.Height = 150;
+
+                // set the pattern menu buttons and menu
+                triangleButton.Height = 120; triangleButton.Width = 160;
+                squareButton.Height = 120; squareButton.Width = 160;
+                starButton.Height = 120; starButton.Width = 160;
+                splatterButton.Height = 120; splatterButton.Width = 160;
+
+                patternMenu.Width = 180; patternMenu.Height = 520;
+                patternMenuBar.Width = patternMenu.Width;
+                patternMenuBar.Height = patternMenu.Height;
+
+                //set the new margins of the pattern menu
+                patternMenu.Margin = new Thickness(330, 0, 0, BottomBar.Height-5);
+                triangleButton.Margin = new Thickness(10, 0, 0, 10);
+                squareButton.Margin = new Thickness(10, 0, 0, 140);
+                starButton.Margin = new Thickness(10, 0, 0, 270);
+                splatterButton.Margin = new Thickness(10, 0, 0, 400);
+
+
                 //set the new margins of the buttons
                 brushButton.Margin = new Thickness(10, 0, 0, 15);
-                paintsplatterButton.Margin = new Thickness(170, 0, 0, 15);
+                paintThrowButton.Margin = new Thickness(170, 0, 0, 15);
                 patternButton.Margin = new Thickness(330, 0, 0, 15);
                 eraserButton.Margin = new Thickness(490, 0, 0, 15);
                 newFileButton.Margin = new Thickness(0, 0, 180, 15);
                 openFileButton.Margin = new Thickness(0, 0, 340, 15);
                 SaveButton.Margin = new Thickness(0, 0, 500, 15);
+
+                thicknessDownButton.Margin = new Thickness(0, 110, 0, 0);
 
                 //Scale the color buttons as well
                 ColorButton1.Width = 180; ColorButton2.Width = 180; ColorButton3.Width = 180;
@@ -111,6 +141,10 @@ namespace motion_paint
                 ColorButton10.Margin = new Thickness(560, 0, 0, 10);
                 ColorButton11.Margin = new Thickness(740, 0, 0, 10);
                 ColorButton12.Margin = new Thickness(920, 0, 0, 10);
+
+                //set the inkCanvas again
+                inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 20;
+                inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - BottomBar.Height - 60;   
             }
         }
 
@@ -296,9 +330,11 @@ namespace motion_paint
                 DrawCanvas.Paint(oldPoint, newPoint, inkCanvas, color, thickness, tool, oldDepth, newDepth);
                 oldPoint = newPoint;
                 oldDepth = newDepth;
+                kinectRegion.Tag = "draw";
             }
             else
             {
+                kinectRegion.Tag = "";
                 stopDraw = true;
             }
         }
@@ -333,6 +369,49 @@ namespace motion_paint
             dispatcherTimer.Start();
         }
 
+        private List<string> getImagePreviews(int amount, int offset)
+        {
+            List<string> retPics = new List<string>();
+            if (Directory.Exists(path))
+            {
+                string[] files = Directory.GetFiles(path);
+                List<FileInfo> pictures = new List<FileInfo>();
+
+                if (files != null || files.Length != 0)
+                {
+                    foreach (var file in files)
+                    {
+                        string ext = System.IO.Path.GetExtension(file);
+                        if (ext == ".png")
+                        {
+                            FileInfo fInfo = new FileInfo(file);
+                            pictures.Add(fInfo);
+                        }
+                    }
+
+                    if (pictures.Count != 0) 
+                    {
+                        pictures = pictures.OrderByDescending(o => o.LastWriteTime).ToList();
+                        for (int i = 0+offset; i < amount+offset; i++)
+                        {
+                            string picPath;
+                            try
+                            {
+                                picPath = pictures[i].FullName;
+                            }
+                            catch (ArgumentOutOfRangeException)
+                            {
+                                picPath = "";
+                            }          
+                            
+                            retPics.Add(picPath);
+                        }
+                    }
+                }
+            }
+            return retPics;
+        }
+
         private void dispatcherTimer_Tick(object sender, EventArgs e)
         {
             MessageLabel.Content = "";
@@ -361,7 +440,6 @@ namespace motion_paint
             {
                 ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
             }
-            
         }
 
         private void ColorButton_Click(object sender, RoutedEventArgs e)
@@ -376,7 +454,11 @@ namespace motion_paint
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            string path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            if (!System.IO.Directory.Exists(path)) 
+            {
+                System.IO.Directory.CreateDirectory(path);
+            }
+
             Uri pictureUri;
 
             if (fileName == null || fileName == "")
@@ -418,6 +500,7 @@ namespace motion_paint
         private void newFileButton_Click(object sender, RoutedEventArgs e)
         {
             inkCanvas.Children.Clear();
+            inkCanvas.Strokes.Clear();
             paintingId++;
             fileName = "";
         }
@@ -487,9 +570,9 @@ namespace motion_paint
                 color = lastColor;
         }
 
-        private void paintsplatterButton_Click(object sender, RoutedEventArgs e)
+        private void paintThrowButton_Click(object sender, RoutedEventArgs e)
         {
-            tool = "paintsplatter";
+            tool = "paintthrow";
             if (color == Colors.White)
                 color = lastColor;
         }
@@ -499,82 +582,6 @@ namespace motion_paint
             lastColor = color;
             color = Colors.White;
             tool = "brush";
-        }
-
-        private void MainWindow1_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-
-            //set the size of the canvas on Resize
-            inkCanvas.Width = MainWindow1.Width - 20;
-            inkCanvas.Height = MainWindow1.Height - BottomBar.Height - 150;
-
-            if (MainWindow1.Height < 1000)
-            {
-                inkCanvas.Height = MainWindow1.Height - BottomBar.Height;
-            }
-
-            //set the widths of the bars on Resize
-            BottomBar.Width = MainWindow1.Width;
-            colorBar.Width = MainWindow1.Width;
-
-            //set the size of the menu on Resize
-            OuterMenuGrid.Width = MainWindow1.Width - 10;
-            OuterMenuGrid.Height = MainWindow1.Height - 20;
-            MenuGrid.Width = MainWindow1.Width - 100;
-            MenuGrid.Height = MainWindow1.Height - 20;
-
-            //Scaling if screen width is small (smaller than 1500), such as laptops
-            if (MainWindow1.Width < 1500)
-            {
-                //set the new width and height of the buttons
-                brushButton.Width = 160; brushButton.Height = 120;
-                paintsplatterButton.Width = 160; paintsplatterButton.Height = 120;
-                patternButton.Width = 160; patternButton.Height = 120;
-                eraserButton.Width = 160; eraserButton.Height = 120;
-                newFileButton.Width = 160; newFileButton.Height = 120;
-                openFileButton.Width = 160; openFileButton.Height = 120;
-                SaveButton.Width = 160; SaveButton.Height = 120;
-                ColorWheel.Width = 200; ColorWheel.Height = 200;
-                SelectedColorShower.Width = 140; SelectedColorShower.Height = 140;
-                MenuOpenBtn.Width = 100; MenuOpenBtn.Height = 100;
-                BottomBar.Height = 150;
-
-                inkCanvas.Height = MainWindow1.Height - BottomBar.Height - 40;
-
-                patternMenu.Width = 160; patternMenuBar.Width = 160;
-                triangleButton.Width = 140; squareButton.Width = 140; starButton.Width = 140;
-
-                //set the new margins of the buttons
-                brushButton.Margin = new Thickness(10, 0, 0, 15);
-                paintsplatterButton.Margin = new Thickness(170, 0, 0, 15);
-                patternButton.Margin = new Thickness(330, 0, 0, 15);
-                eraserButton.Margin = new Thickness(490, 0, 0, 15);
-                newFileButton.Margin = new Thickness(0, 0, 180, 15);
-                openFileButton.Margin = new Thickness(0, 0, 340, 15);
-                SaveButton.Margin = new Thickness(0, 0, 500, 15);
-
-                patternMenu.Margin = new Thickness(330, 0, 0, 130);
-
-                //Scale the color buttons as well
-                ColorButton1.Width = 180; ColorButton2.Width = 180; ColorButton3.Width = 180;
-                ColorButton4.Width = 180; ColorButton5.Width = 180; ColorButton6.Width = 180;
-                ColorButton7.Width = 180; ColorButton8.Width = 180; ColorButton9.Width = 180;
-                ColorButton10.Width = 180; ColorButton11.Width = 180; ColorButton12.Width = 180;
-                //set the margins
-                ColorButton1.Margin = new Thickness(10, 0, 0, 190);
-                ColorButton2.Margin = new Thickness(190, 0, 0, 190);
-                ColorButton3.Margin = new Thickness(370, 0, 0, 190);
-                ColorButton4.Margin = new Thickness(560, 0, 0, 190);
-                ColorButton5.Margin = new Thickness(740, 0, 0, 190);
-                ColorButton6.Margin = new Thickness(920, 0, 0, 190);
-                ColorButton7.Margin = new Thickness(10, 0, 0, 10);
-                ColorButton8.Margin = new Thickness(190, 0, 0, 10);
-                ColorButton9.Margin = new Thickness(370, 0, 0, 10);
-                ColorButton10.Margin = new Thickness(560, 0, 0, 10);
-                ColorButton11.Margin = new Thickness(740, 0, 0, 10);
-                ColorButton12.Margin = new Thickness(920, 0, 0, 10);
-            }
-            
         }
 
         private void patternButton_Click(object sender, RoutedEventArgs e)
@@ -614,6 +621,170 @@ namespace motion_paint
                 color = lastColor;
 
             patternMenu.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void paintsplatterButton_Click(object sender, RoutedEventArgs e)
+        {
+            tool = "paintsplatter";
+            if (color == Colors.White)
+                color = lastColor;
+
+            patternMenu.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void thicknessAddButton_Click(object sender, RoutedEventArgs e) 
+        {
+            thickness += 10;
+        }
+
+        private void thicknessDecreaseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (thickness >= 20) 
+            {
+                thickness -= 10;
+            }
+        }
+
+        private bool changeLoadMenuButtonBackgrounds() 
+        {
+            List<string> images = getImagePreviews(6, offset);
+            string img = "";
+            ImageBrush brush = null;
+
+            for (int i = 0; i < 6; i++)
+            {
+                if (images[i] != "")
+                {
+                    img = images[i];
+                    brush = new ImageBrush();
+                    brush.ImageSource = new BitmapImage(new Uri(img, UriKind.Absolute)).Clone();
+                }
+                else
+                {
+                    img = "";
+                }
+
+                switch (i)
+                {
+                    case 0:
+                        if (img == "")
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            imageButton1.Tag = img;
+                            imageButton1.Visibility = Visibility.Visible;
+                            imageButton1.Background = brush;
+                        }
+                        break;
+                    case 1:
+                        if (img == "")
+                        {
+                            imageButton2.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton2.Tag = img;
+                            imageButton2.Visibility = Visibility.Visible;
+                            imageButton2.Background = brush;
+                        }
+                        break;
+                    case 2:
+                        if (img == "")
+                        {
+                            imageButton3.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton3.Tag = img;
+                            imageButton3.Visibility = Visibility.Visible;
+                            imageButton3.Background = brush;
+                        }
+                        break;
+                    case 3:
+                        if (img == "")
+                        {
+                            imageButton4.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton4.Tag = img;
+                            imageButton4.Visibility = Visibility.Visible;
+                            imageButton4.Background = brush;
+                        }
+                        break;
+                    case 4:
+                        if (img == "")
+                        {
+                            imageButton5.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton5.Tag = img;
+                            imageButton5.Visibility = Visibility.Visible;
+                            imageButton5.Background = brush;
+                        }
+                        break;
+                    case 5:
+                        if (img == "")
+                        {
+                            imageButton6.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton6.Tag = img;
+                            imageButton6.Visibility = Visibility.Visible;
+                            imageButton6.Background = brush;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return true;
+        }
+
+        private void openFileButton_Click(object sender, RoutedEventArgs e)
+        {
+            changeLoadMenuButtonBackgrounds();   
+            imageSelectOverlay.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void nextImagesButton_Click(object sender, RoutedEventArgs e) 
+        {
+            offset += 6;
+            if (!changeLoadMenuButtonBackgrounds())
+            {
+                offset -= 6;
+            }
+        }
+
+        private void previousImagesButton_Click(object sender, RoutedEventArgs e) 
+        {
+            offset -= 6;
+            if (!changeLoadMenuButtonBackgrounds()) 
+            {
+                offset += 6;
+            }
+           
+        }
+
+        private void loadPicture_Click(object sender, RoutedEventArgs e) 
+        {
+            var button = (KinectTileButton)sender;
+            string imgPath = (string)button.Tag;
+
+            inkCanvas.Children.Clear();
+            inkCanvas.Strokes.Clear();
+            fileName = System.IO.Path.GetFileName(imgPath);
+            Loadimage.ImportPng(new Uri(imgPath), inkCanvas);
+            imageSelectOverlay.Visibility = Visibility.Collapsed;
+        }
+
+        private void closeOverlay_Click(object sender, RoutedEventArgs e)
+        {
+            imageSelectOverlay.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }
