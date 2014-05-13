@@ -377,7 +377,7 @@ namespace motion_paint
 
                     if (pictures.Count != 0) 
                     {
-                        pictures = pictures.OrderBy(o => o.LastWriteTime).ToList();
+                        pictures = pictures.OrderByDescending(o => o.LastWriteTime).ToList();
                         for (int i = 0+offset; i < amount+offset; i++)
                         {
                             string picPath;
