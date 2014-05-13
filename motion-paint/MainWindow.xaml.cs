@@ -318,9 +318,11 @@ namespace motion_paint
                 }
                 DrawCanvas.Paint(oldPoint, newPoint, inkCanvas, color, thickness, tool);
                 oldPoint = newPoint;
+                kinectRegion.Tag = "draw";
             }
             else
             {
+                kinectRegion.Tag = "";
                 stopDraw = true;
             }
         }

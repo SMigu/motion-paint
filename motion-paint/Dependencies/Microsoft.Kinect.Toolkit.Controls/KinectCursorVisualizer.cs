@@ -263,6 +263,8 @@ namespace Microsoft.Kinect.Toolkit.Controls
                 // display any pressing progress.
                 double adjustedPressExtent = isOverPressTarget ? pointer.PressExtent : 0.0;
 
+                if ((string)kinectRegion.Tag == "draw")
+                    isHovering = true;
                 cursor.IsHovering = isHovering;
                 cursor.IsPressed = isOverPressTarget && pointer.IsPressed && !pointer.IsInGripInteraction;
                 cursor.PressExtent = adjustedPressExtent;

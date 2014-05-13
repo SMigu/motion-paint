@@ -1099,7 +1099,7 @@
                                             <EasingDoubleKeyFrame KeyTime="0" Value="-4.194"/>
                                         </DoubleAnimationUsingKeyFrames>
                                         <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(Shape.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="glow">
-                                            <EasingColorKeyFrame KeyTime="0" Value="#FFD5D5D8"/>
+                                            <EasingColorKeyFrame KeyTime="0" Value="#FF9E80FF"/>
                                         </ColorAnimationUsingKeyFrames>
                                     </Storyboard>
                                 </VisualState>
