@@ -37,7 +37,7 @@ namespace motion_paint
         private int paintingId = 0;
         private int thickness = 40;
         private string tool = "paintsplatter";
-        private Color lastColor;
+        private Color lastColor = Colors.Black;
         private Color color = Colors.Black;
         private string fileName;
         private string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/pictures" ;
@@ -77,7 +77,7 @@ namespace motion_paint
             {
                 //set the new width and height of the buttons
                 brushButton.Width = 160; brushButton.Height = 120;
-                paintsplatterButton.Width = 160; paintsplatterButton.Height = 120;
+                paintThrowButton.Width = 160; paintThrowButton.Height = 120;
                 patternButton.Width = 160; patternButton.Height = 120;
                 eraserButton.Width = 160; eraserButton.Height = 120;
                 newFileButton.Width = 160; newFileButton.Height = 120;
@@ -112,7 +112,7 @@ namespace motion_paint
 
                 //set the new margins of the buttons
                 brushButton.Margin = new Thickness(10, 0, 0, 15);
-                paintsplatterButton.Margin = new Thickness(170, 0, 0, 15);
+                paintThrowButton.Margin = new Thickness(170, 0, 0, 15);
                 patternButton.Margin = new Thickness(330, 0, 0, 15);
                 eraserButton.Margin = new Thickness(490, 0, 0, 15);
                 newFileButton.Margin = new Thickness(0, 0, 180, 15);
@@ -417,7 +417,6 @@ namespace motion_paint
             {
                 ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
             }
-            
         }
 
         private void ColorButton_Click(object sender, RoutedEventArgs e)
@@ -547,9 +546,9 @@ namespace motion_paint
                 color = lastColor;
         }
 
-        private void paintsplatterButton_Click(object sender, RoutedEventArgs e)
+        private void paintThrowButton_Click(object sender, RoutedEventArgs e)
         {
-            tool = "paintsplatter";
+            tool = "paintthrow";
             if (color == Colors.White)
                 color = lastColor;
         }
@@ -594,6 +593,15 @@ namespace motion_paint
         private void triangleButton_Click(object sender, RoutedEventArgs e)
         {
             tool = "trianglespray";
+            if (color == Colors.White)
+                color = lastColor;
+
+            patternMenu.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        private void paintsplatterButton_Click(object sender, RoutedEventArgs e)
+        {
+            tool = "paintsplatter";
             if (color == Colors.White)
                 color = lastColor;
 

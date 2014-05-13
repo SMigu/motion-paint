@@ -34,7 +34,7 @@
                         <ImageBrush ImageSource="Icons/Brush-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton x:Name="paintsplatterButton" Content="" HorizontalAlignment="Left" Margin="245,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10" Click="paintsplatterButton_Click" BorderBrush="#00000000" Foreground="#00000000" LabelBackground="#00000000">
+                <k:KinectTileButton x:Name="paintThrowButton" Content="" HorizontalAlignment="Left" Margin="245,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10" Click="paintThrowButton_Click" BorderBrush="#00000000" Foreground="#00000000" LabelBackground="#00000000">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/BrushPaintproto.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
@@ -165,7 +165,7 @@
                             <ImageBrush ImageSource="Icons/starpattern.png" Stretch="Uniform"/>
                         </k:KinectTileButton.Background>
                     </k:KinectTileButton>
-                    <k:KinectTileButton x:Name="splatterButton" Content="" HorizontalAlignment="Left" Margin="10,0,0,430" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" FontWeight="Bold" FontSize="48" Click="starButton_Click" BorderBrush="#00000000">
+                    <k:KinectTileButton x:Name="splatterButton" Content="" HorizontalAlignment="Left" Margin="10,0,0,430" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" FontWeight="Bold" FontSize="48" Click="paintsplatterButton_Click" BorderBrush="#00000000">
                         <k:KinectTileButton.Background>
                             <ImageBrush ImageSource="Icons/Splatter-outline.png" Stretch="Uniform"/>
                         </k:KinectTileButton.Background>
