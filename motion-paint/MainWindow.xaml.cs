@@ -354,9 +354,9 @@ namespace motion_paint
             dispatcherTimer.Start();
         }
 
-        private List<Image> getImagePreviews(int amount, int offset)
+        private List<string> getImagePreviews(int amount, int offset)
         {
-            List<Image> retPics = new List<Image>();
+            List<string> retPics = new List<string>();
             if (Directory.Exists(path))
             {
                 string[] files = Directory.GetFiles(path);
@@ -379,9 +379,17 @@ namespace motion_paint
                         pictures = pictures.OrderBy(o => o.LastWriteTime).ToList();
                         for (int i = 0+offset; i < amount; i++)
                         {
-                            string picPath = pictures[i].FullName;
-                            Image image = Loadimage.getImage(new Uri(picPath));
-                            retPics.Add(image);
+                            string picPath;
+                            try
+                            {
+                                picPath = pictures[i].FullName;
+                            }
+                            catch (ArgumentOutOfRangeException)
+                            {
+                                picPath = "";
+                            }          
+                            
+                            retPics.Add(picPath);
                         }
                     }
                 }
@@ -610,6 +618,95 @@ namespace motion_paint
 
         private void openFileButton_Click(object sender, RoutedEventArgs e)
         {
+            List<string> images = getImagePreviews(6,0);
+            string img = "";
+            ImageBrush brush = null;
+            
+            for (int i = 0; i < 6; i++)
+            {
+                if (images[i] != "")
+                {
+                    img = images[i];
+                    brush = new ImageBrush();
+                    brush.ImageSource = new BitmapImage(new Uri(img, UriKind.Absolute));
+                }
+                else 
+                {
+                    img = "";
+                }
+
+                switch (i)
+                {
+                    case 0:
+                        if (img == "")
+                        {
+                            imageButton1.Visibility = Visibility.Hidden;
+                        }
+                        else 
+                        {
+                            imageButton1.Visibility = Visibility.Visible;
+                            imageButton1.Background = brush;
+                        } 
+                        break;
+                    case 1:
+                        if (img == "")
+                        {
+                            imageButton2.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton2.Visibility = Visibility.Visible;
+                            imageButton2.Background = brush;
+                        } 
+                        break;
+                    case 2:
+                        if (img == "")
+                        {
+                            imageButton3.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton3.Visibility = Visibility.Visible;
+                            imageButton3.Background = brush;
+                        } 
+                        break;
+                    case 3:
+                        if (img == "")
+                        {
+                            imageButton4.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton4.Visibility = Visibility.Visible;
+                            imageButton4.Background = brush;
+                        } 
+                        break;
+                    case 4:
+                        if (img == "")
+                        {
+                            imageButton5.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton5.Visibility = Visibility.Visible;
+                            imageButton5.Background = brush;
+                        } 
+                        break;
+                    case 5:
+                        if (img == "")
+                        {
+                            imageButton6.Visibility = Visibility.Hidden;
+                        }
+                        else
+                        {
+                            imageButton6.Visibility = Visibility.Visible;
+                            imageButton6.Background = brush;
+                        } 
+                        break;
+                    default:
+                        break;
+                }
+            }
             imageSelectOverlay.Visibility = System.Windows.Visibility.Visible;
         }
 
