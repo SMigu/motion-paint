@@ -650,6 +650,8 @@ namespace motion_paint
             List<string> images = getImagePreviews(6, offset);
             string img = "";
             ImageBrush brush = null;
+            if (images.Count == 0)
+                return false;
 
             for (int i = 0; i < 6; i++)
             {
