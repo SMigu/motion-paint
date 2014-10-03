@@ -37,7 +37,7 @@ namespace motion_paint
         private ControlManager controlManager = new ControlManager();
         private int paintingId = 0;
         private int thickness = 40;
-        private string tool = "paintsplatter";
+        private string tool = "brush";
         private Color lastColor = Colors.Black;
         private Color color = Colors.Black;
         private string fileName;

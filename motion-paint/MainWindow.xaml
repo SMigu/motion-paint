@@ -34,17 +34,17 @@
                         <ImageBrush ImageSource="Icons/Brush-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton x:Name="paintThrowButton" Content="" HorizontalAlignment="Left" Margin="245,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10" Click="paintThrowButton_Click" BorderBrush="#00000000" Foreground="#00000000" LabelBackground="#00000000">
+                <k:KinectTileButton x:Name="paintThrowButton" Content="" HorizontalAlignment="Left" Margin="245,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10" Click="paintThrowButton_Click" BorderBrush="#00000000" Foreground="#00000000" LabelBackground="#00000000" Visibility="Hidden" IsEnabled="False">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/BrushPaintproto.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton x:Name="patternButton" Content="" HorizontalAlignment="Left" Margin="480,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10" BorderBrush="#00000000" Foreground="#00000000" LabelBackground="#00000000" Click="patternButton_Click">
+                <k:KinectTileButton x:Name="patternButton" Content="" HorizontalAlignment="Left" Margin="245,0,0,9.895" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10" BorderBrush="#00000000" Foreground="#00000000" LabelBackground="#00000000" Click="patternButton_Click">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/pattern.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
                 </k:KinectTileButton>
-                <k:KinectTileButton x:Name="eraserButton" Content="" HorizontalAlignment="Left" Margin="715,0,0,10" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10" Click="eraserButton_Click" BorderBrush="#00000000" Foreground="#00000000" LabelBackground="#00000000">
+                <k:KinectTileButton x:Name="eraserButton" Content="" HorizontalAlignment="Left" Margin="480,0,0,11.895" VerticalAlignment="Bottom" Width="230" Height="180" Panel.ZIndex="10" Click="eraserButton_Click" BorderBrush="#00000000" Foreground="#00000000" LabelBackground="#00000000">
                     <k:KinectTileButton.Background>
                         <ImageBrush ImageSource="Icons/Eraser-outline.png" Stretch="Uniform"/>
                     </k:KinectTileButton.Background>
@@ -148,7 +148,7 @@
                 </Grid>
 
                 <!--GRID FOR Pattern select Menu -->
-                <Grid x:Name="patternMenu" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Bottom" Panel.ZIndex="32" Width="230" Height="594" Margin="480,0,0,190">
+                <Grid x:Name="patternMenu" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Bottom" Panel.ZIndex="32" Width="230" Height="594" Margin="245,0,0,189.895">
                     <Rectangle x:Name="patternMenuBar" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" HorizontalAlignment="Left" Fill="#FFEAEAEA" Margin="0" Height="608" Width="227" />
                     <k:KinectTileButton x:Name="triangleButton" Content="" HorizontalAlignment="Left" Margin="10,0,0,10" VerticalAlignment="Bottom" Width="210" Height="140" Panel.ZIndex="32" FontWeight="Bold" FontSize="48" Click="triangleButton_Click" BorderBrush="#00000000">
                         <k:KinectTileButton.Background>
