@@ -41,7 +41,7 @@ namespace motion_paint
         private Color lastColor = Colors.Black;
         private Color color = Colors.Black;
         private string fileName;
-        private string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/pictures" ;
+        private string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "/pictures";
         private int offset = 0;
 
         public MainWindow()
@@ -91,8 +91,8 @@ namespace motion_paint
                 BottomBar.Height = 150;
 
                 // Set the thickness adjust buttons
-                thicknessUpButton.Width = 150; thicknessUpButton.Height = 150;
-                thicknessDownButton.Width = 150; thicknessDownButton.Height = 150;
+                thicknessIncreaseButton.Width = 150; thicknessIncreaseButton.Height = 150;
+                thicknessDecreaseButton.Width = 150; thicknessDecreaseButton.Height = 150;
 
                 // set the pattern menu buttons and menu
                 triangleButton.Height = 120; triangleButton.Width = 160;
@@ -121,7 +121,7 @@ namespace motion_paint
                 openFileButton.Margin = new Thickness(0, 0, 340, 15);
                 SaveButton.Margin = new Thickness(0, 0, 500, 15);
 
-                thicknessDownButton.Margin = new Thickness(0, 110, 0, 0);
+                thicknessDecreaseButton.Margin = new Thickness(0, 110, 0, 0);
 
                 //Scale the color buttons as well
                 ColorButton1.Width = 180; ColorButton2.Width = 180; ColorButton3.Width = 180;
@@ -418,92 +418,192 @@ namespace motion_paint
             popupMessages.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        private void MenuOpenBtn_Click(object sender, RoutedEventArgs e)
+        private void UiButtonClick(object sender, RoutedEventArgs e)
         {
-            OuterMenuGrid.Visibility = System.Windows.Visibility.Visible;
-            MenuGrid.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void MenuCloseBtn_Click(object sender, RoutedEventArgs e)
-        {
-            OuterMenuGrid.Visibility = System.Windows.Visibility.Collapsed;
-            MenuGrid.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void ColorWheel_Click(object sender, RoutedEventArgs e)
-        {
-            if (ColorSelectorGrid.Visibility == System.Windows.Visibility.Collapsed)
+            String buttonName = "";
+            if(sender as KinectTileButton != null)
             {
-                ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
+                buttonName = (sender as KinectTileButton).Name;
             }
-            else
+            else 
             {
-                ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+                if(sender as KinectCircleButton != null)
+                {
+                    buttonName = (sender as KinectCircleButton).Name;
+                }
+                else
+                {
+                    Console.WriteLine("Error: Button Element is invalid");
+                }
             }
+
+            switch (buttonName) 
+            {
+                case "MenuOpenBtn":
+                    OuterMenuGrid.Visibility = System.Windows.Visibility.Visible;
+                    MenuGrid.Visibility = System.Windows.Visibility.Visible;
+                    break;
+                case "MenuCloseBtn":
+                    OuterMenuGrid.Visibility = System.Windows.Visibility.Collapsed;
+                    MenuGrid.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+
+                case "ColorWheel":
+                    if (ColorSelectorGrid.Visibility == System.Windows.Visibility.Collapsed)
+                    {
+                        ColorSelectorGrid.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else
+                    {
+                        ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
+                    }
+                    break;
+                case "SaveButton":
+                    if (!System.IO.Directory.Exists(path)) 
+                    {
+                        System.IO.Directory.CreateDirectory(path);
+                    }
+
+                    Uri pictureUri;
+
+                    if (fileName == null || fileName == "")
+                    {
+                        fileName = string.Format("pic_{0:yyyy-MM-dd_hh-mm-ss-tt}.png", DateTime.Now);
+                        pictureUri = new Uri(path + System.IO.Path.DirectorySeparatorChar + fileName);
+                    }
+                    else 
+                    {
+                        try
+                        {
+                            File.Delete(path + System.IO.Path.DirectorySeparatorChar + fileName);
+                        }
+                        catch (Exception ex)
+                        {
+                            showMessage("error","Tiedoston tallennus epäonnistui");
+                            Console.WriteLine(path + System.IO.Path.DirectorySeparatorChar + fileName + " " + ex.Message);
+                            return;
+                        }
+                        fileName = string.Format("pic_{0:yyyy-MM-dd_hh-mm-ss-tt}.png", DateTime.Now);
+                        pictureUri = new Uri(path + System.IO.Path.DirectorySeparatorChar + fileName);
+                    }
+
+                    try
+                    {
+                        Saveimage.ExportToPng(pictureUri, inkCanvas);
+                    }
+                    catch (Exception ex)
+                    {
+                        showMessage("error", "Tiedoston tallennus epäonnistui");
+                        Console.WriteLine(pictureUri + " " + ex.Message);
+                        return;
+                    }
+
+                    showMessage("success", "Tiedosto tallennettu");
+                    break;
+                case "newFileButton":
+                    inkCanvas.Children.Clear();
+                    inkCanvas.Strokes.Clear();
+                    paintingId++;
+                    fileName = "";
+                    break;
+
+                case "brushButton":
+                     tool = "brush";
+                    if (color == Colors.White)
+                        color = lastColor;
+                    break;
+                case "paintThrowButton":
+                     tool = "throwpaint";
+                    if (color == Colors.White)
+                      color = lastColor;
+                    break;
+                case "eraserButton":
+                    lastColor = color;
+                    color = Colors.White;
+                    tool = "brush";
+                    break;
+                case "patternButton":
+                    if (patternMenu.Visibility == System.Windows.Visibility.Collapsed)
+                    {
+                        patternMenu.Visibility = System.Windows.Visibility.Visible;
+                    }
+                    else
+                    {
+                        patternMenu.Visibility = System.Windows.Visibility.Collapsed;
+                    }
+                    break;
+                case "starButton":
+                    tool = "starspray";
+                    if (color == Colors.White)
+                        color = lastColor;
+                    patternMenu.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+                case "squareButton":
+                    tool = "squarespray";
+                    if (color == Colors.White)
+                        color = lastColor;
+                    patternMenu.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+                case "triangleButton":
+                    tool = "trianglespray";
+                    if (color == Colors.White)
+                        color = lastColor;
+                    patternMenu.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+                case "splatterButton":
+                    tool = "paintsplatter";
+                    if (color == Colors.White)
+                        color = lastColor;
+                    patternMenu.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+
+                case "thicknessIncreaseButton":
+                    thickness += 10;
+                    break;
+                case "thicknessDecreaseButton":
+                    if (thickness >= 20)
+                    {
+                        thickness -= 10;
+                    }
+                    break;
+
+                case "openFileButton":
+                    changeLoadMenuButtonBackgrounds();   
+                    imageSelectOverlay.Visibility = System.Windows.Visibility.Visible;
+                    break;
+                case "nextImagesButton":
+                    offset += 6;
+                    if (!changeLoadMenuButtonBackgrounds())
+                    {
+                        offset -= 6;
+                    }
+                    break;
+                case "previousImagesButton":
+                     offset -= 6;
+                    if (!changeLoadMenuButtonBackgrounds()) 
+                    {
+                        offset += 6;
+                    }
+                    break;
+                case "closeOverlayButton":
+                    imageSelectOverlay.Visibility = System.Windows.Visibility.Collapsed;
+                    break;
+                default:
+                    Console.WriteLine("Error: No click action found for element named, " + buttonName);
+                    break;
+            }
+
         }
 
-        private void ColorButton_Click(object sender, RoutedEventArgs e)
-        {
+         private void ColorButton_Click(object sender, RoutedEventArgs e)
+         {
             KinectTileButton b = sender as KinectTileButton;
             SolidColorBrush brush = b.Background as SolidColorBrush;
             lastColor = color;
             color = brush.Color;
             ColorSelectorGrid.Visibility = System.Windows.Visibility.Collapsed;
             SelectedColorShower.Fill = new SolidColorBrush(color);
-        }
-
-        private void SaveButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (!System.IO.Directory.Exists(path)) 
-            {
-                System.IO.Directory.CreateDirectory(path);
-            }
-
-            Uri pictureUri;
-
-            if (fileName == null || fileName == "")
-            {
-                fileName = string.Format("pic_{0:yyyy-MM-dd_hh-mm-ss-tt}.png", DateTime.Now);
-                pictureUri = new Uri(path + System.IO.Path.DirectorySeparatorChar + fileName);
-            }
-            else 
-            {
-                try
-                {
-                    File.Delete(path + System.IO.Path.DirectorySeparatorChar + fileName);
-                }
-                catch (Exception ex)
-                {
-                    showMessage("error","Tiedoston tallennus epäonnistui");
-                    Console.WriteLine(path + System.IO.Path.DirectorySeparatorChar + fileName + " " + ex.Message);
-                    return;
-                }
-                fileName = string.Format("pic_{0:yyyy-MM-dd_hh-mm-ss-tt}.png", DateTime.Now);
-                pictureUri = new Uri(path + System.IO.Path.DirectorySeparatorChar + fileName);
-            }
-
-            try
-            {
-                Saveimage.ExportToPng(pictureUri, inkCanvas);
-            }
-            catch (Exception ex)
-            {
-                showMessage("error", "Tiedoston tallennus epäonnistui");
-                Console.WriteLine(pictureUri + " " + ex.Message);
-                return;
-            }
-
-            showMessage("success", "Tiedosto tallennettu");
-        }
-
-        // Clear canvas and increase painting id.
-        private void newFileButton_Click(object sender, RoutedEventArgs e)
-        {
-            inkCanvas.Children.Clear();
-            inkCanvas.Strokes.Clear();
-            paintingId++;
-            fileName = "";
-        }
+         }
 
         private void ControlSelectButton_Click(object sender, RoutedEventArgs e) 
         {
@@ -560,88 +660,6 @@ namespace motion_paint
 
                 settings.selectionMode = "hover";
                 settings.Save();
-            }
-        }
-        
-        private void brushButton_Click(object sender, RoutedEventArgs e)
-        {
-            tool = "brush";
-            if (color == Colors.White)
-                color = lastColor;
-        }
-
-        private void paintThrowButton_Click(object sender, RoutedEventArgs e)
-        {
-            tool = "throwpaint";
-            if (color == Colors.White)
-                color = lastColor;
-        }
-
-        private void eraserButton_Click(object sender, RoutedEventArgs e)
-        {
-            lastColor = color;
-            color = Colors.White;
-            tool = "brush";
-        }
-
-        private void patternButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (patternMenu.Visibility == System.Windows.Visibility.Collapsed)
-            {
-                patternMenu.Visibility = System.Windows.Visibility.Visible;
-            }
-            else
-            {
-                patternMenu.Visibility = System.Windows.Visibility.Collapsed;
-            }
-        }
-
-        private void starButton_Click(object sender, RoutedEventArgs e)
-        {
-            tool = "starspray";
-            if (color == Colors.White)
-                color = lastColor;
-
-            patternMenu.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void squareButton_Click(object sender, RoutedEventArgs e)
-        {
-            tool = "squarespray";
-            if (color == Colors.White)
-                color = lastColor;
-
-            patternMenu.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void triangleButton_Click(object sender, RoutedEventArgs e)
-        {
-            tool = "trianglespray";
-            if (color == Colors.White)
-                color = lastColor;
-
-            patternMenu.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void paintsplatterButton_Click(object sender, RoutedEventArgs e)
-        {
-            tool = "paintsplatter";
-            if (color == Colors.White)
-                color = lastColor;
-
-            patternMenu.Visibility = System.Windows.Visibility.Collapsed;
-        }
-
-        private void thicknessAddButton_Click(object sender, RoutedEventArgs e) 
-        {
-            thickness += 10;
-        }
-
-        private void thicknessDecreaseButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (thickness >= 20) 
-            {
-                thickness -= 10;
             }
         }
 
@@ -747,34 +765,9 @@ namespace motion_paint
             return true;
         }
 
-        private void openFileButton_Click(object sender, RoutedEventArgs e)
-        {
-            changeLoadMenuButtonBackgrounds();   
-            imageSelectOverlay.Visibility = System.Windows.Visibility.Visible;
-        }
-
-        private void nextImagesButton_Click(object sender, RoutedEventArgs e) 
-        {
-            offset += 6;
-            if (!changeLoadMenuButtonBackgrounds())
-            {
-                offset -= 6;
-            }
-        }
-
-        private void previousImagesButton_Click(object sender, RoutedEventArgs e) 
-        {
-            offset -= 6;
-            if (!changeLoadMenuButtonBackgrounds()) 
-            {
-                offset += 6;
-            }
-           
-        }
-
         private void loadPicture_Click(object sender, RoutedEventArgs e) 
         {
-            var button = (KinectTileButton)sender;
+            KinectTileButton button = sender as KinectTileButton;
             string imgPath = (string)button.Tag;
 
             inkCanvas.Children.Clear();
@@ -782,11 +775,6 @@ namespace motion_paint
             fileName = System.IO.Path.GetFileName(imgPath);
             Loadimage.ImportPng(new Uri(imgPath), inkCanvas);
             imageSelectOverlay.Visibility = Visibility.Collapsed;
-        }
-
-        private void closeOverlay_Click(object sender, RoutedEventArgs e)
-        {
-            imageSelectOverlay.Visibility = System.Windows.Visibility.Collapsed;
         }
     }
 }
