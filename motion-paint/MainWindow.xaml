@@ -2,14 +2,14 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:k="http://schemas.microsoft.com/kinect/2013"
-        Title="Kinect MotionPaint"  MinWidth="1280" MinHeight="720" WindowState="Maximized"
-        Height="1159.35" Width="2021">
+        Title="Kinect MotionPaint"  MinWidth="800" MinHeight="600" WindowState="Maximized"
+        Width="1920" Height="1080">
     <!-- Editoidessa ota Height ja Width tästä ja lisää  ylle -->
     <Grid>
         <k:KinectSensorChooserUI Name="sensorChooserUi" HorizontalAlignment="Center" VerticalAlignment="Top"></k:KinectSensorChooserUI>
         <k:KinectRegion Name="kinectRegion">
-            <Grid>
-                <InkCanvas Name="inkCanvas" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"></InkCanvas>
+            <Grid Name="contentGrid">
+                <InkCanvas Name="inkCanvas" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="823" Width="1675"></InkCanvas>
 
                 <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Right" Margin="0,10,10,0" Width="140" Height="140" Grid.Column="2" Foreground="Transparent" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="UiButtonClick" VerticalAlignment="Top" ContentPressedForeground="Transparent">
                     <k:KinectCircleButton.ContentForeground>
@@ -74,9 +74,9 @@
                 <Ellipse x:Name="SelectedColorShower" Fill="#FF08090B" HorizontalAlignment="Right" Height="190" Margin="0,0,2,2" Stroke="Black" VerticalAlignment="Bottom" Width="190" Panel.ZIndex="40"/>
 
                 <!--GRID FOR Slide out Menu -->
-                <Grid x:Name="OuterMenuGrid" Visibility="Collapsed" MinHeight="700" MinWidth="1270" Margin="0,10" Panel.ZIndex="51" IsHitTestVisible="True" VerticalAlignment="Top" Background="#FFDEDEDE" HorizontalAlignment="Right">
+                <Grid x:Name="OuterMenuGrid" Visibility="Collapsed" MinWidth="800" MinHeight="600" Margin="0,10,0.333,0" Panel.ZIndex="51" IsHitTestVisible="True" VerticalAlignment="Top" Background="#FFDEDEDE" HorizontalAlignment="Right" Height="1021" Width="1895">
 
-                    <Grid x:Name="MenuGrid" Margin="10,10,0,10" Visibility="Collapsed" MinHeight="700" MinWidth="1270" HorizontalAlignment="Right" VerticalAlignment="Top">
+                    <Grid x:Name="MenuGrid" Margin="0,10,0,0" Visibility="Collapsed"  MinWidth="800" MinHeight="600" HorizontalAlignment="Right" VerticalAlignment="Top" Height="1001" Width="1885">
                         <Label Content="Asetukset" HorizontalAlignment="Center" Margin="0,15,0,0" VerticalAlignment="Top" Height="104" Width="332" FontSize="72"/>
 
                         <k:KinectCircleButton x:Name="MenuCloseBtn" Width="150" Height="150" Foreground="#00000000" HorizontalAlignment="Left" VerticalAlignment="Center" Click="UiButtonClick" ContentPressedForeground="Transparent">
@@ -142,8 +142,8 @@
                 </Grid>
 
                 <!--GRID FOR Popup messages Menu -->
-                <Grid x:Name="popupMessages" Visibility="Collapsed" MinHeight="150" MaxHeight="720" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="32">
-                    <Rectangle x:Name="popupMessageBar" MinHeight="150" MaxHeight="720" MinWidth="1280" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" HorizontalAlignment="Left" Fill="#FF70C763" Margin="3,0,-3,0" />
+                <Grid x:Name="popupMessages" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="32" Width="1920" Height="150">
+                    <Rectangle x:Name="popupMessageBar" Stroke="White" VerticalAlignment="Top" Panel.ZIndex="32" HorizontalAlignment="Left" Fill="#FF70C763" Margin="0,0,0,0" Width="1920" Height="150" />
                     <Label x:Name="MessageLabel" Content="Ilmoituskeskus" HorizontalAlignment="Center" Margin="0,20,0,0" VerticalAlignment="Top" Panel.ZIndex="33" FontSize="48"/>
                 </Grid>
 

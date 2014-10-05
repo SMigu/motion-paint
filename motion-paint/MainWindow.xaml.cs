@@ -52,100 +52,12 @@ namespace motion_paint
             // initialize control modes
             controlManager.addControlMode(new OneHandMode(controlManager)); // id 0
             controlManager.addControlMode(new TwoHandMode(controlManager)); // id 1
-            controlManager.changeCurrentControlMode(settings.controlModeId);       
-            
-            //set the widths of the bars on load
-            BottomBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            colorBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
-            //set the size of the menu on load
-            OuterMenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
-            OuterMenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
-            MenuGrid.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 10;
-            MenuGrid.Height = System.Windows.SystemParameters.PrimaryScreenHeight - 20;
-            
-            //Set size, color and margin of message popup
-            popupMessageBar.Width = System.Windows.SystemParameters.PrimaryScreenWidth;
+            controlManager.changeCurrentControlMode(settings.controlModeId);
 
-            //set size of patternMenuBar onload
-            patternMenuBar.Width = patternMenu.Width;
-            patternMenuBar.Height = patternMenu.Height;
+            double width_ratio = (System.Windows.SystemParameters.PrimaryScreenWidth / 1920);
+            double heigh_ratio = (System.Windows.SystemParameters.PrimaryScreenHeight / 1080);
+            contentGrid.LayoutTransform = new ScaleTransform(width_ratio, heigh_ratio);
 
-            //set the size of the canvas on load
-            inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 20;
-            inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - BottomBar.Height -100; 
-
-            //Scaling if screen width is small (smaller than 1500), such as laptops
-            if (System.Windows.SystemParameters.PrimaryScreenWidth < 1500)
-            {
-                //set the new width and height of the buttons
-                brushButton.Width = 160; brushButton.Height = 120;
-                paintThrowButton.Width = 160; paintThrowButton.Height = 120;
-                patternButton.Width = 160; patternButton.Height = 120;
-                eraserButton.Width = 160; eraserButton.Height = 120;
-                newFileButton.Width = 160; newFileButton.Height = 120;
-                openFileButton.Width = 160; openFileButton.Height = 120;
-                SaveButton.Width = 160; SaveButton.Height = 120;
-                ColorWheel.Width = 200; ColorWheel.Height = 200;
-                SelectedColorShower.Width = 140; SelectedColorShower.Height = 140;
-                MenuOpenBtn.Width = 100; MenuOpenBtn.Height = 100;
-                BottomBar.Height = 150;
-
-                // Set the thickness adjust buttons
-                thicknessIncreaseButton.Width = 150; thicknessIncreaseButton.Height = 150;
-                thicknessDecreaseButton.Width = 150; thicknessDecreaseButton.Height = 150;
-
-                // set the pattern menu buttons and menu
-                triangleButton.Height = 120; triangleButton.Width = 160;
-                squareButton.Height = 120; squareButton.Width = 160;
-                starButton.Height = 120; starButton.Width = 160;
-                splatterButton.Height = 120; splatterButton.Width = 160;
-
-                patternMenu.Width = 180; patternMenu.Height = 520;
-                patternMenuBar.Width = patternMenu.Width;
-                patternMenuBar.Height = patternMenu.Height;
-
-                //set the new margins of the pattern menu
-                patternMenu.Margin = new Thickness(330, 0, 0, BottomBar.Height-5);
-                triangleButton.Margin = new Thickness(10, 0, 0, 10);
-                squareButton.Margin = new Thickness(10, 0, 0, 140);
-                starButton.Margin = new Thickness(10, 0, 0, 270);
-                splatterButton.Margin = new Thickness(10, 0, 0, 400);
-
-
-                //set the new margins of the buttons
-                brushButton.Margin = new Thickness(10, 0, 0, 15);
-                paintThrowButton.Margin = new Thickness(170, 0, 0, 15);
-                patternButton.Margin = new Thickness(330, 0, 0, 15);
-                eraserButton.Margin = new Thickness(490, 0, 0, 15);
-                newFileButton.Margin = new Thickness(0, 0, 180, 15);
-                openFileButton.Margin = new Thickness(0, 0, 340, 15);
-                SaveButton.Margin = new Thickness(0, 0, 500, 15);
-
-                thicknessDecreaseButton.Margin = new Thickness(0, 110, 0, 0);
-
-                //Scale the color buttons as well
-                ColorButton1.Width = 180; ColorButton2.Width = 180; ColorButton3.Width = 180;
-                ColorButton4.Width = 180; ColorButton5.Width = 180; ColorButton6.Width = 180;
-                ColorButton7.Width = 180; ColorButton8.Width = 180; ColorButton9.Width = 180;
-                ColorButton10.Width = 180; ColorButton11.Width = 180; ColorButton12.Width = 180;
-                //set the margins
-                ColorButton1.Margin = new Thickness(10, 0, 0, 190);
-                ColorButton2.Margin = new Thickness(190, 0, 0, 190);
-                ColorButton3.Margin = new Thickness(370, 0, 0, 190);
-                ColorButton4.Margin = new Thickness(560, 0, 0, 190);
-                ColorButton5.Margin = new Thickness(740, 0, 0, 190);
-                ColorButton6.Margin = new Thickness(920, 0, 0, 190);
-                ColorButton7.Margin = new Thickness(10, 0, 0, 10);
-                ColorButton8.Margin = new Thickness(190, 0, 0, 10);
-                ColorButton9.Margin = new Thickness(370, 0, 0, 10);
-                ColorButton10.Margin = new Thickness(560, 0, 0, 10);
-                ColorButton11.Margin = new Thickness(740, 0, 0, 10);
-                ColorButton12.Margin = new Thickness(920, 0, 0, 10);
-
-                //set the inkCanvas again
-                inkCanvas.Width = System.Windows.SystemParameters.PrimaryScreenWidth - 20;
-                inkCanvas.Height = System.Windows.SystemParameters.PrimaryScreenHeight - BottomBar.Height - 60;   
-            }
         }
 
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
