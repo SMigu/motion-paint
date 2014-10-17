@@ -92,6 +92,9 @@ namespace motion_paint
             this.sensorChooser.KinectChanged += SensorChooserOnKinectChanged;
             this.sensorChooserUi.KinectSensorChooser = this.sensorChooser;
             this.sensorChooser.Start();
+
+            inkCanvas.UseCustomCursor = true;
+            inkCanvas.Cursor = Cursors.Arrow;
         }
 
         // Event handler Kinect controller change. Handles Sensor configs on start and stop.
