@@ -5,10 +5,12 @@
         Title="Kinect MotionPaint"  MinWidth="800" MinHeight="600" WindowState="Maximized"
         Width="1920" Height="1080">
     <!-- Editoidessa ota Height ja Width tästä ja lisää  ylle -->
-    <Grid>
+    <Grid Name="contentGrid">
         <k:KinectSensorChooserUI Name="sensorChooserUi" HorizontalAlignment="Center" VerticalAlignment="Top"></k:KinectSensorChooserUI>
         <k:KinectRegion Name="kinectRegion">
-            <Grid Name="contentGrid">
+            <Grid>
+                
+
                 <InkCanvas Name="inkCanvas" Margin="10,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="823" Width="1675"></InkCanvas>
 
                 <k:KinectCircleButton x:Name="MenuOpenBtn" Content="" HorizontalAlignment="Right" Margin="0,10,10,0" Width="140" Height="140" Grid.Column="2" Foreground="Transparent" Panel.ZIndex="10" Grid.ColumnSpan="2" Click="UiButtonClick" VerticalAlignment="Top" ContentPressedForeground="Transparent">
