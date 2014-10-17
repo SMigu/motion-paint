@@ -213,6 +213,8 @@ namespace motion_paint
 
         private void InteractionStreamOnInteractionFrameReady(object sender, InteractionFrameReadyEventArgs e)
         {
+            TrackClosestSkeleton();
+
             using (var iaf = e.OpenInteractionFrame())
             {
                 if (iaf == null)
@@ -250,6 +252,34 @@ namespace motion_paint
                 stopDraw = true;
             }
         }
+        private void TrackClosestSkeleton()
+        {
+            if (this._sensor != null && this._sensor.SkeletonStream != null)
+            {
+                if (!this._sensor.SkeletonStream.AppChoosesSkeletons)
+                {
+                    this._sensor.SkeletonStream.AppChoosesSkeletons = true; // Ensure AppChoosesSkeletons is set
+                }
+
+                float closestDistance = 10000f; // Start with a far enough distance
+                int closestID = 0;
+
+                foreach (Skeleton skeleton in this._skeletons.Where(s => s.TrackingState != SkeletonTrackingState.NotTracked))
+                {
+                    if (skeleton.Position.Z < closestDistance)
+                    {
+                        closestID = skeleton.TrackingId;
+                        closestDistance = skeleton.Position.Z;
+                    }
+                }
+
+                if (closestID > 0)
+                {
+                    this._sensor.SkeletonStream.ChooseSkeletons(closestID); // Track this skeleton
+                }
+            }
+        }
+    
 
         private void showMessage(string type, string msg) 
         {
