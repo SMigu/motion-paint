@@ -68,24 +68,24 @@ namespace motion_paint
                 return false;
             	        
 		    // get id of the closest user
-            double smallest = 0.0;
-            int UserIdOfLargest = 0;
+            double smallest = 100000.0;
+            int UserIdOfClosest = 0;
 
             foreach (KeyValuePair<int, double> entry in userDistanceList)
             {
-                if (entry.Value > smallest) {
+                if (entry.Value < smallest) {
                     smallest = entry.Value;
-                    UserIdOfLargest = entry.Key;
+                    UserIdOfClosest = entry.Key;
                 }
             }
-            if (UserIdOfLargest == 0) 
+            if (UserIdOfClosest == 0) 
             {
                 return false;
             }
             	        
 		     // check if the closest users action is triggered 
             foreach (var userInfo in userInfos){
-                if (userInfo.SkeletonTrackingId == UserIdOfLargest)
+                if (userInfo.SkeletonTrackingId == UserIdOfClosest)
                 {
                     return modesList.ElementAt(currentModeId).isInteractionActive(userInfo.HandPointers);   
                 }
