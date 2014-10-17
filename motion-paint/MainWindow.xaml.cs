@@ -122,11 +122,11 @@ namespace motion_paint
                 {
                     var parameters = new TransformSmoothParameters
                     {
-                        Smoothing = 0.3f,
-                        Correction = 0.0f,
-                        Prediction = 0.0f,
+                        Smoothing = 0.7f,
+                        Correction = 0.3f,
+                        Prediction = 1.0f,
                         JitterRadius = 1.0f,
-                        MaxDeviationRadius = 0.5f
+                        MaxDeviationRadius = 1.0f,
                     };
 
                     _sensor = args.NewSensor;
