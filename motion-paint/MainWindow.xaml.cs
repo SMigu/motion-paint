@@ -521,7 +521,7 @@ namespace motion_paint
         {
             KinectTileButton b = sender as KinectTileButton;
 
-            if (b.Name == "ControlSelect1")
+            if (b.Name == "ControlSelectButton1")
             {
                 controlManager.changeCurrentControlMode(0);
                 settings.controlModeId = 0;
